@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+
+<!--TODO: form action-->
+<form class="well form-inline" action="" method="post">
+     {% csrf_token %}
+    <div class="form-group">
+        <legend>Общая статистика</legend>
+            <select size="1" name="site_id" class="form-control">
+            <option value="1">Lenta.ru</option>
+            <option value="2">rbc.ru</option>
+            <option value="3">bbc.ru</option>
+            </select>
+
+            <input type="date" class="form-control" id="date_from" name="date" placeholder="11.10.2015" required>
+            <input type="date" class="form-control" id="date_to" name="date" placeholder="11.10.2017" required>
+
+            <!--<p><input type="submit" value="Отправить" class="btn btn-default btn-md" ></p></div>-->
+            <button type="submit" class="btn">Подтвердить</button>
+    </div>
+</form>
+
+{% endblock %}
