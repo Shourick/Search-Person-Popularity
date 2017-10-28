@@ -20,6 +20,10 @@ class Tags(BASE):
     person_id = Column(Integer, ForeignKey('person.id'))
     name_variable = Column(String)
 
+    def __init__(self, name_var, person_id):
+        self.name_var = name_var
+        self.person_id = person_id
+
 
 class Sites(BASE):
     __tablename__ = 'sites'
@@ -45,8 +49,11 @@ class Pages(BASE):
     path = Column(String)
     start_date_update = Column(Date)
 
-    def __init__(self, url):
+    def __init__(self, url, site_id, path):
         self.path = url
+        self.site_id = site_id
+        self.path = path
+
 
 
 
