@@ -92,13 +92,20 @@ h2 {
 .main_btn {
     display: inline-block;
     float: both;
-    margin: 20% auto;
+    margin: 10% auto;
 }
 form {
     width: 50%;
     margin: 10% auto;
 }
+form.login {
+    width: 90%;
+    margin: 0;
+}
 input[type=date] {
     display: inline-block;
     width: 25%;
+}
+table {
+    width: 90%;
 }
