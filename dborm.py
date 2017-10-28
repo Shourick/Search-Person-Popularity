@@ -4,15 +4,16 @@ from sqlalchemy.ext.declarative import declarative_base
 
 BASE = declarative_base()
 
+
 class Person(BASE):
     __tablename__ = 'person'
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String)
     tags = relationship('Tags')
 
-
     def __init__(self, name):
         self.name = name
+
 
 class Tags(BASE):
     __tablename__ = 'tags'
@@ -34,12 +35,10 @@ class Sites(BASE):
     start_date = Column(Date)
     pages = relationship('Pages')
 
-    def __init__(self, name, url, site_map = None):
+    def __init__(self, name, url, site_map=None):
         self.name = name
         self.url = url
         self.site_map_url = site_map
-
-
 
 
 class Pages(BASE):
@@ -55,8 +54,6 @@ class Pages(BASE):
         self.path = path
 
 
-
-
 class PagePersonRank(BASE):
     __tablename__ = 'page_person_rank'
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -68,5 +65,3 @@ class PagePersonRank(BASE):
     def __init__(self, page, person):
         self.page_id = page
         self.person_id = person
-
-
