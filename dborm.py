@@ -6,6 +6,7 @@ BASE = declarative_base()
 
 
 class Person(BASE):
+    """Модель таблицы Персоны, принимает значение Имени"""
     __tablename__ = 'person'
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String)
@@ -13,6 +14,23 @@ class Person(BASE):
 
     def __init__(self, name):
         self.name = name
+
+    # ToDo Описать метод возвращаеющий рейтинг по диапозону даты или на конкретную дату, на конкретном сайте
+    def site_date_rank(self, date, site_id):
+        """Метод принимает дату в виде кортежа и id сайта и возвращает рейтинг за эту дату"""
+        pass
+
+    # ToDo Описать метод возвращающий актуальный рейтинг персоны на сайте
+    def site_rank(self, site):
+        pass
+
+    # ToDo Описать метод возвращающий актуальный рейтинг персоны по всем сайтам
+    def rank_all_site(self):
+        pass
+
+
+# ToDo Описать метод добавляющий персоне вариации имени в таблицу Tags
+
 
 
 class Tags(BASE):
@@ -39,6 +57,10 @@ class Sites(BASE):
         self.name = name
         self.url = url
         self.site_map_url = site_map
+
+    # ToDo Описать метод добавляющий данные о странице в таблицу Pages
+    # ToDo Описать метод Возвращающий список страниц сайта
+
 
 
 class Pages(BASE):
