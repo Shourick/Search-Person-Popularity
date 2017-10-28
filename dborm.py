@@ -1,5 +1,5 @@
-from sqlalchemy import *
-from sqlalchemy.orm import *
+from sqlalchemy import Column, Integer, ForeignKey, String, Date
+from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
 BASE = declarative_base()
@@ -55,3 +55,11 @@ class PagePersonRank(BASE):
     id = Column(Integer, primary_key=True, autoincrement=True)
     person_id = Column(Integer, ForeignKey('person.id'))
     page_id = Column(Integer, ForeignKey('pages.id'))
+    person_rank = Column(Integer)
+    date_rank = Column(Date)
+
+    def __init__(self, page, person):
+        self.page_id = page
+        self.person_id = person
+
+
