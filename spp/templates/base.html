@@ -12,14 +12,14 @@
     <!----------------- Стили ----------------->
     {% block styles %}
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <!--<link rel="stylesheet" type="text/css" href="/path/to/css/bootstrap-social.css" />-->
     <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     {% endblock %}
 
     <!------------------- JS ------------------>
     {% block js %}
-    <script src="{% static 'js/scripts.js' %}"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="{% static 'js/menu.js' %}"></script>
     {% endblock %}
 
 </head>
@@ -27,17 +27,15 @@
 <!------------------------------ BODY ------------------------------>
 <body>
         <!---------------------- Меню ---------------------->
-        <header>
+         {% block menu %}
+            {% include 'side-menu.html' %}
+         {% endblock %}
+
+       <header>
             <a href="/" class="header">
                 <h1 class="text-center">Search Person Popularity</h1>
             </a>
-        </header>
-        <div class="container">
-            <div class="row">
-              {% block menu %}
-               {% endblock %}
-             </div><!-- /row -->
-        </div>
+       </header>
 
         <!-------------------- Контент --------------------->
         <div class="container text-center">
