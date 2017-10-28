@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from mainapp.models import *
+from django.views.generic.list import ListView
 # Create your views here.
 
 def index(request):
@@ -13,4 +14,6 @@ def general(request):
 
 def daily(request):
     title = 'Ежедневная статистика'
-    return render(request,'daily.html', {'title':title})
+    politics = Politic.objects.all()
+    return render(request,'daily.html', {'title':title, 'politics': politics})
+

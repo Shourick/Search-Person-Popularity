@@ -3,21 +3,21 @@
 {% block content %}
 
 <!--TODO: form action-->
-<form class="well form-inline" action="" method="post">
+<form class="well form-inline"  method="post" id="general_stat">
      {% csrf_token %}
     <div class="form-group">
         <legend>Общая статистика</legend>
-            <select size="1" name="site_id" class="form-control">
-            <option value="1">Lenta.ru</option>
-            <option value="2">rbc.ru</option>
-            <option value="3">bbc.ru</option>
+            <select size="1" id="site_id" class="form-control">
+                  {% for site in sites %}
+            <option value="{{site.id}}">{{site.name}}</option>
+                    {% endfor %}
             </select>
 
             <input type="date" class="form-control" id="date_from" name="date" placeholder="11.10.2015" required>
             <input type="date" class="form-control" id="date_to" name="date" placeholder="11.10.2017" required>
 
             <!--<p><input type="submit" value="Отправить" class="btn btn-default btn-md" ></p></div>-->
-            <button type="submit" class="btn">Подтвердить</button>
+            <button type="submit" class="btn" date_from={{date_from}} date_to="{{date_to}}" site_id="{{site_id}}">Подтвердить</button>
     </div>
 </form>
 
