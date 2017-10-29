@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Популярность личностей</string>
+    <string name="title">Администратор</string>
+    <string name="sites_directory">Управление справочником Сайты</string>
+    <string name="keywords_directory">Управление справочником Ключевые слова</string>
+    <string name="persons_directory">Управление справочником Личности</string>
+</resources>
