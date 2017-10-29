@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         databaseHandler = new SQLiteDatabaseHandler(this);
         databaseHandler.initializeDatabase();
+
         databaseHandler.showDatabaseInfo();
 
     }
