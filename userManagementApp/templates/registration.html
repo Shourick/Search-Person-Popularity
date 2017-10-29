@@ -1,20 +1,17 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% block menu %}
-{% endblock %}
 {% block content %}
 
      <div class="container">
        	<div class="row">
-            <h2 class="text-center">Регистрация</h2>
-            <div class="col-md-5 col-sm-offset-4">
+            <div class="col-md-12">
 
-                <form method="post" role="form" action="/user/registration/" >
+                 <form class="well form-inline" method="post" role="form" action="/user/registration/" >
                 {% csrf_token %}
                     <table>
                         {% for field in form %}
                             <tr>
-                                <td>{{ field.label_tag }}</td>
+                                <td><div>{{ field.label_tag }}</div></td>
                                 <td><div>
                                         <ul>
                                             {% for error in field.errors %}
