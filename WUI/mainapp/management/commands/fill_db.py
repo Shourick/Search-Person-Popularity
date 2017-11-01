@@ -38,7 +38,7 @@ class Command(BaseCommand):
 
         Keywords.objects.all().delete()
         for keyword in keywords:
-            keyword = Keyword(**keyword)
+            keyword = Keywords(**keyword)
             keyword.save()
 
         Politic.objects.all().delete()
