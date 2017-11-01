@@ -12,7 +12,7 @@ class Keyword {
     Keyword() {
     }
 
-    Keyword(String name) {
+    Keyword( String name ) {
         this.name = name;
     }
 
@@ -20,7 +20,7 @@ class Keyword {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId( int id ) {
         this.id = id;
     }
 
@@ -28,7 +28,7 @@ class Keyword {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName( String name ) {
         this.name = name;
     }
 
@@ -36,7 +36,7 @@ class Keyword {
         return personId;
     }
 
-    public void setPersonId(int personId) {
+    public void setPersonId( int personId ) {
         this.personId = personId;
     }
 }
