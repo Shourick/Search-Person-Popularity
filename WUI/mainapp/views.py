@@ -15,6 +15,7 @@ def general(request):
 
 def daily(request):
     title = 'Ежедневная статистика'
+    sites = Site.objects.all()
     politics = Politic.objects.all()
-    return render(request,'daily.html', {'title':title, 'politics': politics})
+    return render(request,'daily.html', {'title':title, 'sites': sites, 'politics': politics})
 
