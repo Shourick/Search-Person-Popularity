@@ -109,3 +109,7 @@ input[type=date] {
 table {
     width: 90%;
 }
+.politics-table {
+    margin: 20px;
+}
+

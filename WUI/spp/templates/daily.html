@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load render_table from django_tables2 %}
 {% block content %}
 
 <!--TODO: form action-->
@@ -14,6 +15,9 @@
             </select>
             <!--<p><input type="submit" value="Отправить" class="btn btn-default btn-md" ></p></div>-->
             <button type="submit" class="btn">Подтвердить</button>
+
+            {% render_table politics %}
+
     </div>
 </form>
 

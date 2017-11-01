@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'spp',
     'mainapp',
-    'userManagementApp'
+    'userManagementApp',
+    'django_tables2'
 ]
 
 MIDDLEWARE = [
