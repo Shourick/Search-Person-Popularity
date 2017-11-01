@@ -13,10 +13,16 @@
             <option value="{{politic.id}}">{{politic.name}}</option>
                     {% endfor %}
             </select>
+
+            <input type="date" class="form-control" id="date_from" name="date" placeholder="11.10.2015" required>
+            <input type="date" class="form-control" id="date_to" name="date" placeholder="11.10.2017" required>
+
             <!--<p><input type="submit" value="Отправить" class="btn btn-default btn-md" ></p></div>-->
             <button type="submit" class="btn">Подтвердить</button>
 
+        <div class="politics-table" margin="10px">
             {% render_table politics %}
+        </div>
 
     </div>
 </form>
