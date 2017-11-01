@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load render_table from django_tables2 %}
 {% block content %}
 
 <!--TODO: form action-->
@@ -8,12 +9,31 @@
     <div class="form-group">
         <legend>Ежедневная статистика</legend>
             <select size="1" id="site_id" class="form-control">
+                  {% for site in sites %}
+            <option value="{{site.id}}">{{site.name}}</option>
+                    {% endfor %}
+            </select>
+
+            <select size="1" id="site_id" class="form-control">
                  {% for politic in politics %}
             <option value="{{politic.id}}">{{politic.name}}</option>
                     {% endfor %}
             </select>
+
+            <div class="date-from-to">
+                <p>Период с:
+                    <input type="date" class="form-control" id="date_from" name="date" placeholder="11.10.2015" required>
+                     по
+                    <input type="date" class="form-control" id="date_to" name="date" placeholder="11.10.2017" required>
+                </p>
+            </div>
             <!--<p><input type="submit" value="Отправить" class="btn btn-default btn-md" ></p></div>-->
             <button type="submit" class="btn">Подтвердить</button>
+
+        <div class="politics-table" margin="10px">
+            {% render_table politics %}
+        </div>
+
     </div>
 </form>
 
