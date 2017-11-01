@@ -15,7 +15,7 @@ class Politic(models.Model):
 class PersonPageRank(models.Model):
     person_id = models.ForeignKey('Politic')
     page_id = models.ForeignKey('Pages')
-    Rank = models.IntegerField(verbose_name='Рейтинг личности на странице')
+    rank = models.IntegerField(verbose_name='Рейтинг личности на странице')
 
 
 class Pages(models.Model):
