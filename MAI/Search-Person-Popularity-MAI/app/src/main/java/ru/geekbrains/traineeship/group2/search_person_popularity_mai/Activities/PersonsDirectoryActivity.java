@@ -1,8 +1,8 @@
 package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
@@ -20,23 +20,23 @@ public class PersonsDirectoryActivity extends AppCompatActivity implements View.
     Button btnBackPersonsDirectory;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_persons_directory);
+    protected void onCreate( Bundle savedInstanceState ) {
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_persons_directory );
 
-        btnBackPersonsDirectory = (Button) findViewById(R.id.btnBackPersonsDirectory);
-        btnBackPersonsDirectory.setOnClickListener(this);
+        btnBackPersonsDirectory = (Button) findViewById( R.id.btnBackPersonsDirectory );
+        btnBackPersonsDirectory.setOnClickListener( this );
 
         databaseHandler.showDatabaseInfo();
 
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick( View v ) {
         switch ( v.getId() ) {
             case R.id.btnBackPersonsDirectory:
                 Intent intent = new Intent();
-                setResult(RESULT_OK, intent);
+                setResult( RESULT_OK, intent );
                 finish();
                 break;
         }

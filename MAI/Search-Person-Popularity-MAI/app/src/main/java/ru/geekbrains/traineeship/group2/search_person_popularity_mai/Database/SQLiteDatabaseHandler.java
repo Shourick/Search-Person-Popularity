@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -54,26 +53,26 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper implements IDatabase
      *
      * @param context Контекст приложения
      */
-    public SQLiteDatabaseHandler(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public SQLiteDatabaseHandler( Context context ) {
+        super( context, DATABASE_NAME, null, DATABASE_VERSION );
     }
 
     /**
      * Вызывается при создании базы данных
      */
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        createPersonsTable(db);
-        createKeywordsTable(db);
-        createSitesTable(db);
+    public void onCreate( SQLiteDatabase db ) {
+        createPersonsTable( db );
+        createKeywordsTable( db );
+        createSitesTable( db );
 
-        Log.d("onCreate", "Таблицы базы данных созданы");
+        Log.d( "onCreate", "Таблицы базы данных созданы" );
     }
 
     /**
      * Создание таблицы Persons
      */
-    private void createPersonsTable(SQLiteDatabase db) {
+    private void createPersonsTable( SQLiteDatabase db ) {
         /**
          * SQL запрос для создания таблицы Persons:
          *  CREATE TABLE persons (
@@ -85,13 +84,13 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper implements IDatabase
                 KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 TABLE_PERSONS_FIELD_NAME + " TEXT NOT NULL" +
                 ");";
-        db.execSQL(CREATE_PERSONS_TABLE);
+        db.execSQL( CREATE_PERSONS_TABLE );
     }
 
     /**
      * Создание таблицы Keywords
      */
-    private void createKeywordsTable(SQLiteDatabase db) {
+    private void createKeywordsTable( SQLiteDatabase db ) {
         /**
          * SQL запрос для создания таблицы Keywords:
          *  CREATE TABLE keywords (
@@ -108,13 +107,13 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper implements IDatabase
                 "FOREIGN KEY(" + TABLE_KEYWORDS_FIELD_PERSON_ID + ") REFERENCES " + TABLE_PERSONS + "(" + KEY_ID + ")" +
                 ");";
 
-        db.execSQL(CREATE_KEYWORDS_TABLE);
+        db.execSQL( CREATE_KEYWORDS_TABLE );
     }
 
     /**
      * Создание таблицы Sites
      */
-    private void createSitesTable(SQLiteDatabase db) {
+    private void createSitesTable( SQLiteDatabase db ) {
         /**
          * SQL запрос для создания таблицы Sites:
          *  CREATE TABLE sites (
@@ -127,7 +126,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper implements IDatabase
                 TABLE_SITES_FIELD_NAME + " TEXT NOT NULL" +
                 ");";
 
-        db.execSQL(CREATE_SITES_TABLE);
+        db.execSQL( CREATE_SITES_TABLE );
     }
 
     /**
@@ -135,12 +134,12 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper implements IDatabase
      * Увеличение версии схемы
      */
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PERSONS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_KEYWORDS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SITES);
+    public void onUpgrade( SQLiteDatabase db, int oldVersion, int newVersion ) {
+        db.execSQL( "DROP TABLE IF EXISTS " + TABLE_PERSONS );
+        db.execSQL( "DROP TABLE IF EXISTS " + TABLE_KEYWORDS );
+        db.execSQL( "DROP TABLE IF EXISTS " + TABLE_SITES );
 
-        onCreate(db);
+        onCreate( db );
     }
 
     /**
@@ -148,13 +147,13 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper implements IDatabase
      * Уменьшение версии схемы
      */
     @Override
-    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PERSONS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_KEYWORDS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SITES);
-        Log.d("onDowngrade", "Таблицы базы данных удалены");
+    public void onDowngrade( SQLiteDatabase db, int oldVersion, int newVersion ) {
+        db.execSQL( "DROP TABLE IF EXISTS " + TABLE_PERSONS );
+        db.execSQL( "DROP TABLE IF EXISTS " + TABLE_KEYWORDS );
+        db.execSQL( "DROP TABLE IF EXISTS " + TABLE_SITES );
+        Log.d( "onDowngrade", "Таблицы базы данных удалены" );
 
-        onCreate(db);
+        onCreate( db );
     }
 
     /**
@@ -163,25 +162,25 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper implements IDatabase
     public void initializeDatabase() {
 
         deleteAllPersons();
-        AddPerson(new Person("Путин"));
-        AddPerson(new Person("Медведев"));
-        AddPerson(new Person("Жириновский"));
+        AddPerson( new Person( "Путин" ) );
+        AddPerson( new Person( "Медведев" ) );
+        AddPerson( new Person( "Жириновский" ) );
 
         deleteAllKeywords();
-        AddKeyword(new Keyword("Путину"), getPersonByName("Путин").getId());
-        AddKeyword(new Keyword("Путина"), getPersonByName("Путин").getId());
-        AddKeyword(new Keyword("Путиным"), getPersonByName("Путин").getId());
-        AddKeyword(new Keyword("Медведеву"), getPersonByName("Медведев").getId());
-        AddKeyword(new Keyword("Медведева"), getPersonByName("Медведев").getId());
-        AddKeyword(new Keyword("Медведевым"), getPersonByName("Медведев").getId());
-        AddKeyword(new Keyword("Жириновскому"), getPersonByName("Жириновский").getId());
-        AddKeyword(new Keyword("Жириновского"), getPersonByName("Жириновский").getId());
-        AddKeyword(new Keyword("Жириновским"), getPersonByName("Жириновский").getId());
+        AddKeyword( new Keyword( "Путину" ), getPersonByName( "Путин" ).getId() );
+        AddKeyword( new Keyword( "Путина" ), getPersonByName( "Путин" ).getId() );
+        AddKeyword( new Keyword( "Путиным" ), getPersonByName( "Путин" ).getId() );
+        AddKeyword( new Keyword( "Медведеву" ), getPersonByName( "Медведев" ).getId() );
+        AddKeyword( new Keyword( "Медведева" ), getPersonByName( "Медведев" ).getId() );
+        AddKeyword( new Keyword( "Медведевым" ), getPersonByName( "Медведев" ).getId() );
+        AddKeyword( new Keyword( "Жириновскому" ), getPersonByName( "Жириновский" ).getId() );
+        AddKeyword( new Keyword( "Жириновского" ), getPersonByName( "Жириновский" ).getId() );
+        AddKeyword( new Keyword( "Жириновским" ), getPersonByName( "Жириновский" ).getId() );
 
         deleteAllSites();
-        AddSite(new Site("http://gazeta.ru"));
-        AddSite(new Site("http://yandex.ru"));
-        AddSite(new Site("http://rbc.ru"));
+        AddSite( new Site( "http://gazeta.ru" ) );
+        AddSite( new Site( "http://yandex.ru" ) );
+        AddSite( new Site( "http://rbc.ru" ) );
 
     }
 
@@ -190,24 +189,24 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper implements IDatabase
      */
     public void showDatabaseInfo() {
 
-        System.out.println("Table: " + TABLE_PERSONS + " содержит: " + getPersonsCount() + " записей");
-        System.out.println("Table: " + TABLE_KEYWORDS + " содержит: " + getKeywordsCount() + " записей");
-        System.out.println("Table: " + TABLE_SITES + " содержит: " + getSitesCount() + " записей");
+        System.out.println( "Table: " + TABLE_PERSONS + " содержит: " + getPersonsCount() + " записей" );
+        System.out.println( "Table: " + TABLE_KEYWORDS + " содержит: " + getKeywordsCount() + " записей" );
+        System.out.println( "Table: " + TABLE_SITES + " содержит: " + getSitesCount() + " записей" );
 
         for ( Person o : getAllPersons() ) {
-            System.out.println("Table: " + TABLE_PERSONS + " : " + o.getId() + ", " + o.getName());
+            System.out.println( "Table: " + TABLE_PERSONS + " : " + o.getId() + ", " + o.getName() );
         }
 
         for ( Keyword o : getAllKeywords() ) {
-            Person person = getPersonById(o.getPersonId());
-            System.out.println("Table: " +
+            Person person = getPersonById( o.getPersonId() );
+            System.out.println( "Table: " +
                     TABLE_KEYWORDS + " : " +
                     o.getId() + ", " + o.getName() + ", " +
-                    person.getId() + ", " + person.getName());
+                    person.getId() + ", " + person.getName() );
         }
 
         for ( Site o : getAllSites() ) {
-            System.out.println("Table: " + TABLE_SITES + " : " + o.getId() + ", " + o.getName());
+            System.out.println( "Table: " + TABLE_SITES + " : " + o.getId() + ", " + o.getName() );
         }
 
     }
@@ -218,17 +217,17 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper implements IDatabase
      * -------------------------------------------------------------------
      */
     @Override
-    public void AddPerson(Person person) {
+    public void AddPerson( Person person ) {
         try ( SQLiteDatabase db = this.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(TABLE_PERSONS_FIELD_NAME, person.getName());
+            contentValues.put( TABLE_PERSONS_FIELD_NAME, person.getName() );
 
-            db.insert(TABLE_PERSONS, null, contentValues);
+            db.insert( TABLE_PERSONS, null, contentValues );
         }
     }
 
     @Override
-    public Person getPersonById(int id) {
+    public Person getPersonById( int id ) {
         Person person = new Person();
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -237,21 +236,21 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper implements IDatabase
                 new String[] { KEY_ID,
                         TABLE_PERSONS_FIELD_NAME },          // columns
                 KEY_ID + " = ?",                            // columns WHERE
-                new String[] { Integer.toString(id) },         // values WHERE
+                new String[] { Integer.toString( id ) },         // values WHERE
                 null,                                       // group by
                 null,                                       // having
-                null) )                                     // order by
+                null ) )                                     // order by
         {
             if ( cursorPersons.moveToFirst() ) {
-                person.setId(Integer.parseInt(cursorPersons.getString(0)));
-                person.setName(cursorPersons.getString(1));
+                person.setId( Integer.parseInt( cursorPersons.getString( 0 ) ) );
+                person.setName( cursorPersons.getString( 1 ) );
             }
         }
         return person;
     }
 
     @Override
-    public Person getPersonByName(String name) {
+    public Person getPersonByName( String name ) {
         Person person = new Person();
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -263,11 +262,11 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper implements IDatabase
                 new String[] { name },                         // values WHERE
                 null,                                       // group by
                 null,                                       // having
-                null) )                                     // order by
+                null ) )                                     // order by
         {
             if ( cursorPersons.moveToFirst() ) {
-                person.setId(Integer.parseInt(cursorPersons.getString(0)));
-                person.setName(cursorPersons.getString(1));
+                person.setId( Integer.parseInt( cursorPersons.getString( 0 ) ) );
+                person.setName( cursorPersons.getString( 1 ) );
             }
         }
         return person;
@@ -279,13 +278,13 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper implements IDatabase
         String personListQuery = "SELECT * FROM " + TABLE_PERSONS;
         SQLiteDatabase db = this.getReadableDatabase();
 
-        try ( Cursor cursorPersons = db.rawQuery(personListQuery, null) ) {
+        try ( Cursor cursorPersons = db.rawQuery( personListQuery, null ) ) {
             if ( cursorPersons.moveToFirst() ) {
                 do {
                     Person person = new Person();
-                    person.setId(Integer.parseInt(cursorPersons.getString(0)));
-                    person.setName(cursorPersons.getString(1));
-                    personList.add(person);
+                    person.setId( Integer.parseInt( cursorPersons.getString( 0 ) ) );
+                    person.setName( cursorPersons.getString( 1 ) );
+                    personList.add( person );
                 } while ( cursorPersons.moveToNext() );
             }
         }
@@ -299,57 +298,57 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper implements IDatabase
         String countQuery = "SELECT * FROM " + TABLE_PERSONS;
         SQLiteDatabase db = this.getReadableDatabase();
 
-        try ( Cursor cursorPersons = db.rawQuery(countQuery, null) ) {
+        try ( Cursor cursorPersons = db.rawQuery( countQuery, null ) ) {
             count = cursorPersons.getCount();
         }
         return count;
     }
 
     @Override
-    public int updatePerson(Person person) {
+    public int updatePerson( Person person ) {
         int result = 0;
         try ( SQLiteDatabase db = this.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(TABLE_PERSONS_FIELD_NAME, person.getName());
+            contentValues.put( TABLE_PERSONS_FIELD_NAME, person.getName() );
 
-            result = db.update(TABLE_PERSONS,
+            result = db.update( TABLE_PERSONS,
                     contentValues,
                     KEY_ID + " = ?",
-                    new String[] { String.valueOf(person.getId()) });
+                    new String[] { String.valueOf( person.getId() ) } );
         }
         return result;
     }
 
     @Override
-    public void deletePerson(Person person) {
+    public void deletePerson( Person person ) {
         try ( SQLiteDatabase db = this.getWritableDatabase() ) {
-            db.delete(TABLE_PERSONS,
+            db.delete( TABLE_PERSONS,
                     KEY_ID + " = ?",
-                    new String[] { String.valueOf(person.getId()) });
+                    new String[] { String.valueOf( person.getId() ) } );
         }
     }
 
     @Override
     public void deleteAllPersons() {
         try ( SQLiteDatabase db = this.getWritableDatabase() ) {
-            db.delete(TABLE_PERSONS, null, null);
+            db.delete( TABLE_PERSONS, null, null );
         }
     }
 
     @Override
-    public void AddKeyword(Keyword keyword, int personId) {
+    public void AddKeyword( Keyword keyword, int personId ) {
         try ( SQLiteDatabase db = this.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(TABLE_KEYWORDS_FIELD_NAME, keyword.getName());
-            contentValues.put(TABLE_KEYWORDS_FIELD_PERSON_ID, personId);
+            contentValues.put( TABLE_KEYWORDS_FIELD_NAME, keyword.getName() );
+            contentValues.put( TABLE_KEYWORDS_FIELD_PERSON_ID, personId );
 
-            db.insert(TABLE_KEYWORDS, null, contentValues);
+            db.insert( TABLE_KEYWORDS, null, contentValues );
         }
 
     }
 
     @Override
-    public Keyword getKeyword(int id) {
+    public Keyword getKeyword( int id ) {
         Keyword keyword = new Keyword();
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -359,22 +358,22 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper implements IDatabase
                         TABLE_KEYWORDS_FIELD_NAME,
                         TABLE_KEYWORDS_FIELD_PERSON_ID },    // columns
                 KEY_ID + " = ?",                            // columns WHERE
-                new String[] { Integer.toString(id) },         // values WHERE
+                new String[] { Integer.toString( id ) },         // values WHERE
                 null,                                       // group by
                 null,                                       // having
-                null) )                                     // order by
+                null ) )                                     // order by
         {
             if ( cursorKeywords.moveToFirst() ) {
-                keyword.setId(Integer.parseInt(cursorKeywords.getString(0)));
-                keyword.setName(cursorKeywords.getString(1));
-                keyword.setPersonId(Integer.parseInt(cursorKeywords.getString(2)));
+                keyword.setId( Integer.parseInt( cursorKeywords.getString( 0 ) ) );
+                keyword.setName( cursorKeywords.getString( 1 ) );
+                keyword.setPersonId( Integer.parseInt( cursorKeywords.getString( 2 ) ) );
             }
         }
         return keyword;
     }
 
     @Override
-    public List<Keyword> getPersonKeywords(int personId) {
+    public List<Keyword> getPersonKeywords( int personId ) {
         List<Keyword> keywordList = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -385,18 +384,18 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper implements IDatabase
                         TABLE_KEYWORDS_FIELD_PERSON_ID,
                         TABLE_KEYWORDS_FIELD_PERSON_ID },            // columns
                 TABLE_KEYWORDS_FIELD_PERSON_ID + " = ?",            // columns WHERE
-                new String[] { Integer.toString(personId) },           // values WHERE
+                new String[] { Integer.toString( personId ) },           // values WHERE
                 null,                                               // group by
                 null,                                               // having
-                null) )                                             // order by
+                null ) )                                             // order by
         {
             if ( cursorKeywords.moveToFirst() ) {
                 do {
                     Keyword keyword = new Keyword();
-                    keyword.setId(Integer.parseInt(cursorKeywords.getString(0)));
-                    keyword.setName(cursorKeywords.getString(1));
-                    keyword.setPersonId(Integer.parseInt(cursorKeywords.getString(2)));
-                    keywordList.add(keyword);
+                    keyword.setId( Integer.parseInt( cursorKeywords.getString( 0 ) ) );
+                    keyword.setName( cursorKeywords.getString( 1 ) );
+                    keyword.setPersonId( Integer.parseInt( cursorKeywords.getString( 2 ) ) );
+                    keywordList.add( keyword );
                 } while ( cursorKeywords.moveToNext() );
             }
         }
@@ -409,14 +408,14 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper implements IDatabase
         String keywordListQuery = "SELECT * FROM " + TABLE_KEYWORDS;
         SQLiteDatabase db = this.getReadableDatabase();
 
-        try ( Cursor cursorKeywords = db.rawQuery(keywordListQuery, null) ) {
+        try ( Cursor cursorKeywords = db.rawQuery( keywordListQuery, null ) ) {
             if ( cursorKeywords.moveToFirst() ) {
                 do {
                     Keyword keyword = new Keyword();
-                    keyword.setId(Integer.parseInt(cursorKeywords.getString(0)));
-                    keyword.setName(cursorKeywords.getString(1));
-                    keyword.setPersonId(Integer.parseInt(cursorKeywords.getString(2)));
-                    keywordList.add(keyword);
+                    keyword.setId( Integer.parseInt( cursorKeywords.getString( 0 ) ) );
+                    keyword.setName( cursorKeywords.getString( 1 ) );
+                    keyword.setPersonId( Integer.parseInt( cursorKeywords.getString( 2 ) ) );
+                    keywordList.add( keyword );
                 } while ( cursorKeywords.moveToNext() );
             }
         }
@@ -430,56 +429,56 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper implements IDatabase
         String countQuery = "SELECT * FROM " + TABLE_KEYWORDS;
         SQLiteDatabase db = this.getReadableDatabase();
 
-        try ( Cursor cursorKeywords = db.rawQuery(countQuery, null) ) {
+        try ( Cursor cursorKeywords = db.rawQuery( countQuery, null ) ) {
             count = cursorKeywords.getCount();
         }
         return count;
     }
 
     @Override
-    public int updateKeyword(Keyword keyword) {
+    public int updateKeyword( Keyword keyword ) {
         int result = 0;
         try ( SQLiteDatabase db = this.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(TABLE_KEYWORDS_FIELD_NAME, keyword.getName());
+            contentValues.put( TABLE_KEYWORDS_FIELD_NAME, keyword.getName() );
 
-            result = db.update(TABLE_KEYWORDS,
+            result = db.update( TABLE_KEYWORDS,
                     contentValues,
                     KEY_ID + " = ?",
-                    new String[] { String.valueOf(keyword.getId()) });
+                    new String[] { String.valueOf( keyword.getId() ) } );
         }
         return result;
     }
 
     @Override
-    public void deleteKeyword(Keyword keyword) {
+    public void deleteKeyword( Keyword keyword ) {
         try ( SQLiteDatabase db = this.getWritableDatabase() ) {
-            db.delete(TABLE_KEYWORDS,
+            db.delete( TABLE_KEYWORDS,
                     KEY_ID + " = ?",
-                    new String[] { String.valueOf(keyword.getId()) });
+                    new String[] { String.valueOf( keyword.getId() ) } );
         }
     }
 
     @Override
     public void deleteAllKeywords() {
         try ( SQLiteDatabase db = this.getWritableDatabase() ) {
-            db.delete(TABLE_KEYWORDS, null, null);
+            db.delete( TABLE_KEYWORDS, null, null );
         }
     }
 
     @Override
-    public void AddSite(Site site) {
+    public void AddSite( Site site ) {
         try ( SQLiteDatabase db = this.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(TABLE_SITES_FIELD_NAME, site.getName());
+            contentValues.put( TABLE_SITES_FIELD_NAME, site.getName() );
 
-            db.insert(TABLE_SITES, null, contentValues);
+            db.insert( TABLE_SITES, null, contentValues );
         }
 
     }
 
     @Override
-    public Site getSite(int id) {
+    public Site getSite( int id ) {
         Site site = new Site();
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -487,14 +486,14 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper implements IDatabase
                 TABLE_SITES,                              // table
                 new String[] { TABLE_SITES_FIELD_NAME },     // columns
                 KEY_ID,                                     // columns WHERE
-                new String[] { Integer.toString(id) },         // values WHERE
+                new String[] { Integer.toString( id ) },         // values WHERE
                 null,                                       // group by
                 null,                                       // having
-                null) )                                     // order by
+                null ) )                                     // order by
         {
             if ( cursorSites.moveToFirst() ) {
-                site.setId(Integer.parseInt(cursorSites.getString(0)));
-                site.setName(cursorSites.getString(1));
+                site.setId( Integer.parseInt( cursorSites.getString( 0 ) ) );
+                site.setName( cursorSites.getString( 1 ) );
             }
         }
         return site;
@@ -506,13 +505,13 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper implements IDatabase
         String siteListQuery = "SELECT * FROM " + TABLE_SITES;
         SQLiteDatabase db = this.getReadableDatabase();
 
-        try ( Cursor cursorSites = db.rawQuery(siteListQuery, null) ) {
+        try ( Cursor cursorSites = db.rawQuery( siteListQuery, null ) ) {
             if ( cursorSites.moveToFirst() ) {
                 do {
                     Site site = new Site();
-                    site.setId(Integer.parseInt(cursorSites.getString(0)));
-                    site.setName(cursorSites.getString(1));
-                    siteList.add(site);
+                    site.setId( Integer.parseInt( cursorSites.getString( 0 ) ) );
+                    site.setName( cursorSites.getString( 1 ) );
+                    siteList.add( site );
                 } while ( cursorSites.moveToNext() );
             }
         }
@@ -526,40 +525,40 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper implements IDatabase
         String countQuery = "SELECT * FROM " + TABLE_SITES;
         SQLiteDatabase db = this.getReadableDatabase();
 
-        try ( Cursor cursorSites = db.rawQuery(countQuery, null) ) {
+        try ( Cursor cursorSites = db.rawQuery( countQuery, null ) ) {
             count = cursorSites.getCount();
         }
         return count;
     }
 
     @Override
-    public int updateSite(Site site) {
+    public int updateSite( Site site ) {
         int result = 0;
         try ( SQLiteDatabase db = this.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(TABLE_SITES_FIELD_NAME, site.getName());
+            contentValues.put( TABLE_SITES_FIELD_NAME, site.getName() );
 
-            result = db.update(TABLE_SITES,
+            result = db.update( TABLE_SITES,
                     contentValues,
                     KEY_ID + " = ?",
-                    new String[] { String.valueOf(site.getId()) });
+                    new String[] { String.valueOf( site.getId() ) } );
         }
         return result;
     }
 
     @Override
-    public void deleteSite(Site site) {
+    public void deleteSite( Site site ) {
         try ( SQLiteDatabase db = this.getWritableDatabase() ) {
-            db.delete(TABLE_SITES,
+            db.delete( TABLE_SITES,
                     KEY_ID + " = ?",
-                    new String[] { String.valueOf(site.getId()) });
+                    new String[] { String.valueOf( site.getId() ) } );
         }
     }
 
     @Override
     public void deleteAllSites() {
         try ( SQLiteDatabase db = this.getWritableDatabase() ) {
-            db.delete(TABLE_SITES, null, null);
+            db.delete( TABLE_SITES, null, null );
         }
     }
 
