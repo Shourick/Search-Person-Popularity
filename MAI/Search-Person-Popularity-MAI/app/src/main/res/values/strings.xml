@@ -4,4 +4,5 @@
     <string name="sites_directory">Управление справочником Сайты</string>
     <string name="keywords_directory">Управление справочником Ключевые слова</string>
     <string name="persons_directory">Управление справочником Личности</string>
+    <string name="users_directory">Управление справочником Пользователей</string>
 </resources>

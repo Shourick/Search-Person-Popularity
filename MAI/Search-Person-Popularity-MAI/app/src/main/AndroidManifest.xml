@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".Activities.KeywordsDirectoryActivity">
         </activity>
+        <activity android:name=".Activities.UsersDirectoryActivity">
+        </activity>
     </application>
 
 </manifest>
