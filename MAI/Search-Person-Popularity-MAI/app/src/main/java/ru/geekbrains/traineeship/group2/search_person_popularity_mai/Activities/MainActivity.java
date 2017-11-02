@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.SQLiteDatabaseHandler;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.SQLite.SQLiteDatabaseHandler;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {

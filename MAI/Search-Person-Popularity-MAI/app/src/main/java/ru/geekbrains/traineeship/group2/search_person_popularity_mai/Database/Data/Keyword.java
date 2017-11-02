@@ -1,18 +1,18 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Data;
 
 /**
  * Created by skubatko on 28/10/17.
  */
 
-class Keyword {
+public class Keyword {
     private int id;
     private String name;
     private int personId;
 
-    Keyword() {
+    public Keyword() {
     }
 
-    Keyword( String name ) {
+    public Keyword( String name ) {
         this.name = name;
     }
 
