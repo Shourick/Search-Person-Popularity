@@ -1,8 +1,8 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IDatabaseHandler;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository;
 
 import java.util.List;
 
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Players.Admin;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.Admin;
 
 /**
  * Данный интрефейс описывает контракт для работы с данными проекта Search Person Popularity
@@ -13,8 +13,8 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Pl
  * Created by skubatko on 03/11/17.
  */
 
-public interface IDBAdminsHandler {
-    public void AddAdmin( Admin admin );         // добавляем Администратора
+public interface IAdminRepository {
+    public void addAdmin( Admin admin );         // добавляем Администратора
     Admin getAdmin( int id );                   // получаем Администратора по его id
     List getAllAdmins();                     // получаем список всех Администраторов
     int getAdminsCount();                    // получаем количество Администраторов в БД

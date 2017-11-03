@@ -5,4 +5,17 @@
     <string name="keywords_directory">Управление справочником Ключевые слова</string>
     <string name="persons_directory">Управление справочником Личности</string>
     <string name="users_directory">Управление справочником Пользователей</string>
+    <string name="users_header">Пользователи:</string>
+    <string name="users_login">Login:</string>
+    <string name="users_nickname">Nickname:</string>
+    <string name="users_password">Password:</string>
+    <string name="btn_delete">Delete</string>
+    <string name="btn_edit">Edit</string>
+    <string name="btn_add">Add</string>
+    <string name="et_password">Password</string>
+    <string name="add_user_title">Добавить нового Пользователя</string>
+    <string name="et_login">Login</string>
+    <string name="et_nickname">Nickname</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_ok">OK</string>
 </resources>

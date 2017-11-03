@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.SQLite;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,7 +9,7 @@ import android.util.Log;
  * Created by skubatko on 02/11/17.
  */
 
-public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
+public class SQLiteHelper extends SQLiteOpenHelper {
     // Имя файла базы данных
     private static final String DATABASE_NAME = "searchPersonPopularity.db";
 
@@ -45,11 +45,11 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
      */
 
     /**
-     * Конструктор {@link SQLiteDatabaseHandler}.
+     * Конструктор {@link SQLiteRepository}.
      *
      * @param context Контекст приложения
      */
-    public SQLiteDatabaseHelper( Context context ) {
+    public SQLiteHelper( Context context ) {
         super( context, DATABASE_NAME, null, DATABASE_VERSION );
     }
 

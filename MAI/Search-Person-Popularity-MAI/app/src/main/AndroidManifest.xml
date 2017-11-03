@@ -24,6 +24,8 @@
         </activity>
         <activity android:name=".Activities.UsersDirectoryActivity">
         </activity>
+        <activity android:name=".Activities.UsersDirectoryAddUserActivity">
+        </activity>
     </application>
 
 </manifest>
