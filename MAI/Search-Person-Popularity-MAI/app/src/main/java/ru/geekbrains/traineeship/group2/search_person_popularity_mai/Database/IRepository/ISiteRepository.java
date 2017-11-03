@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IDatabaseHandler;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IRepository;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Da
  * Created by skubatko on 03/11/17.
  */
 
-public interface IDBSitesHandler {
+public interface ISiteRepository {
     public void AddSite( Site site );         // добавляем Сайт
     Site getSite( int id );                   // получаем Сайт по его id
     List getAllSites();                     // получаем список всех Сайтов

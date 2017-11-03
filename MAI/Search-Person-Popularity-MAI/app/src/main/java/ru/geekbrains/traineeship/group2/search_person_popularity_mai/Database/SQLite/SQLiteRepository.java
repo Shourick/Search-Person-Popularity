@@ -11,11 +11,11 @@ import java.util.List;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Data.Keyword;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Data.Person;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Data.Site;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IDatabaseHandler.IDBAdminsHandler;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IDatabaseHandler.IDBKeywordsHandler;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IDatabaseHandler.IDBPersonsHandler;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IDatabaseHandler.IDBSitesHandler;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IDatabaseHandler.IDBUsersHandler;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IRepository.IAdminRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IRepository.IKeywordRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IRepository.IPersonRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IRepository.ISiteRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IRepository.IUserRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Players.Admin;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Players.User;
 
@@ -26,20 +26,20 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Pl
  * Created by skubatko on 27/10/17.
  */
 
-public class SQLiteDatabaseHandler extends SQLiteDatabaseHelper implements IDBPersonsHandler, IDBKeywordsHandler, IDBSitesHandler, IDBUsersHandler, IDBAdminsHandler {
+public class SQLiteRepository extends SQLiteHelper implements IPersonRepository, IKeywordRepository, ISiteRepository, IUserRepository, IAdminRepository {
 
     /**
-     * Конструктор {@link SQLiteDatabaseHandler}.
+     * Конструктор {@link SQLiteRepository}.
      *
      * @param context Контекст приложения
      */
-    public SQLiteDatabaseHandler( Context context ) {
+    public SQLiteRepository( Context context ) {
         super( context );
     }
 
     /**
      * -------------------------------------------------------------------
-     * РЕАЛИЗАЦИЯ КОНТРАКТА IDatabaseHandler / приципов CRUD для данных БД
+     * РЕАЛИЗАЦИЯ КОНТРАКТА IDatabaseHelper / приципов CRUD для Repository
      * -------------------------------------------------------------------
      */
 

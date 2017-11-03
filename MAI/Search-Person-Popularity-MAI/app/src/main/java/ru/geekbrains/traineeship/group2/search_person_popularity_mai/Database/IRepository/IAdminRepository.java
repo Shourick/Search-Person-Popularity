@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IDatabaseHandler;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IRepository;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Pl
  * Created by skubatko on 03/11/17.
  */
 
-public interface IDBAdminsHandler {
+public interface IAdminRepository {
     public void AddAdmin( Admin admin );         // добавляем Администратора
     Admin getAdmin( int id );                   // получаем Администратора по его id
     List getAllAdmins();                     // получаем список всех Администраторов

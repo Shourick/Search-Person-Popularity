@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IDatabaseHandler;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IRepository;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Da
  * Created by skubatko on 03/11/17.
  */
 
-public interface IDBKeywordsHandler {
+public interface IKeywordRepository {
     public void AddKeyword( Keyword keyword, int personId );  // добавляем Ключевое слово для Личности personId
     Keyword getKeyword( int id );                             // получаем Ключевое слово по его id
     List getPersonKeywords( int personId );                   // получаем ключевые слова Личности personId

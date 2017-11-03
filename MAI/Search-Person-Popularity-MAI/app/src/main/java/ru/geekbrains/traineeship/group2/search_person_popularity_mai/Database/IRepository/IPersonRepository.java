@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IDatabaseHandler;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IRepository;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Da
  * Created by skubatko on 03/11/17.
  */
 
-public interface IDBPersonsHandler {
+public interface IPersonRepository {
     public void AddPerson( Person person );       // добавляем Личность
     Person getPersonById( int id );               // получаем Личность по id
     Person getPersonByName( String name );        // получаем Личность по Имени

@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.SQLite.SQLiteDatabaseHandler;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.SQLite.SQLiteRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * при доступности Веб-сервиса поменять на класс, имплементирующий работу с Веб-сервисом
      */
 
-    public static SQLiteDatabaseHandler databaseHandler;
+    public static SQLiteRepository databaseHandler;
 
     private Button btnPersonsDirectory, btnKeywordsDirectory, btnSitesDirectory, btnUsersDirectory;
 
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSitesDirectory.setOnClickListener( this );
         btnUsersDirectory.setOnClickListener( this );
 
-        databaseHandler = new SQLiteDatabaseHandler( this );
+        databaseHandler = new SQLiteRepository( this );
         databaseHandler.initializeDatabase();
 
         databaseHandler.showDatabaseInfo();
