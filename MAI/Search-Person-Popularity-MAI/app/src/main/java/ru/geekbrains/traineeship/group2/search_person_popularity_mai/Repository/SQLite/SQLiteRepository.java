@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.SQLite;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,18 +6,19 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Data.Keyword;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Data.Person;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Data.Site;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IRepository.IAdminRepository;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IRepository.IKeywordRepository;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IRepository.IPersonRepository;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IRepository.ISiteRepository;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IRepository.IUserRepository;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Players.Admin;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Players.User;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Keyword;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Person;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Site;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.IAdminRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.IKeywordRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.IPersonRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.ISiteRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.IUserRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.Admin;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.User;
 
 /**
  * Класс для работы с базой SQLite для возможности тестирования бизнес-логики
@@ -48,7 +49,7 @@ public class SQLiteRepository extends SQLiteHelper implements IPersonRepository,
      * Persons
      */
     @Override
-    public void AddPerson( Person person ) {
+    public void addPerson( Person person ) {
         try ( SQLiteDatabase db = this.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
             contentValues.put( TABLE_PERSONS_FIELD_NAME, person.getName() );
@@ -170,7 +171,7 @@ public class SQLiteRepository extends SQLiteHelper implements IPersonRepository,
      * Keywords
      */
     @Override
-    public void AddKeyword( Keyword keyword, int personId ) {
+    public void addKeyword( Keyword keyword, int personId ) {
         try ( SQLiteDatabase db = this.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
             contentValues.put( TABLE_KEYWORDS_FIELD_NAME, keyword.getName() );
@@ -304,7 +305,7 @@ public class SQLiteRepository extends SQLiteHelper implements IPersonRepository,
      * Sites
      */
     @Override
-    public void AddSite( Site site ) {
+    public void addSite( Site site ) {
         try ( SQLiteDatabase db = this.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
             contentValues.put( TABLE_SITES_FIELD_NAME, site.getName() );
@@ -404,7 +405,7 @@ public class SQLiteRepository extends SQLiteHelper implements IPersonRepository,
      * Users
      */
     @Override
-    public void AddUser( User user ) {
+    public void addUser( User user ) {
         try ( SQLiteDatabase db = this.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
             contentValues.put( TABLE_USERS_FIELD_NICKNAME, user.getNickName() );
@@ -421,7 +422,7 @@ public class SQLiteRepository extends SQLiteHelper implements IPersonRepository,
         User user = new User();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        try ( Cursor cursorSites = db.query(
+        try ( Cursor cursorUsers = db.query(
                 TABLE_USERS,                              // table
                 new String[] { KEY_ID,
                         TABLE_USERS_FIELD_NICKNAME,
@@ -433,11 +434,11 @@ public class SQLiteRepository extends SQLiteHelper implements IPersonRepository,
                 null,                                     // having
                 null ) )                                  // order by
         {
-            if ( cursorSites.moveToFirst() ) {
-                user.setId( Integer.parseInt( cursorSites.getString( 0 ) ) );
-                user.setNickName( cursorSites.getString( 1 ) );
-                user.setLogin( cursorSites.getString( 2 ) );
-                user.setPassword( cursorSites.getString( 3 ) );
+            if ( cursorUsers.moveToFirst() ) {
+                user.setId( Integer.parseInt( cursorUsers.getString( 0 ) ) );
+                user.setNickName( cursorUsers.getString( 1 ) );
+                user.setLogin( cursorUsers.getString( 2 ) );
+                user.setPassword( cursorUsers.getString( 3 ) );
             }
         }
         return user;
@@ -496,10 +497,31 @@ public class SQLiteRepository extends SQLiteHelper implements IPersonRepository,
 
     @Override
     public void deleteUser( User user ) {
-        try ( SQLiteDatabase db = this.getWritableDatabase() ) {
-            db.delete( TABLE_USERS,
-                    KEY_ID + " = ?",
-                    new String[] { String.valueOf( user.getId() ) } );
+
+        SQLiteDatabase dbReadable = this.getReadableDatabase();
+        System.out.println( "Table SQL: " + TABLE_USERS_FIELD_NICKNAME + " = ? and " +
+                TABLE_USERS_FIELD_LOGIN + " = ? and " +
+                TABLE_USERS_FIELD_PASSWORD + " = ?" );
+        try ( Cursor cursorUsers = dbReadable.query(
+                TABLE_USERS,                                        // table
+                new String[] { KEY_ID },                            // columns
+                TABLE_USERS_FIELD_NICKNAME + " = ? and " +
+                        TABLE_USERS_FIELD_LOGIN + " = ? and " +
+                        TABLE_USERS_FIELD_PASSWORD + " = ?",         // columns WHERE
+                new String[] { user.getNickName(), user.getLogin(), user.getPassword() },  // values WHERE
+                null,                                     // group by
+                null,                                     // having
+                null ) )                                  // order by
+        {
+            if ( cursorUsers.moveToFirst() ) {
+                String[] keyId = new String[] { cursorUsers.getString( 0 ) };
+                try ( SQLiteDatabase dbWritable = this.getWritableDatabase() ) {
+                    dbWritable.delete( TABLE_USERS,
+                            KEY_ID + " = ?",
+                            keyId
+                    );
+                }
+            }
         }
     }
 
@@ -514,7 +536,7 @@ public class SQLiteRepository extends SQLiteHelper implements IPersonRepository,
      * Admins
      */
     @Override
-    public void AddAdmin( Admin admin ) {
+    public void addAdmin( Admin admin ) {
         try ( SQLiteDatabase db = this.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
             contentValues.put( TABLE_ADMINS_FIELD_LOGIN, admin.getLogin() );
@@ -617,44 +639,45 @@ public class SQLiteRepository extends SQLiteHelper implements IPersonRepository,
     /**
      * Заполнение БД фейковыми значениями
      */
-    public void initializeDatabase() {
+
+    public void initialize() {
 
         deleteAllPersons();
-        AddPerson( new Person( "Путин" ) );
-        AddPerson( new Person( "Медведев" ) );
-        AddPerson( new Person( "Жириновский" ) );
+        addPerson( new Person( "Путин" ) );
+        addPerson( new Person( "Медведев" ) );
+        addPerson( new Person( "Жириновский" ) );
 
         deleteAllKeywords();
-        AddKeyword( new Keyword( "Путину" ), getPersonByName( "Путин" ).getId() );
-        AddKeyword( new Keyword( "Путина" ), getPersonByName( "Путин" ).getId() );
-        AddKeyword( new Keyword( "Путиным" ), getPersonByName( "Путин" ).getId() );
-        AddKeyword( new Keyword( "Медведеву" ), getPersonByName( "Медведев" ).getId() );
-        AddKeyword( new Keyword( "Медведева" ), getPersonByName( "Медведев" ).getId() );
-        AddKeyword( new Keyword( "Медведевым" ), getPersonByName( "Медведев" ).getId() );
-        AddKeyword( new Keyword( "Жириновскому" ), getPersonByName( "Жириновский" ).getId() );
-        AddKeyword( new Keyword( "Жириновского" ), getPersonByName( "Жириновский" ).getId() );
-        AddKeyword( new Keyword( "Жириновским" ), getPersonByName( "Жириновский" ).getId() );
+        addKeyword( new Keyword( "Путину" ), getPersonByName( "Путин" ).getId() );
+        addKeyword( new Keyword( "Путина" ), getPersonByName( "Путин" ).getId() );
+        addKeyword( new Keyword( "Путиным" ), getPersonByName( "Путин" ).getId() );
+        addKeyword( new Keyword( "Медведеву" ), getPersonByName( "Медведев" ).getId() );
+        addKeyword( new Keyword( "Медведева" ), getPersonByName( "Медведев" ).getId() );
+        addKeyword( new Keyword( "Медведевым" ), getPersonByName( "Медведев" ).getId() );
+        addKeyword( new Keyword( "Жириновскому" ), getPersonByName( "Жириновский" ).getId() );
+        addKeyword( new Keyword( "Жириновского" ), getPersonByName( "Жириновский" ).getId() );
+        addKeyword( new Keyword( "Жириновским" ), getPersonByName( "Жириновский" ).getId() );
 
         deleteAllSites();
-        AddSite( new Site( "http://gazeta.ru" ) );
-        AddSite( new Site( "http://yandex.ru" ) );
-        AddSite( new Site( "http://rbc.ru" ) );
+        addSite( new Site( "http://gazeta.ru" ) );
+        addSite( new Site( "http://yandex.ru" ) );
+        addSite( new Site( "http://rbc.ru" ) );
 
         deleteAllUsers();
-        AddUser( new User( "u1", "user1", "pass1" ) );
-        AddUser( new User( "u2", "user2", "pass2" ) );
-        AddUser( new User( "u3", "user3", "pass3" ) );
+        addUser( new User( "u1", "user1", "pass1" ) );
+        addUser( new User( "u2", "user2", "pass2" ) );
+        addUser( new User( "u3", "user3", "pass3" ) );
 
         deleteAllAdmins();
-        AddAdmin( new Admin( "admin1", "pass1" ) );
-        AddAdmin( new Admin( "admin2", "pass2" ) );
+        addAdmin( new Admin( "admin1", "pass1" ) );
+        addAdmin( new Admin( "admin2", "pass2" ) );
 
     }
 
     /**
      * Выводит содержимое базы данных в лог системы для проверки
      */
-    public void showDatabaseInfo() {
+    public void showInfo() {
 
         System.out.println( "Table: " + TABLE_PERSONS + " содержит: " + getPersonsCount() + " записей" );
         System.out.println( "Table: " + TABLE_KEYWORDS + " содержит: " + getKeywordsCount() + " записей" );

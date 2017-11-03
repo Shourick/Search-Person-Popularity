@@ -4,25 +4,33 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.ScrollView;
+import android.widget.TextView;
 
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Players.User;
+import java.util.List;
+
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.User;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.databaseHandler;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
 
 public class UsersDirectoryActivity extends AppCompatActivity implements View.OnClickListener {
 
     /**
-     * databaseHandler применяем глобально во всех Activities для обмена данными с БД
+     * repository применяем глобально во всех Activities для обмена данными с БД
      * при доступности Веб-сервиса поменять на класс, имплементирующий работу с Веб-сервисом
      */
 
     Button btnBackUsersDirectory, btnUserAdd, btnUserEdit, btnUserDelete;
+    TextView tvNickname, tvLogin, tvPassword;
+
     ListView lvUsersList;
+    List<User> listAllUsers;
+    ArrayAdapter<User> listUserAdapter;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -33,6 +41,11 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
         btnUserAdd = (Button) findViewById( R.id.btnUserAdd );
         btnUserEdit = (Button) findViewById( R.id.btnUserEdit );
         btnUserDelete = (Button) findViewById( R.id.btnUserDelete );
+
+        tvNickname = (TextView) findViewById( R.id.tvNickname );
+        tvLogin = (TextView) findViewById( R.id.tvLogin );
+        tvPassword = (TextView) findViewById( R.id.tvPassword );
+
         lvUsersList = (ListView) findViewById( R.id.lvUsersList );
 
         btnBackUsersDirectory.setOnClickListener( this );
@@ -40,22 +53,86 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
         btnUserEdit.setOnClickListener( this );
         btnUserDelete.setOnClickListener( this );
 
-        databaseHandler.showDatabaseInfo();
+        repository.showInfo();
 
-        ArrayAdapter<User> adapter = new ArrayAdapter<User>( this, android.R.layout.simple_list_item_1, databaseHandler.getAllUsers());
-        lvUsersList.setAdapter( adapter );
+        listAllUsers = repository.getAllUsers();
+        listUserAdapter = new ArrayAdapter<User>( this, android.R.layout.simple_list_item_1, listAllUsers );
+        lvUsersList.setAdapter( listUserAdapter );
+
+        lvUsersList.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick( AdapterView<?> adapterView, View itemClicked, int position, long id ) {
+                adapterView.requestFocusFromTouch();
+                adapterView.setSelection( position );
+            }
+        } );
+
+        lvUsersList.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected( AdapterView<?> adapterView, View itemSelected, int position, long id ) {
+                User selectedUser = (User) adapterView.getSelectedItem();
+                tvNickname.setText( selectedUser.getNickName() );
+                tvLogin.setText( selectedUser.getLogin() );
+                tvPassword.setText( selectedUser.getPassword() );
+            }
+
+            @Override
+            public void onNothingSelected( AdapterView<?> parent ) {
+            }
+        } );
 
     }
 
     @Override
     public void onClick( View v ) {
+        Intent intent;
         switch ( v.getId() ) {
+            case R.id.btnUserAdd:
+                intent = new Intent( this, UsersDirectoryAddUserActivity.class );
+                startActivityForResult( intent, Constants.REQUEST_CODE_ADD_USER );
+                break;
+            case R.id.btnUserEdit:
+                break;
+            case R.id.btnUserDelete:
+                if ( !tvNickname.getText().equals( Constants.EMPTY ) ) {
+                    repository.deleteUser( new User( tvNickname.getText().toString(),
+                            tvLogin.getText().toString(),
+                            tvPassword.getText().toString() ) );
+
+                    listAllUsers.clear();
+                    listAllUsers.addAll( repository.getAllUsers() );
+                    listUserAdapter.notifyDataSetChanged();
+
+                    tvNickname.setText( "" );
+                    tvLogin.setText( "" );
+                    tvPassword.setText( "" );
+                }
+                break;
             case R.id.btnBackUsersDirectory:
-                Intent intent = new Intent();
+                intent = new Intent();
                 setResult( RESULT_OK, intent );
                 finish();
                 break;
         }
     }
 
+    @Override
+    protected void onActivityResult( int requestCode, int resultCode, Intent data ) {
+        switch ( requestCode ) {
+            case Constants.REQUEST_CODE_ADD_USER:
+                if ( resultCode == RESULT_OK ) {
+                    listAllUsers.clear();
+                    listAllUsers.addAll( repository.getAllUsers() );
+                    listUserAdapter.notifyDataSetChanged();
+                }
+                break;
+            case Constants.REQUEST_CODE_EDIT_USER:
+                if ( resultCode == RESULT_OK ) {
+                    listAllUsers.clear();
+                    listAllUsers.addAll( repository.getAllUsers() );
+                    listUserAdapter.notifyDataSetChanged();
+                }
+                break;
+        }
+    }
 }

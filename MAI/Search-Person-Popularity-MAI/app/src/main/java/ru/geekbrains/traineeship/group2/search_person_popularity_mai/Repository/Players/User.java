@@ -1,18 +1,20 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Players;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players;
 
 /**
  * Created by skubatko on 02/11/17.
  */
 
-public class Admin {
+public class User {
     private int id;
+    private String nickName;
     private String login;
     private String password;
 
-    public Admin() {
+    public User() {
     }
 
-    public Admin( String login, String password ) {
+    public User( String nickName, String login, String password ) {
+        this.nickName = nickName;
         this.login = login;
         this.password = password;
     }
@@ -23,6 +25,14 @@ public class Admin {
 
     public void setId( int id ) {
         this.id = id;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName( String nickName ) {
+        this.nickName = nickName;
     }
 
     public String getLogin() {
@@ -39,5 +49,10 @@ public class Admin {
 
     public void setPassword( String password ) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return nickName;
     }
 }

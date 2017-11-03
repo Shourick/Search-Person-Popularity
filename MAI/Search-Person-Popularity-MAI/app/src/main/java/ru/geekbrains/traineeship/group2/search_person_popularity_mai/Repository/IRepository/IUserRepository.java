@@ -1,8 +1,8 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IRepository;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository;
 
 import java.util.List;
 
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Players.User;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.User;
 
 /**
  * Данный интрефейс описывает контракт для работы с данными проекта Search Person Popularity
@@ -14,7 +14,7 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Pl
  */
 
 public interface IUserRepository {
-    public void AddUser( User user );         // добавляем Поьзователя
+    public void addUser( User user );         // добавляем Поьзователя
     User getUser( int id );                   // получаем Поьзователя по его id
     List getAllUsers();                     // получаем список всех Поьзователей
     int getUsersCount();                    // получаем количество Поьзователей в БД

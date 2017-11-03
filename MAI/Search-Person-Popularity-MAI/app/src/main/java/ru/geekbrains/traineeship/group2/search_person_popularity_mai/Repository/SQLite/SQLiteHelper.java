@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.SQLite;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

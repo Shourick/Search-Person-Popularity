@@ -1,8 +1,8 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IRepository;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository;
 
 import java.util.List;
 
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Data.Site;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Site;
 
 /**
  * Данный интрефейс описывает контракт для работы с данными проекта Search Person Popularity
@@ -14,7 +14,7 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Da
  */
 
 public interface ISiteRepository {
-    public void AddSite( Site site );         // добавляем Сайт
+    public void addSite( Site site );         // добавляем Сайт
     Site getSite( int id );                   // получаем Сайт по его id
     List getAllSites();                     // получаем список всех Сайтов
     int getSitesCount();                    // получаем количество Сайтов в БД

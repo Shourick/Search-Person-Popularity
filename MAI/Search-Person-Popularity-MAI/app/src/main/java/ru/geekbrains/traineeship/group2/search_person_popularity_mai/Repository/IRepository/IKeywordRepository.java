@@ -1,8 +1,8 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IRepository;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository;
 
 import java.util.List;
 
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Data.Keyword;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Keyword;
 
 /**
  * Данный интрефейс описывает контракт для работы с данными проекта Search Person Popularity
@@ -14,7 +14,7 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Da
  */
 
 public interface IKeywordRepository {
-    public void AddKeyword( Keyword keyword, int personId );  // добавляем Ключевое слово для Личности personId
+    public void addKeyword( Keyword keyword, int personId );  // добавляем Ключевое слово для Личности personId
     Keyword getKeyword( int id );                             // получаем Ключевое слово по его id
     List getPersonKeywords( int personId );                   // получаем ключевые слова Личности personId
     List getAllKeywords();                                  // получаем список всех Ключевых слов
