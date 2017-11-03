@@ -8,19 +8,21 @@
 	<tr>
 		<td> GET <td/>
 		<td> Получение списка всех пользователей <td/>
-		<td> http://<host/persons/all <br>
-			*Возвращает список, содержащий все имена из справочника*<td/>
+		<td> http://< host >/persons/all <br>
+			Возвращает список, содержащий все имена из справочника
+		<td/>
 	<tr/>
 	<tr>
 		<td> GET <td/>
 		<td> Получение имени пользователя по ID <td/>
-		<td> http://<host/persons/<PersonID> <br>
-			*Возвращает список, содержащий одно имя пользователя* <td/>
+		<td> http://< host >/persons/< PersonID > <br>
+			Возвращает список, содержащий одно имя пользователя
+		<td/>
 	<tr/>
 	<tr>
 		<td> GET <td/>
 		<td> Получение ID пользователя по имени <td/>
-		<td> http://<host/persons/<Name> <br>
-			*Возвращает список, содержащий один PersonID*
+		<td> http://< host >/persons/< Name > <br>
+			Возвращает список, содержащий один PersonID
 		<td/>
 	<tr/>
