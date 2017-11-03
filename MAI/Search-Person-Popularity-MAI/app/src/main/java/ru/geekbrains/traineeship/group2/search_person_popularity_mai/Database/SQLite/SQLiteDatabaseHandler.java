@@ -11,7 +11,11 @@ import java.util.List;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Data.Keyword;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Data.Person;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Data.Site;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IDatabaseHandler;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IDatabaseHandler.IDBAdminsHandler;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IDatabaseHandler.IDBKeywordsHandler;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IDatabaseHandler.IDBPersonsHandler;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IDatabaseHandler.IDBSitesHandler;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.IDatabaseHandler.IDBUsersHandler;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Players.Admin;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Players.User;
 
@@ -22,7 +26,7 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.Pl
  * Created by skubatko on 27/10/17.
  */
 
-public class SQLiteDatabaseHandler extends SQLiteDatabaseHelper implements IDatabaseHandler {
+public class SQLiteDatabaseHandler extends SQLiteDatabaseHelper implements IDBPersonsHandler, IDBKeywordsHandler, IDBSitesHandler, IDBUsersHandler, IDBAdminsHandler {
 
     /**
      * Конструктор {@link SQLiteDatabaseHandler}.
