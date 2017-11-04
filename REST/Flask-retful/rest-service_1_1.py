@@ -1,24 +1,9 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
 import MySQLdb
-# from json import dumps
-
-# Create a engine for connecting to SQLite3.
-# Assuming salaries.db is in your app root folder
-
 
 app = Flask(__name__)
 api = Api(app)
-
-
-# def get(db):
-#     # Connect to databse
-#     conn = db.connect(**config)
-#     cursor = conn.cursor()
-#     # Perform query and return JSON data
-#     cursor.execute("select Name from persons")
-#     return {'Names': [i[0] for i in cursor.fetchall()]}
-#
 
 # config = {
 #     'user': 'spp',
@@ -237,6 +222,4 @@ api.add_resource(
 )
 
 if __name__ == '__main__':
-    # print(db.__dict__)
-    # print(get(db))
     app.run()
