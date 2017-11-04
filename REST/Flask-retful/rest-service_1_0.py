@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
 import MySQLdb
-from json import dumps
+# from json import dumps
 
 # Create a engine for connecting to SQLite3.
 # Assuming salaries.db is in your app root folder
@@ -20,14 +20,14 @@ api = Api(app)
 #     return {'Names': [i[0] for i in cursor.fetchall()]}
 #
 
-config = {
-    'user': 'spp',
-    'password': 'spp',
-    'database': 'spp',
-    'host': 'localhost',
-    'charset': 'utf8'
-}
-db = MySQLdb
+# config = {
+#     'user': 'spp',
+#     'password': 'spp',
+#     'database': 'spp',
+#     'host': 'localhost',
+#     'charset': 'utf8'
+# }
+# db = MySQLdb
 
 
 class WorkResource(Resource):
@@ -42,7 +42,7 @@ class WorkResource(Resource):
 
     @classmethod
     def __init__(cls):
-        cls.conn = cls.db.connect(**config)
+        cls.conn = cls.db.connect(**cls.config)
         cls.cursor = cls.conn.cursor()
 
 
@@ -71,12 +71,19 @@ class Dictionary(WorkResource):
         return [i[0] for i in result]
 
     @classmethod
-    def put(cls, _name):
+    def put(cls, _name=None, person_id=None):
         # cls.__init__()
         conn = cls.conn
         cursor = cls.cursor
         table = cls.table
-        cursor.execute("insert into `{}` (Name) values ('{}')".format(table, _name))
+        if person_id:
+            cursor.execute(
+                "insert into `{}` (Name, PersonID) values ('{}', '{}')"
+                .format(table, _name, person_id))
+        else:
+            cursor.execute(
+                "insert into `{}` (Name) values ('{}')"
+                .format(table, _name))
         conn.commit()
         cursor.execute("select ID from `{}` where Name='{}'".format(table, _name))
         result = cursor.fetchone()[0]
@@ -84,14 +91,20 @@ class Dictionary(WorkResource):
         return result
 
     @classmethod
-    def post(cls,_id=None, _name=None):
+    def post(cls, _id=None, _name=None, person_id=None):
         # cls.__init__()
         conn = cls.conn
         cursor = cls.cursor
         table = cls.table
-        cursor.execute(
-            "update `{}` set Name='{}' where ID='{}'".format(table, _name, _id)
-        )
+        if person_id:
+            cursor.execute(
+                "update `{}` set Name='{}', PersonID='{}' where ID='{}'"
+                .format(table, _name, person_id, _id)
+            )
+        else:
+            cursor.execute(
+                "update `{}` set Name='{}' where ID='{}'".format(table, _name, _id)
+            )
         conn.commit()
         conn.close()
 
@@ -198,7 +211,8 @@ api.add_resource(
     Keywords,
     '/keywords/<int:_id>', 
     '/keywords/<string:_name>', 
-    '/keywords/<int:_id>/<string:_name>',
+    '/keywords/<int:person_id>/<string:_name>',
+    '/keywords/<int:_id>/<int:person_id>/<string:_name>',
     '/keywords/person/<int:person_id>',
     '/keywords/person/<string:person_name>',
 )
