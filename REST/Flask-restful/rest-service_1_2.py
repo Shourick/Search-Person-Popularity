@@ -45,12 +45,11 @@ class Dictionary(WorkResource):
                 "select Name from `{}` where ID='{}'".format(table, _id)
             )
         elif _name:
-            if _name == '@all':
-                cursor.execute("select Name from `{}`".format(table))
-            else:
-                cursor.execute(
-                    "select ID from `{}` where Name='{}'".format(table, _name)
-                )
+            cursor.execute(
+                "select ID from `{}` where Name='{}'".format(table, _name)
+            )
+        else:
+            cursor.execute("select Name from `{}`".format(table))
         result = cursor.fetchall()
         conn.close()
         return [i[0] for i in result]
@@ -99,7 +98,10 @@ class Dictionary(WorkResource):
         conn = cls.conn
         cursor = cls.cursor
         table = cls.table
-        cursor.execute("delete from `{}` where ID='{}'".format(table, _id))
+        if _id:
+            cursor.execute("delete from `{}` where ID='{}'".format(table, _id))
+        else:
+            cursor.execute("delete from `{}`".format(table))
         conn.commit()
         conn.close()
 
@@ -116,7 +118,7 @@ class Keywords(Dictionary):
         conn = self.conn
         cursor = self.cursor
         table = self.table
-        if _name == '@all':
+        if _id is None and _name is None:
             cursor.execute(
                 """select t2.Name, t1.Name from `{}` t1
                     join persons t2 on t1.PersonID=t2.ID
@@ -166,27 +168,29 @@ class PersonPageRank(WorkResource):
         sql_str = """select t1.Rank from `{0}` t1
                         join pages t2 on t1.PageID=t2.ID
                         join persons t3 on t1.PersonID=t3.ID
-                        {1}
-                        where t3.ID='{2}'{3}""".format(table, '{}', person_id, '{}')
+                        {{}}
+                        where t3.ID='{1}'{{}}""".format(table, person_id)
         if site_id:
             sql_str = sql_str.format(
-                "join sites t4 on t2.SiteID=t4.ID", " and t4.ID='%s'{}"
+                "join sites t4 on t2.SiteID=t4.ID",
+                " and t4.ID='{}'{{}}".format(site_id)
             )
             if start_date:
                 if end_date is None:
-                    sql_str = sql_str.format(" and t2.FoundDateTime='%s'")
-                    cursor.execute(sql_str % (site_id, start_date))
+                    sql_str = sql_str.format(
+                        " and t2.FoundDateTime='{}'".format(start_date)
+                    )
+                    cursor.execute(sql_str)
                 else:
                     sql_str = sql_str.format(
-                        " and t2.FoundDateTime>='%s' and t2.FoundDateTime<='%s'"
+                        " and t2.FoundDateTime>='{}' and t2.FoundDateTime<='{}'"
+                        .format(start_date, end_date)
                     )
-                    cursor.execute(sql_str % (site_id, start_date, end_date))
+                    cursor.execute(sql_str)
             else:
-                sql_str = sql_str.format("")
-                cursor.execute(sql_str % site_id)
+                cursor.execute(sql_str.format(''))
         else:
-            sql_str = sql_str.format("", "")
-            cursor.execute(sql_str)
+            cursor.execute(sql_str.format('', ''))
         result = sum(map(lambda x: x[0], cursor.fetchall()))
         conn.close()
         return result
@@ -194,8 +198,9 @@ class PersonPageRank(WorkResource):
 
 api.add_resource(
     Keywords,
-    '/keywords/<int:_id>', 
-    '/keywords/<string:_name>', 
+    '/keywords',
+    '/keywords/<int:_id>',
+    '/keywords/<string:_name>',
     '/keywords/<int:person_id>/<string:_name>',
     '/keywords/<int:_id>/<int:person_id>/<string:_name>',
     '/keywords/person/<int:person_id>',
@@ -203,12 +208,14 @@ api.add_resource(
 )
 api.add_resource(
     Persons,
+    '/persons',
     '/persons/<int:_id>',
     '/persons/<string:_name>',
     '/persons/<int:_id>/<string:_name>',
 )
 api.add_resource(
     Sites,
+    '/sites',
     '/sites/<int:_id>',
     '/sites/<string:_name>',
     '/sites/<int:_id>/<string:_name>',
