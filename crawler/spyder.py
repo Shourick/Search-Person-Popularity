@@ -15,26 +15,24 @@ class SiteSpyder(object):
 
     def __init__(self, domain):
         self.domain = domain
-        self.main_links = list(self.link_filter())
+        # Относительные пути имеющиеся на главной странице,
+        # удобно индексировать новое, так как новое часто появляется на главной,
+        # и можно следить за изменениями, переодически обновляя
 
-    #Попытался написать рекурсионную функцию, но что-то она бесконечна.
-    # def all_site_link(self):
-    #     """метод собирает все внутренние ссылки на сайте,
-    #     функция рекурсивная и требует много времени для работы, не своил я многопоточность,
-    #     а как сделать этот процесс быстрее не придумал, ссылки по сайту она собирает и складывает в переменную pages"""
-    #
-    #     def cycles(links):
-    #         links = set(links)
-    #         links.difference_update(set(self.pages)) #Убираем посещенные странички.
-    #         for link in links:
-    #             if not link in self.pages: #Условие проверяет посещали мы эту страницу или нет.
-    #                 self.pages.append(link)
-    #                 soup = BeautifulSoup(self.get_content(link), "lxml")
-    #                 new_link = self.link_filter(soup)
-    #                 cycles(new_link)
-    #
-    #     main_links = list(self.link_filter())
-    #     cycles(main_links)
+        self.main_links = list(self.link_filter())
+        self.pages = set()  # Известные относительные пути страниц
+        self.indexing_page = set()  #Страницы из которых уже извлекались ссылки и снова по ним ходить наверное не надо
+
+    def link_indexing(self, paths):
+        """Метод принимает список относительных путей, после его проходит по нему и ищет все относительные пути.
+        Обновляя при этом аргументы pages и indexing_page"""
+        paths = set(paths)
+        paths.difference_update(self.indexing_page)
+        for item in paths:
+            soup = BeautifulSoup(self.get_content(item), "lxml")
+            pages = self.link_filter(soup)
+            self.pages.update(pages)
+            self.indexing_page.add(item)
 
     def get_content(self, path='/'):
         """Метод возвращает контент в декодированном виде,
@@ -70,4 +68,15 @@ class SiteSpyder(object):
 
 if __name__ == '__main__':
     LENTA = SiteSpyder('http://lenta.ru')
+    # for itm in LENTA.pages:
+    #     LENTA.link_indexing(itm)
+    print("#" * 50)
     print(LENTA.main_links)
+    print("#" * 50)
+    LENTA.link_indexing(LENTA.main_links)
+    print(LENTA.pages)
+    print("#" * 50)
+    print(LENTA.indexing_page)
+    LENTA.link_indexing(LENTA.pages)
+    print("#" * 50)
+    print(LENTA.pages)
