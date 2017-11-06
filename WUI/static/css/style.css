@@ -119,4 +119,7 @@ table {
 .politics-table {
     margin: 20px;
 }
+.politics-table th{
+    text-align: center;
+}
 
