@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS `spp`.`personpagerank`;
 DROP TABLE IF EXISTS `spp`.`persons`;
 DROP TABLE IF EXISTS `spp`.`pages`;
 DROP TABLE IF EXISTS `spp`.`sites`;
+DROP TABLE IF EXISTS `spp`.`users`;
 CREATE TABLE IF NOT EXISTS `spp`.`persons` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
     `Name` NVARCHAR(2048) NOT NULL,
@@ -58,3 +59,11 @@ CREATE TABLE IF NOT EXISTS `spp`.`personpagerank` (
 		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 );
+CREATE TABLE `spp`.`users` (
+    `ID` INT NOT NULL AUTO_INCREMENT,
+    `Name` NVARCHAR(256) NOT NULL,
+    `Login` NVARCHAR(128) NOT NULL,
+    `Password` NVARCHAR(2048) NOT NULL,
+    `Admin` TINYINT(1) NOT NULL DEFAULT 0,
+    PRIMARY KEY (`ID`),
+    UNIQUE INDEX `Login_UNIQUE` (`Login` ASC));

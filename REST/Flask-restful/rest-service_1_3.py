@@ -40,11 +40,11 @@ class Dictionary(WorkResource):
         conn = cls.conn
         cursor = cls.cursor
         table = cls.table
-        if _id:
+        if _id is not None:
             cursor.execute(
                 "select Name from `{}` where ID='{}'".format(table, _id)
             )
-        elif _name:
+        elif _name is not None:
             cursor.execute(
                 "select ID from `{}` where Name='{}'".format(table, _name)
             )
@@ -60,7 +60,7 @@ class Dictionary(WorkResource):
         conn = cls.conn
         cursor = cls.cursor
         table = cls.table
-        if person_id:
+        if person_id is not None:
             cursor.execute(
                 "insert into `{}` (Name, PersonID) values ('{}', '{}')"
                 .format(table, _name, person_id))
@@ -80,7 +80,7 @@ class Dictionary(WorkResource):
         conn = cls.conn
         cursor = cls.cursor
         table = cls.table
-        if person_id:
+        if person_id is not None:
             cursor.execute(
                 "update `{}` set Name='{}', PersonID='{}' where ID='{}'"
                 .format(table, _name, person_id, _id)
@@ -98,7 +98,7 @@ class Dictionary(WorkResource):
         conn = cls.conn
         cursor = cls.cursor
         table = cls.table
-        if _id:
+        if _id is not None:
             cursor.execute("delete from `{}` where ID='{}'".format(table, _id))
         else:
             cursor.execute("delete from `{}`".format(table))
@@ -128,21 +128,21 @@ class Keywords(Dictionary):
             for item in cursor.fetchall():
                 result.setdefault(item[0], []).append(item[1])
         else:
-            if person_id:
+            if person_id is not None:
                 cursor.execute(
                     "select Name from `{}` where PersonID='{}'".format(table, person_id)
                 )
-            elif person_name:
+            elif person_name is not None:
                 cursor.execute(
                     """select t1.Name from `{}` t1
                         join persons t2 on t1.PersonID=t2.ID
                         where t2.Name='{}'""".format(table, person_name)
                 )
-            elif _id:
+            elif _id is not None:
                 cursor.execute(
                     "select Name from `{}` where ID='{}'".format(table, _id)
                 )
-            elif _name:
+            elif _name is not None:
                 cursor.execute(
                     """select t2.Name from `{}` t1
                         join persons t2 on t1.PersonID=t2.ID
@@ -170,12 +170,12 @@ class PersonPageRank(WorkResource):
                         join persons t3 on t1.PersonID=t3.ID
                         {{}}
                         where t3.ID='{1}'{{}}""".format(table, person_id)
-        if site_id:
+        if site_id is not None:
             sql_str = sql_str.format(
                 "join sites t4 on t2.SiteID=t4.ID",
                 " and t4.ID='{}'{{}}".format(site_id)
             )
-            if start_date:
+            if start_date is not None:
                 if end_date is None:
                     sql_str = sql_str.format(
                         " and t2.FoundDateTime='{}'".format(start_date)
@@ -194,6 +194,40 @@ class PersonPageRank(WorkResource):
         result = sum(map(lambda x: x[0], cursor.fetchall()))
         conn.close()
         return result
+
+
+class Users(WorkResource):
+    table = 'users'
+
+    def get(self, _id=None, _login=None, _admin=None):
+        conn = self.conn
+        cursor = self.cursor
+        table = self.table
+        keys = ['id', 'login', 'name', 'admin']
+        sql_str = "select ID, Login, Name, Admin from `{}`{{}}".format(table)
+
+        if _id is not None:
+            sql_str = sql_str.format(" where ID='{}'".format(_id))
+        elif _login is not None:
+            sql_str = sql_str.format(" where Login='{}'".format(_login))
+        elif _admin is not None:
+            sql_str = sql_str.format(" where Admin='{}'".format(_admin))
+        else:
+            sql_str = sql_str.format('')
+        print(sql_str)
+        cursor.execute(sql_str)
+        result = [dict(zip(keys, data)) for data in cursor.fetchall()]
+        conn.close()
+        return result
+
+    def put(self, _login, _name, _admin):
+        pass
+
+    def post(self, _id, _login, _name, _admin):
+        pass
+
+    def delete(self, _id=None, _login=None, _admin=None):
+        pass
 
 
 api.add_resource(
@@ -226,6 +260,13 @@ api.add_resource(
     '/rank/<int:person_id>/<int:site_id>',
     '/rank/<int:person_id>/<int:site_id>/<string:start_date>',
     '/rank/<int:person_id>/<int:site_id>/<string:start_date>&<string:end_date>'
+)
+api.add_resource(
+    Users,
+    '/users',
+    '/users/<int:_id>',
+    '/users/<string:_login>',
+    '/users/admin/<int:_admin>',
 )
 
 if __name__ == '__main__':
