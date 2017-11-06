@@ -7,19 +7,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database.SQLiteDatabaseHandler;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.SQLiteRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     /**
-     * databaseHandler применяем глобально во всех Activities для обмена данными с БД
+     * repository применяем глобально во всех Activities для обмена данными с БД
      * при доступности Веб-сервиса поменять на класс, имплементирующий работу с Веб-сервисом
      */
 
-    public static SQLiteDatabaseHandler databaseHandler;
+    public static SQLiteRepository repository;
 
-    private Button btnPersonsDirectory, btnKeywordsDirectory, btnSitesDirectory;
+    private Button btnPersonsDirectory, btnKeywordsDirectory, btnSitesDirectory, btnUsersDirectory;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -29,15 +29,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnPersonsDirectory = (Button) findViewById( R.id.btnPersonsDirectory );
         btnKeywordsDirectory = (Button) findViewById( R.id.btnKeywordsDirectory );
         btnSitesDirectory = (Button) findViewById( R.id.btnSitesDirectory );
+        btnUsersDirectory = (Button) findViewById( R.id.btnUsersDirectory );
 
         btnPersonsDirectory.setOnClickListener( this );
         btnKeywordsDirectory.setOnClickListener( this );
         btnSitesDirectory.setOnClickListener( this );
+        btnUsersDirectory.setOnClickListener( this );
 
-        databaseHandler = new SQLiteDatabaseHandler( this );
-        databaseHandler.initializeDatabase();
+        repository = new SQLiteRepository( this );
+//        repository.initialize();
 
-        databaseHandler.showDatabaseInfo();
+        repository.showInfo();
 
     }
 
@@ -48,17 +50,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnPersonsDirectory:
                 Toast.makeText( v.getContext(), "btnPersonsDirectory", Toast.LENGTH_SHORT ).show();
                 intent = new Intent( this, PersonsDirectoryActivity.class );
-                startActivityForResult( intent, 1 );
+                startActivity( intent );
                 break;
             case R.id.btnKeywordsDirectory:
                 Toast.makeText( v.getContext(), "btnKeywordsDirectory", Toast.LENGTH_SHORT ).show();
                 intent = new Intent( this, KeywordsDirectoryActivity.class );
-                startActivityForResult( intent, 1 );
+                startActivity( intent );
                 break;
             case R.id.btnSitesDirectory:
                 Toast.makeText( v.getContext(), "btnSitesDirectory", Toast.LENGTH_SHORT ).show();
                 intent = new Intent( this, SitesDirectoryActivity.class );
-                startActivityForResult( intent, 1 );
+                startActivity( intent );
+                break;
+            case R.id.btnUsersDirectory:
+                Toast.makeText( v.getContext(), "btnUsersDirectory", Toast.LENGTH_SHORT ).show();
+                intent = new Intent( this, UsersDirectoryActivity.class );
+                startActivity( intent );
                 break;
         }
 
@@ -67,6 +74,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
-        databaseHandler.close();
+        repository.close();
     }
 }

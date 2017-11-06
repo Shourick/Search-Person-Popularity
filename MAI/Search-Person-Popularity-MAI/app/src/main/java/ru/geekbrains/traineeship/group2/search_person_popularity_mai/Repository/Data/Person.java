@@ -1,17 +1,17 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Database;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data;
 
 /**
  * Created by skubatko on 28/10/17.
  */
 
-class Person {
+public class Person {
     private int id;
     private String name;
 
-    Person() {
+    public Person() {
     }
 
-    Person( String name ) {
+    public Person( String name ) {
         this.name = name;
     }
 

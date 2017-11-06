@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.databaseHandler;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
 
 public class SitesDirectoryActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -27,7 +27,7 @@ public class SitesDirectoryActivity extends AppCompatActivity implements View.On
         btnBackSitesDirectory = (Button) findViewById( R.id.btnBackSitesDirectory );
         btnBackSitesDirectory.setOnClickListener( this );
 
-        databaseHandler.showDatabaseInfo();
+        repository.showInfo();
 
     }
 
