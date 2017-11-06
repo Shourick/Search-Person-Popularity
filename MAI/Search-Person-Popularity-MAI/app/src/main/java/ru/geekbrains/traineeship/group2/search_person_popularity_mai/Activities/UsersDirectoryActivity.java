@@ -32,6 +32,8 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
     List<User> listAllUsers;
     ArrayAdapter<User> listUserAdapter;
 
+    int selectedUserId;
+
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -58,6 +60,7 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
         listAllUsers = repository.getAllUsers();
         listUserAdapter = new ArrayAdapter<User>( this, android.R.layout.simple_list_item_1, listAllUsers );
         lvUsersList.setAdapter( listUserAdapter );
+        selectedUserId = -1;
 
         lvUsersList.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
@@ -71,6 +74,7 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
             @Override
             public void onItemSelected( AdapterView<?> adapterView, View itemSelected, int position, long id ) {
                 User selectedUser = (User) adapterView.getSelectedItem();
+                selectedUserId = selectedUser.getId();
                 tvNickname.setText( selectedUser.getNickName() );
                 tvLogin.setText( selectedUser.getLogin() );
                 tvPassword.setText( selectedUser.getPassword() );
@@ -87,27 +91,32 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
     public void onClick( View v ) {
         Intent intent;
         switch ( v.getId() ) {
+
             case R.id.btnUserAdd:
                 intent = new Intent( this, UsersDirectoryAddUserActivity.class );
                 startActivityForResult( intent, Constants.REQUEST_CODE_ADD_USER );
                 break;
+
             case R.id.btnUserEdit:
+                if ( isUserSelected() ) {
+                    intent = new Intent( this, UsersDirectoryEditUserActivity.class );
+                    intent.putExtra( Constants.USER_ID, selectedUserId );
+                    intent.putExtra( Constants.USER_NICKNAME, tvNickname.getText().toString() );
+                    intent.putExtra( Constants.USER_LOGIN, tvLogin.getText().toString() );
+                    intent.putExtra( Constants.USER_PASSWORD, tvPassword.getText().toString() );
+                    startActivityForResult( intent, Constants.REQUEST_CODE_EDIT_USER );
+                }
                 break;
+
             case R.id.btnUserDelete:
-                if ( !tvNickname.getText().equals( Constants.EMPTY ) ) {
+                if ( isUserSelected() ) {
                     repository.deleteUser( new User( tvNickname.getText().toString(),
                             tvLogin.getText().toString(),
                             tvPassword.getText().toString() ) );
-
-                    listAllUsers.clear();
-                    listAllUsers.addAll( repository.getAllUsers() );
-                    listUserAdapter.notifyDataSetChanged();
-
-                    tvNickname.setText( "" );
-                    tvLogin.setText( "" );
-                    tvPassword.setText( "" );
                 }
+                initializeSelectedUser();
                 break;
+
             case R.id.btnBackUsersDirectory:
                 intent = new Intent();
                 setResult( RESULT_OK, intent );
@@ -119,20 +128,35 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
     @Override
     protected void onActivityResult( int requestCode, int resultCode, Intent data ) {
         switch ( requestCode ) {
+
             case Constants.REQUEST_CODE_ADD_USER:
                 if ( resultCode == RESULT_OK ) {
-                    listAllUsers.clear();
-                    listAllUsers.addAll( repository.getAllUsers() );
-                    listUserAdapter.notifyDataSetChanged();
+                    initializeSelectedUser();
                 }
                 break;
+
             case Constants.REQUEST_CODE_EDIT_USER:
                 if ( resultCode == RESULT_OK ) {
-                    listAllUsers.clear();
-                    listAllUsers.addAll( repository.getAllUsers() );
-                    listUserAdapter.notifyDataSetChanged();
+                    initializeSelectedUser();
                 }
                 break;
         }
     }
+
+    private void initializeSelectedUser() {
+        selectedUserId = -1;
+
+        tvNickname.setText( "" );
+        tvLogin.setText( "" );
+        tvPassword.setText( "" );
+
+        listAllUsers.clear();
+        listAllUsers.addAll( repository.getAllUsers() );
+        listUserAdapter.notifyDataSetChanged();
+    }
+
+    private boolean isUserSelected() {
+        return selectedUserId != -1;
+    }
+
 }

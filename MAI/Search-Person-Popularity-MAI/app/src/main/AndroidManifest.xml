@@ -26,6 +26,8 @@
         </activity>
         <activity android:name=".Activities.UsersDirectoryAddUserActivity">
         </activity>
+        <activity android:name=".Activities.UsersDirectoryEditUserActivity">
+        </activity>
     </application>
 
 </manifest>
