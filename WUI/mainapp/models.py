@@ -9,13 +9,13 @@ class Keywords(models.Model):
 
 class Politic(models.Model):
     id = models.IntegerField(verbose_name='Идентификатор личности', primary_key=True)
-    name = models.CharField(verbose_name='Наименование личности',	max_length=2048)
+    name = models.CharField(verbose_name='Имя',	max_length=2048)
 
 
 class PersonPageRank(models.Model):
     person_id = models.ForeignKey('Politic')
     page_id = models.ForeignKey('Pages')
-    rank = models.IntegerField(verbose_name='Рейтинг личности на странице')
+    rank = models.IntegerField(verbose_name='Количество упоминаний')
 
 
 class Pages(models.Model):
