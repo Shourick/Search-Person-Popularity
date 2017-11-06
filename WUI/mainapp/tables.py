@@ -6,3 +6,9 @@ class GeneralStatisticsTable(tables.Table):
     #     model = Politic
     name = tables.Column()
     rank = tables.Column(accessor='personpagerank.rank')
+
+
+class DailyStatisticsTable(tables.Table):
+
+    date = tables.DateColumn()
+    new_pages_amount = tables.Column()
