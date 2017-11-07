@@ -14,7 +14,7 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Acti
 
 public class UsersDirectoryAddUserActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText etNickname, etLogin, etPassword;
+    EditText etAddUserNickname, etAddUserLogin, etAddUserPassword;
     Button btnAddUserOK, btnAddUserCancel;
 
     @Override
@@ -22,12 +22,12 @@ public class UsersDirectoryAddUserActivity extends AppCompatActivity implements 
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_users_directory_add_user );
 
-        etNickname = (EditText) findViewById( R.id.etNickname );
-        etLogin = (EditText) findViewById( R.id.etLogin );
-        etPassword = (EditText) findViewById( R.id.etPassword );
+        etAddUserNickname = (EditText) findViewById( R.id.etAddUserNickname );
+        etAddUserLogin = (EditText) findViewById( R.id.etAddUserLogin );
+        etAddUserPassword = (EditText) findViewById( R.id.etAddUserPassword );
 
         btnAddUserOK = (Button) findViewById( R.id.btnAddUserOK );
-        btnAddUserCancel = (Button) findViewById( R.id.btnAddUserOK );
+        btnAddUserCancel = (Button) findViewById( R.id.btnAddUserCancel );
 
         btnAddUserOK.setOnClickListener( this );
         btnAddUserCancel.setOnClickListener( this );
@@ -37,15 +37,17 @@ public class UsersDirectoryAddUserActivity extends AppCompatActivity implements 
     public void onClick( View v ) {
         Intent intent;
         switch ( v.getId() ) {
+
             case R.id.btnAddUserOK:
                 repository.addUser(
-                        new User( etNickname.getText().toString(),
-                                etLogin.getText().toString(),
-                                etPassword.getText().toString() ) );
+                        new User( etAddUserNickname.getText().toString(),
+                                etAddUserLogin.getText().toString(),
+                                etAddUserPassword.getText().toString() ) );
                 intent = new Intent();
                 setResult( RESULT_OK, intent );
                 finish();
                 break;
+
             case R.id.btnAddUserCancel:
                 intent = new Intent();
                 setResult( RESULT_CANCELED, intent );

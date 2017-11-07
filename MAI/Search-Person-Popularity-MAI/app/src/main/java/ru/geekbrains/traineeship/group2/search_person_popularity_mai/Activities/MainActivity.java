@@ -7,10 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.SQLiteRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.AdminAuthorization;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.SQLiteRepository;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener
+{
 
     /**
      * repository применяем глобально во всех Activities для обмена данными с БД
@@ -19,10 +21,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public static SQLiteRepository repository;
 
-    private Button btnPersonsDirectory, btnKeywordsDirectory, btnSitesDirectory, btnUsersDirectory;
+    private Button btnPersonsDirectory, btnKeywordsDirectory,
+            btnSitesDirectory, btnUsersDirectory,btnAdminLogout;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState ) {
+    protected void onCreate( Bundle savedInstanceState )
+    {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
 
@@ -30,49 +34,73 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnKeywordsDirectory = (Button) findViewById( R.id.btnKeywordsDirectory );
         btnSitesDirectory = (Button) findViewById( R.id.btnSitesDirectory );
         btnUsersDirectory = (Button) findViewById( R.id.btnUsersDirectory );
+        btnAdminLogout = (Button) findViewById( R.id.btnAdminLogout );
 
         btnPersonsDirectory.setOnClickListener( this );
         btnKeywordsDirectory.setOnClickListener( this );
         btnSitesDirectory.setOnClickListener( this );
         btnUsersDirectory.setOnClickListener( this );
+        btnAdminLogout.setOnClickListener( this );
 
         repository = new SQLiteRepository( this );
 //        repository.initialize();
-
         repository.showInfo();
 
+//		Here is a checkpoint if Admin is authorized
+        if ( AdminAuthorization.isNotAuthorized( this ) )
+        {
+            onLogout();
+        }
     }
 
     @Override
-    public void onClick( View v ) {
+    public void onClick( View v )
+    {
         Intent intent;
-        switch ( v.getId() ) {
+        switch ( v.getId() )
+        {
             case R.id.btnPersonsDirectory:
                 Toast.makeText( v.getContext(), "btnPersonsDirectory", Toast.LENGTH_SHORT ).show();
                 intent = new Intent( this, PersonsDirectoryActivity.class );
                 startActivity( intent );
                 break;
+
             case R.id.btnKeywordsDirectory:
                 Toast.makeText( v.getContext(), "btnKeywordsDirectory", Toast.LENGTH_SHORT ).show();
                 intent = new Intent( this, KeywordsDirectoryActivity.class );
                 startActivity( intent );
                 break;
+
             case R.id.btnSitesDirectory:
                 Toast.makeText( v.getContext(), "btnSitesDirectory", Toast.LENGTH_SHORT ).show();
                 intent = new Intent( this, SitesDirectoryActivity.class );
                 startActivity( intent );
                 break;
+
             case R.id.btnUsersDirectory:
                 Toast.makeText( v.getContext(), "btnUsersDirectory", Toast.LENGTH_SHORT ).show();
                 intent = new Intent( this, UsersDirectoryActivity.class );
                 startActivity( intent );
                 break;
+
+            case R.id.btnAdminLogout:
+                AdminAuthorization.setIsNotAuthorized( this );
+                onLogout();
+                break;
         }
 
     }
 
-    @Override
-    protected void onStop() {
+    private void onLogout()
+    {
+        Intent adminAuthorization = new Intent( this, AdminLoginActivity.class );
+        adminAuthorization.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP );
+        startActivity( adminAuthorization );
+        finish();
+    }    @Override
+
+    protected void onStop()
+    {
         super.onStop();
         repository.close();
     }
