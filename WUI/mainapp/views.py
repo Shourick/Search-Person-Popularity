@@ -11,8 +11,8 @@ def index(request):
 def general(request):
     title = 'Общая статистика'
     sites = Site.objects.all()
-    personPageRank = PersonPageRank.objects.all()
-    gs_table = GeneralStatisticsTable(personPageRank)
+    person_page_rank = PersonPageRank.objects.all()
+    gs_table = GeneralStatisticsTable(person_page_rank)
     return render(request,'general.html', {'title':title, 'sites': sites,'gs_table': gs_table})
 
 def daily(request):
