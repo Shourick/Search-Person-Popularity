@@ -216,7 +216,6 @@ class Users(WorkResource):
             sql_str = sql_str.format(" where Admin='{}'".format(_admin))
         else:
             sql_str = sql_str.format('')
-        print(sql_str)
         cursor.execute(sql_str)
         result = [dict(zip(keys, data)) for data in cursor.fetchall()]
         conn.close()
