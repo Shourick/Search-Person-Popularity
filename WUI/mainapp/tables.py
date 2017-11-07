@@ -4,8 +4,8 @@ from .models import Politic
 class GeneralStatisticsTable(tables.Table):
     # class Meta:
     #     model = Politic
-    name = tables.Column()
-    rank = tables.Column(accessor='personpagerank.rank')
+    name = tables.Column(accessor='person_id.name')
+    rank = tables.Column()
 
 
 class DailyStatisticsTable(tables.Table):

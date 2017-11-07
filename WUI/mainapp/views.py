@@ -11,9 +11,9 @@ def index(request):
 def general(request):
     title = 'Общая статистика'
     sites = Site.objects.all()
-    politics = Politic.objects.all()
-    gs_table = GeneralStatisticsTable(politics)
-    return render(request,'general.html', {'title':title, 'sites': sites, 'politics': politics, 'gs_table': gs_table})
+    personPageRank = PersonPageRank.objects.all()
+    gs_table = GeneralStatisticsTable(personPageRank)
+    return render(request,'general.html', {'title':title, 'sites': sites,'gs_table': gs_table})
 
 def daily(request):
     title = 'Ежедневная статистика'
