@@ -10,7 +10,8 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
 
-public class PersonsDirectoryActivity extends AppCompatActivity implements View.OnClickListener {
+public class PersonsDirectoryActivity extends AppCompatActivity implements View.OnClickListener
+{
 
     /**
      * databaseHandler применяем глобально во всех Activities для обмена данными с БД
@@ -20,7 +21,8 @@ public class PersonsDirectoryActivity extends AppCompatActivity implements View.
     Button btnBackPersonsDirectory;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState ) {
+    protected void onCreate( Bundle savedInstanceState )
+    {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_persons_directory );
 
@@ -28,13 +30,15 @@ public class PersonsDirectoryActivity extends AppCompatActivity implements View.
         btnBackPersonsDirectory.setOnClickListener( this );
 
 
-        repository.showInfo();
+        repository.showRepositoryInfo();
 
     }
 
     @Override
-    public void onClick( View v ) {
-        switch ( v.getId() ) {
+    public void onClick( View v )
+    {
+        switch ( v.getId() )
+        {
             case R.id.btnBackPersonsDirectory:
                 Intent intent = new Intent();
                 setResult( RESULT_OK, intent );

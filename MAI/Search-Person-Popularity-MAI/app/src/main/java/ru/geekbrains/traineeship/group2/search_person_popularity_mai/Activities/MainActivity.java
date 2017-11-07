@@ -21,8 +21,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public static SQLiteRepository repository;
 
-    private Button btnPersonsDirectory, btnKeywordsDirectory,
-            btnSitesDirectory, btnUsersDirectory,btnAdminLogout;
+    private Button btnPersonsDirectory,
+            btnKeywordsDirectory,
+            btnSitesDirectory,
+            btnUsersDirectory,
+            btnAdminLogout;
 
     @Override
     protected void onCreate( Bundle savedInstanceState )
@@ -43,10 +46,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnAdminLogout.setOnClickListener( this );
 
         repository = new SQLiteRepository( this );
-//        repository.initialize();
-        repository.showInfo();
+//        repository.initializeRepository();
+        repository.showRepositoryInfo();
 
-//		Here is a checkpoint if Admin is authorized
+//		Checkpoint if Admin is authorized
         if ( AdminAuthorization.isNotAuthorized( this ) )
         {
             onLogout();
@@ -97,7 +100,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adminAuthorization.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP );
         startActivity( adminAuthorization );
         finish();
-    }    @Override
+    }
+
+    @Override
 
     protected void onStop()
     {
