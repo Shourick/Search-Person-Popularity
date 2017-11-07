@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.UsersDirectoryEditUserActivity">
+    tools:context="ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Users.UsersDirectoryEditUserActivity">
 
     <TextView
         android:id="@+id/tvEditUserTitle"

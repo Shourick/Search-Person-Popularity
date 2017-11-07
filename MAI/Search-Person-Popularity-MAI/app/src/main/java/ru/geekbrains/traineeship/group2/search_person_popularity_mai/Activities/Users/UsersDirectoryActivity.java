@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Users;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -100,7 +100,6 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
         Intent intent;
         switch ( v.getId() )
         {
-
             case R.id.btnUserAdd:
                 intent = new Intent( this, UsersDirectoryAddUserActivity.class );
                 startActivityForResult( intent, Constants.REQUEST_CODE_ADD_USER );
@@ -121,7 +120,8 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
             case R.id.btnUserDelete:
                 if ( isUserSelected() )
                 {
-                    repository.deleteUser( new User( tvNickname.getText().toString(),
+                    repository.deleteUser( new User(selectedUserId,
+                            tvNickname.getText().toString(),
                             tvLogin.getText().toString(),
                             tvPassword.getText().toString() ) );
                 }

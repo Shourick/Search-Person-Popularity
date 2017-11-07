@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Users;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,6 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Acti
 
 public class UsersDirectoryAddUserActivity extends AppCompatActivity implements View.OnClickListener
 {
-
     EditText etAddUserNickname, etAddUserLogin, etAddUserPassword;
     Button btnAddUserOK, btnAddUserCancel;
 
@@ -39,6 +38,7 @@ public class UsersDirectoryAddUserActivity extends AppCompatActivity implements 
     public void onClick( View v )
     {
         Intent intent;
+
         switch ( v.getId() )
         {
 

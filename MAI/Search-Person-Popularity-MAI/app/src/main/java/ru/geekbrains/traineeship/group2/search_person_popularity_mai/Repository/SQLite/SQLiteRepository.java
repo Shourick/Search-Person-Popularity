@@ -440,11 +440,12 @@ public class SQLiteRepository extends SQLiteHelper
     @Override
     public void deleteSite( Site site )
     {
-        try ( SQLiteDatabase db = this.getWritableDatabase() )
+        try ( SQLiteDatabase dbWritable = this.getWritableDatabase() )
         {
-            db.delete( TABLE_SITES,
+            dbWritable.delete( TABLE_SITES,
                     KEY_ID + " = ?",
-                    new String[] { String.valueOf( site.getId() ) } );
+                    new String[] { String.valueOf( site.getId() ) }
+            );
         }
     }
 
@@ -566,33 +567,12 @@ public class SQLiteRepository extends SQLiteHelper
     @Override
     public void deleteUser( User user )
     {
-
-        SQLiteDatabase dbReadable = this.getReadableDatabase();
-        System.out.println( "Table SQL: " + TABLE_USERS_FIELD_NICKNAME + " = ? and " +
-                TABLE_USERS_FIELD_LOGIN + " = ? and " +
-                TABLE_USERS_FIELD_PASSWORD + " = ?" );
-        try ( Cursor cursorUsers = dbReadable.query(
-                TABLE_USERS,                                        // table
-                new String[] { KEY_ID },                            // columns
-                TABLE_USERS_FIELD_NICKNAME + " = ? and " +
-                        TABLE_USERS_FIELD_LOGIN + " = ? and " +
-                        TABLE_USERS_FIELD_PASSWORD + " = ?",         // columns WHERE
-                new String[] { user.getNickName(), user.getLogin(), user.getPassword() },  // values WHERE
-                null,                                     // group by
-                null,                                     // having
-                null ) )                                  // order by
+        try ( SQLiteDatabase dbWritable = this.getWritableDatabase() )
         {
-            if ( cursorUsers.moveToFirst() )
-            {
-                String[] keyId = new String[] { cursorUsers.getString( 0 ) };
-                try ( SQLiteDatabase dbWritable = this.getWritableDatabase() )
-                {
-                    dbWritable.delete( TABLE_USERS,
-                            KEY_ID + " = ?",
-                            keyId
-                    );
-                }
-            }
+            dbWritable.delete( TABLE_USERS,
+                    KEY_ID + " = ?",
+                    new String[] { String.valueOf( user.getId() ) }
+            );
         }
     }
 

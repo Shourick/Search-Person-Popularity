@@ -5,67 +5,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Users.UsersDirectoryAddUserActivity">
+    tools:context="ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Sites.SitesDirectoryEditSiteActivity">
 
     <TextView
-        android:id="@+id/tvAddUserTitle"
+        android:id="@+id/tvEditSiteTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:text="@string/add_user_title"
+        android:layout_marginTop="8dp"
+        android:text="@string/edit_site_title"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
-        android:id="@+id/etAddUserNickname"
+        android:id="@+id/etEditSiteName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="32dp"
         android:ems="10"
-        android:hint="@string/et_nickname"
+        android:hint="@string/et_name"
         android:inputType="textPersonName"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAddUserTitle"/>
-
-    <EditText
-        android:id="@+id/etAddUserLogin"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:ems="10"
-        android:hint="@string/et_login"
-        android:inputType="textPersonName"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/etAddUserNickname"/>
-
-    <EditText
-        android:id="@+id/etAddUserPassword"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="8dp"
-        android:ems="10"
-        android:hint="@string/et_password"
-        android:inputType="textPersonName"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/etAddUserLogin"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvEditSiteTitle"/>
 
     <Button
-        android:id="@+id/btnAddUserOK"
+        android:id="@+id/btnEditSiteOK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -75,7 +45,7 @@
         app:layout_constraintRight_toRightOf="parent"/>
 
     <Button
-        android:id="@+id/btnAddUserCancel"
+        android:id="@+id/btnEditSiteCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
