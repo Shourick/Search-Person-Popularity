@@ -7,18 +7,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.User;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.User;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
 
-public class UsersDirectoryAddUserActivity extends AppCompatActivity implements View.OnClickListener {
+public class UsersDirectoryAddUserActivity extends AppCompatActivity implements View.OnClickListener
+{
 
     EditText etAddUserNickname, etAddUserLogin, etAddUserPassword;
     Button btnAddUserOK, btnAddUserCancel;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState ) {
+    protected void onCreate( Bundle savedInstanceState )
+    {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_users_directory_add_user );
 
@@ -34,9 +36,11 @@ public class UsersDirectoryAddUserActivity extends AppCompatActivity implements 
     }
 
     @Override
-    public void onClick( View v ) {
+    public void onClick( View v )
+    {
         Intent intent;
-        switch ( v.getId() ) {
+        switch ( v.getId() )
+        {
 
             case R.id.btnAddUserOK:
                 repository.addUser(

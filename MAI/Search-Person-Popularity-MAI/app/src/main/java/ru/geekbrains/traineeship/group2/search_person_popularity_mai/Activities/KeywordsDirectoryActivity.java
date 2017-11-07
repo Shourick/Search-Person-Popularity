@@ -10,7 +10,8 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
 
-public class KeywordsDirectoryActivity extends AppCompatActivity implements View.OnClickListener {
+public class KeywordsDirectoryActivity extends AppCompatActivity implements View.OnClickListener
+{
 
     /**
      * repository применяем глобально во всех Activities для обмена данными с БД
@@ -20,20 +21,23 @@ public class KeywordsDirectoryActivity extends AppCompatActivity implements View
     Button btnBackKeywordsDirectory;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState ) {
+    protected void onCreate( Bundle savedInstanceState )
+    {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_keywords_directory );
 
         btnBackKeywordsDirectory = (Button) findViewById( R.id.btnBackKeywordsDirectory );
         btnBackKeywordsDirectory.setOnClickListener( this );
 
-        repository.showInfo();
+        repository.showRepositoryInfo();
 
     }
 
     @Override
-    public void onClick( View v ) {
-        switch ( v.getId() ) {
+    public void onClick( View v )
+    {
+        switch ( v.getId() )
+        {
             case R.id.btnBackKeywordsDirectory:
                 Intent intent = new Intent();
                 setResult( RESULT_OK, intent );
