@@ -14,7 +14,7 @@
                     {% endfor %}
             </select>
 
-            <select size="1" id="site_id" class="form-control">
+            <select size="1" id="politic_id" class="form-control">
                  {% for politic in politics %}
             <option value="{{politic.id}}">{{politic.name}}</option>
                     {% endfor %}
@@ -30,10 +30,13 @@
             <!--<p><input type="submit" value="Отправить" class="btn btn-default btn-md" ></p></div>-->
             <button type="submit" class="btn">Подтвердить</button>
 
-        <div class="politics-table" margin="10px">
-            {% render_table ds_table %}
-        </div>
+        <!--<div class="politics-table">-->
+            <!--{% render_table ds_table %}-->
+        <!--</div>-->
 
+        <div class="politics-table">
+            {% if sites %}{% render_table sites %}{% else %}{% endif %}
+        </div>
     </div>
 </form>
 
