@@ -3,8 +3,8 @@ $(document).ready(function(){
     form.on('submit', function(e){
         e.preventDefault();
         console.log('ok');
-        var submit_btn = $('#submit_btn');
-        var site_id = submit_btn.data('site_id');
+//        var submit_btn = $('#submit_btn');
+        var site_id = $('#id').val();
         console.log('site_id=' + site_id);
     })
 });
