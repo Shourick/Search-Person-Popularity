@@ -26,7 +26,7 @@ public class AdminAuthorization
      *
      * @param context current context
      */
-    public static void setIsNotAuthorized( Context context )
+    public static void setNotAuthorized( Context context )
     {
         context.getSharedPreferences( Constants.LOGIN_PREFERENCES, context.MODE_PRIVATE )
                 .edit()

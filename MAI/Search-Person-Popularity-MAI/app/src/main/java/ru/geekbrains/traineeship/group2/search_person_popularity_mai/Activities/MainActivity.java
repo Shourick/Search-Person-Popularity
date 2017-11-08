@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.btnAdminLogout:
-                AdminAuthorization.setIsNotAuthorized( this );
+                AdminAuthorization.setNotAuthorized( this );
                 onLogout();
                 break;
         }
@@ -113,5 +113,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onStop();
         repository.close();
+        AdminAuthorization.setNotAuthorized( this );
     }
 }
