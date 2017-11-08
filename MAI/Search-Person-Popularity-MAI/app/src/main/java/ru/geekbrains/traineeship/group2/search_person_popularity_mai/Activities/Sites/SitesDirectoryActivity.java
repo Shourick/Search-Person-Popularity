@@ -12,11 +12,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Site;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
+
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.*;
 
 public class SitesDirectoryActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -55,9 +56,9 @@ public class SitesDirectoryActivity extends AppCompatActivity implements View.On
         btnSiteEdit.setOnClickListener( this );
         btnSiteDelete.setOnClickListener( this );
 
-        repository.showRepositoryInfo();
+        repository.getRepositoryUtils().showRepositoryInfo();
 
-        listAllSites = repository.getAllSites();
+        listAllSites = repository.getSiteRepository().getAllSites();
         listSiteAdapter = new ArrayAdapter<Site>( this, android.R.layout.simple_list_item_1, listAllSites );
         lvSitesList.setAdapter( listSiteAdapter );
         selectedSiteId = -1;
@@ -98,23 +99,24 @@ public class SitesDirectoryActivity extends AppCompatActivity implements View.On
         {
             case R.id.btnSiteAdd:
                 intent = new Intent( this, SitesDirectoryAddSiteActivity.class );
-                startActivityForResult( intent, Constants.REQUEST_CODE_ADD_SITE );
+                startActivityForResult( intent, REQUEST_CODE_ADD_SITE );
                 break;
 
             case R.id.btnSiteEdit:
                 if ( isSiteSelected() )
                 {
                     intent = new Intent( this, SitesDirectoryEditSiteActivity.class );
-                    intent.putExtra( Constants.SITE_ID, selectedSiteId );
-                    intent.putExtra( Constants.SITE_NAME, tvSiteName.getText().toString() );
-                    startActivityForResult( intent, Constants.REQUEST_CODE_EDIT_SITE );
+                    intent.putExtra( SITE_ID, selectedSiteId );
+                    intent.putExtra( SITE_NAME, tvSiteName.getText().toString() );
+                    startActivityForResult( intent, REQUEST_CODE_EDIT_SITE );
                 }
                 break;
 
             case R.id.btnSiteDelete:
                 if ( isSiteSelected() )
                 {
-                    repository.deleteSite( new Site( selectedSiteId, tvSiteName.getText().toString() ) );
+                    repository.getSiteRepository().deleteSite(
+                            new Site( selectedSiteId, tvSiteName.getText().toString() ) );
                 }
                 initializeSelectedSite();
                 break;
@@ -133,14 +135,14 @@ public class SitesDirectoryActivity extends AppCompatActivity implements View.On
         switch ( requestCode )
         {
 
-            case Constants.REQUEST_CODE_ADD_SITE:
+            case REQUEST_CODE_ADD_SITE:
                 if ( resultCode == RESULT_OK )
                 {
                     initializeSelectedSite();
                 }
                 break;
 
-            case Constants.REQUEST_CODE_EDIT_SITE:
+            case REQUEST_CODE_EDIT_SITE:
                 if ( resultCode == RESULT_OK )
                 {
                     initializeSelectedSite();
@@ -156,7 +158,7 @@ public class SitesDirectoryActivity extends AppCompatActivity implements View.On
         tvSiteName.setText( "" );
 
         listAllSites.clear();
-        listAllSites.addAll( repository.getAllSites() );
+        listAllSites.addAll( repository.getSiteRepository().getAllSites() );
         listSiteAdapter.notifyDataSetChanged();
     }
 

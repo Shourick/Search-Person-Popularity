@@ -7,11 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.User;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
+
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.*;
 
 public class UsersDirectoryEditUserActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -39,10 +40,10 @@ public class UsersDirectoryEditUserActivity extends AppCompatActivity implements
         Bundle extras = getIntent().getExtras();
         if ( extras != null )
         {
-            editedUserId = extras.getInt( Constants.USER_ID );
-            etEditUserNickname.setText( extras.getString( Constants.USER_NICKNAME ) );
-            etEditUserLogin.setText( extras.getString( Constants.USER_LOGIN ) );
-            etEditUserPassword.setText( extras.getString( Constants.USER_PASSWORD ) );
+            editedUserId = extras.getInt( USER_ID );
+            etEditUserNickname.setText( extras.getString( USER_NICKNAME ) );
+            etEditUserLogin.setText( extras.getString( USER_LOGIN ) );
+            etEditUserPassword.setText( extras.getString( USER_PASSWORD ) );
         }
     }
 
@@ -59,7 +60,7 @@ public class UsersDirectoryEditUserActivity extends AppCompatActivity implements
                         etEditUserPassword.getText().toString() );
                 editedUser.setId( editedUserId );
 
-                repository.updateUser( editedUser );
+                repository.getUserRepository().updateUser( editedUser );
 
                 intent = new Intent();
                 setResult( RESULT_OK, intent );

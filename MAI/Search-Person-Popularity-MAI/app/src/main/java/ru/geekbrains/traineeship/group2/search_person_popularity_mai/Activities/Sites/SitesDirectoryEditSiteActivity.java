@@ -7,11 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Site;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
+
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.*;
 
 public class SitesDirectoryEditSiteActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -37,8 +38,8 @@ public class SitesDirectoryEditSiteActivity extends AppCompatActivity implements
         Bundle extras = getIntent().getExtras();
         if ( extras != null )
         {
-            editedSiteId = extras.getInt( Constants.SITE_ID );
-            etEditSiteName.setText( extras.getString( Constants.SITE_NAME ) );
+            editedSiteId = extras.getInt( SITE_ID );
+            etEditSiteName.setText( extras.getString( SITE_NAME ) );
         }
     }
 
@@ -53,7 +54,7 @@ public class SitesDirectoryEditSiteActivity extends AppCompatActivity implements
                 Site editedSite = new Site( etEditSiteName.getText().toString());
                 editedSite.setId( editedSiteId );
 
-                repository.updateSite( editedSite );
+                repository.getSiteRepository().updateSite( editedSite );
 
                 intent = new Intent();
                 setResult( RESULT_OK, intent );

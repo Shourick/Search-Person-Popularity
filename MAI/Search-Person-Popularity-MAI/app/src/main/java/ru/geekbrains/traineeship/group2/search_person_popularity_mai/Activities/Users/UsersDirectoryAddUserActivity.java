@@ -43,7 +43,7 @@ public class UsersDirectoryAddUserActivity extends AppCompatActivity implements 
         {
 
             case R.id.btnAddUserOK:
-                repository.addUser(
+                repository.getUserRepository().addUser(
                         new User( etAddUserNickname.getText().toString(),
                                 etAddUserLogin.getText().toString(),
                                 etAddUserPassword.getText().toString() ) );

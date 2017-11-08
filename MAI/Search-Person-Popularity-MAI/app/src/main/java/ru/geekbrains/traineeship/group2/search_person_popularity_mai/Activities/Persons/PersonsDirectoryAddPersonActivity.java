@@ -41,7 +41,7 @@ public class PersonsDirectoryAddPersonActivity extends AppCompatActivity impleme
         {
 
             case R.id.btnAddPersonOK:
-                repository.addPerson( new Person( etAddPersonName.getText().toString() ) );
+                repository.getPersonRepository().addPerson( new Person( etAddPersonName.getText().toString() ) );
                 intent = new Intent();
                 setResult( RESULT_OK, intent );
                 finish();

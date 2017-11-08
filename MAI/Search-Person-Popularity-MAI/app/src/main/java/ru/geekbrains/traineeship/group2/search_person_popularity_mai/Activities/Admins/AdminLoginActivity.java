@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Admins;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +10,14 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.AdminAuthorization;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.Admin;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
+
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.*;
 
 public class AdminLoginActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -56,7 +58,7 @@ public class AdminLoginActivity extends AppCompatActivity implements View.OnClic
                     finish();
                 } else
                 {
-                    if ( numberOfAuthorizationTries < Constants.MAX_OF_ADMIN_AUTHORIZATION_TRIES )
+                    if ( numberOfAuthorizationTries < MAX_OF_ADMIN_AUTHORIZATION_TRIES )
                     {
                         Toast.makeText( v.getContext(), "Неверные данные автораизации !!!", Toast.LENGTH_SHORT ).show();
                     } else
@@ -72,7 +74,7 @@ public class AdminLoginActivity extends AppCompatActivity implements View.OnClic
 
     private boolean isAuthorizationDataValid()
     {
-        List<Admin> adminList = repository.getAllAdmins();
+        List<Admin> adminList = repository.getAdminRepository().getAllAdmins();
         for ( Admin o : adminList )
         {
             if ( o.getLogin().equals( etAdminLogin.getText().toString() ) &&

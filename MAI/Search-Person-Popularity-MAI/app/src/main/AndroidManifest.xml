@@ -25,7 +25,7 @@
         </activity>
         <activity android:name=".Activities.Sites.SitesDirectoryActivity">
         </activity>
-        <activity android:name=".Activities.KeywordsDirectoryActivity">
+        <activity android:name=".Activities.Keywords.KeywordsDirectoryActivity">
         </activity>
         <activity android:name=".Activities.Users.UsersDirectoryActivity">
         </activity>
@@ -37,7 +37,7 @@
             android:name=".AdminLoginActivity"
             android:label="@string/title_activity_admin_login">
         </activity>
-        <activity android:name=".Activities.AdminLoginActivity">
+        <activity android:name=".Activities.Admins.AdminLoginActivity">
         </activity>
         <activity android:name=".Activities.Sites.SitesDirectoryAddSiteActivity">
         </activity>

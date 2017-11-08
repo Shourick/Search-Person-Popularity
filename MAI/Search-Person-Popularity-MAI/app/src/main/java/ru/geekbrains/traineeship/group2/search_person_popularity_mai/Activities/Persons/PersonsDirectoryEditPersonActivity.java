@@ -13,6 +13,8 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
 
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.*;
+
 public class PersonsDirectoryEditPersonActivity extends AppCompatActivity implements View.OnClickListener
 {
 
@@ -37,8 +39,8 @@ public class PersonsDirectoryEditPersonActivity extends AppCompatActivity implem
         Bundle extras = getIntent().getExtras();
         if ( extras != null )
         {
-            editedPersonId = extras.getInt( Constants.PERSON_ID );
-            etEditPersonName.setText( extras.getString( Constants.PERSON_NAME ) );
+            editedPersonId = extras.getInt( PERSON_ID );
+            etEditPersonName.setText( extras.getString( PERSON_NAME ) );
         }
     }
 
@@ -53,7 +55,7 @@ public class PersonsDirectoryEditPersonActivity extends AppCompatActivity implem
                 Person editedPerson = new Person( etEditPersonName.getText().toString());
                 editedPerson.setId( editedPersonId );
 
-                repository.updatePerson( editedPerson );
+                repository.getPersonRepository().updatePerson( editedPerson );
 
                 intent = new Intent();
                 setResult( RESULT_OK, intent );

@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.Players;
 
 import java.util.List;
 

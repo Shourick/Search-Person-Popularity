@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Admins.AdminLoginActivity;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Keywords.KeywordsDirectoryActivity;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Persons.PersonsDirectoryActivity;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Sites.SitesDirectoryActivity;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Users.UsersDirectoryActivity;
@@ -49,8 +51,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnAdminLogout.setOnClickListener( this );
 
         repository = new SQLiteRepository( this );
-//        repository.initializeRepository();
-        repository.showRepositoryInfo();
+//        repository.getRepositoryUtils().initializeRepository();
+        repository.getRepositoryUtils().showRepositoryInfo();
 
 //		Checkpoint if Admin is authorized
         if ( AdminAuthorization.isNotAuthorized( this ) )

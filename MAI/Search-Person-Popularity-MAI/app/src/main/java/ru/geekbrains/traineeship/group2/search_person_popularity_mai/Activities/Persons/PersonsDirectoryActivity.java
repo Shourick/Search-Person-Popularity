@@ -14,11 +14,12 @@ import java.util.List;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Persons.PersonsDirectoryAddPersonActivity;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Persons.PersonsDirectoryEditPersonActivity;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Person;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
+
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.*;
 
 public class PersonsDirectoryActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -46,8 +47,6 @@ public class PersonsDirectoryActivity extends AppCompatActivity implements View.
         btnBackPersonsDirectory = (Button) findViewById( R.id.btnBackPersonsDirectory );
         btnBackPersonsDirectory.setOnClickListener( this );
 
-
-        repository.showRepositoryInfo();
         btnPersonAdd = (Button) findViewById( R.id.btnPersonAdd );
         btnPersonEdit = (Button) findViewById( R.id.btnPersonEdit );
         btnPersonDelete = (Button) findViewById( R.id.btnPersonDelete );
@@ -61,9 +60,9 @@ public class PersonsDirectoryActivity extends AppCompatActivity implements View.
         btnPersonEdit.setOnClickListener( this );
         btnPersonDelete.setOnClickListener( this );
 
-        repository.showRepositoryInfo();
+        repository.getRepositoryUtils().showRepositoryInfo();
 
-        listAllPersons = repository.getAllPersons();
+        listAllPersons = repository.getPersonRepository().getAllPersons();
         listPersonAdapter = new ArrayAdapter<Person>( this, android.R.layout.simple_list_item_1, listAllPersons );
         lvPersonsList.setAdapter( listPersonAdapter );
         selectedPersonId = -1;
@@ -104,23 +103,24 @@ public class PersonsDirectoryActivity extends AppCompatActivity implements View.
         {
             case R.id.btnPersonAdd:
                 intent = new Intent( this, PersonsDirectoryAddPersonActivity.class );
-                startActivityForResult( intent, Constants.REQUEST_CODE_ADD_PERSON );
+                startActivityForResult( intent, REQUEST_CODE_ADD_PERSON );
                 break;
 
             case R.id.btnPersonEdit:
                 if ( isPersonSelected() )
                 {
                     intent = new Intent( this, PersonsDirectoryEditPersonActivity.class );
-                    intent.putExtra( Constants.PERSON_ID, selectedPersonId );
-                    intent.putExtra( Constants.PERSON_NAME, tvPersonName.getText().toString() );
-                    startActivityForResult( intent, Constants.REQUEST_CODE_EDIT_PERSON );
+                    intent.putExtra( PERSON_ID, selectedPersonId );
+                    intent.putExtra( PERSON_NAME, tvPersonName.getText().toString() );
+                    startActivityForResult( intent, REQUEST_CODE_EDIT_PERSON );
                 }
                 break;
 
             case R.id.btnPersonDelete:
                 if ( isPersonSelected() )
                 {
-                    repository.deletePerson( new Person( selectedPersonId, tvPersonName.getText().toString() ) );
+                    repository.getPersonRepository().deletePerson(
+                            new Person( selectedPersonId, tvPersonName.getText().toString() ) );
                 }
                 initializeSelectedPerson();
                 break;
@@ -139,14 +139,14 @@ public class PersonsDirectoryActivity extends AppCompatActivity implements View.
         switch ( requestCode )
         {
 
-            case Constants.REQUEST_CODE_ADD_PERSON:
+            case REQUEST_CODE_ADD_PERSON:
                 if ( resultCode == RESULT_OK )
                 {
                     initializeSelectedPerson();
                 }
                 break;
 
-            case Constants.REQUEST_CODE_EDIT_PERSON:
+            case REQUEST_CODE_EDIT_PERSON:
                 if ( resultCode == RESULT_OK )
                 {
                     initializeSelectedPerson();
@@ -162,7 +162,7 @@ public class PersonsDirectoryActivity extends AppCompatActivity implements View.
         tvPersonName.setText( "" );
 
         listAllPersons.clear();
-        listAllPersons.addAll( repository.getAllPersons() );
+        listAllPersons.addAll( repository.getPersonRepository().getAllPersons() );
         listPersonAdapter.notifyDataSetChanged();
     }
 

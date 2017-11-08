@@ -41,7 +41,7 @@ public class SitesDirectoryAddSiteActivity extends AppCompatActivity implements 
         {
 
             case R.id.btnAddSiteOK:
-                repository.addSite( new Site( etAddSiteName.getText().toString() ) );
+                repository.getSiteRepository().addSite( new Site( etAddSiteName.getText().toString() ) );
                 intent = new Intent();
                 setResult( RESULT_OK, intent );
                 finish();
