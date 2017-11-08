@@ -71,8 +71,7 @@ class Dictionary(WorkResource):
                 "insert into `{}` (Name) values ('{}')"
                 .format(table, _name))
         conn.commit()
-        cursor.execute("select ID from `{}` where Name='{}'".format(table, _name))
-        result = cursor.fetchone()[0]
+        result = cursor.lastrowid
         conn.close()
         return result
 
@@ -205,8 +204,8 @@ class Users(WorkResource):
         conn = self.conn
         cursor = self.cursor
         table = self.table
-        keys = ['id', 'login', 'name', 'admin', 'password']
-        sql_str = "select ID, Login, Name, Admin, Password from `{}`{{}}".format(table)
+        keys = ['id', 'login', 'name', 'admin']
+        sql_str = "select ID, Login, Name from `{}`{{}}".format(table)
 
         if _id is not None:
             sql_str = sql_str.format(" where ID='{}'".format(_id))
@@ -234,7 +233,9 @@ class Users(WorkResource):
         )
         cursor.execute(sql_str)
         conn.commit()
+        result = cursor.lastrowid
         conn.close()
+        return result
 
     def post(self, _id, _name=None, _admin=None, _password=None):
         conn = self.conn
