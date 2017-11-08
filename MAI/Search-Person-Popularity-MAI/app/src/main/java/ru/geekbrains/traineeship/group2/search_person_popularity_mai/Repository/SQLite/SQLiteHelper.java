@@ -5,40 +5,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.*;
+
 /**
  * Created by skubatko on 02/11/17.
  */
 
 public class SQLiteHelper extends SQLiteOpenHelper
 {
-    // Имя файла базы данных
-    private static final String DATABASE_NAME = "searchPersonPopularity.db";
-
-    // Версия базы данных. При изменении схемы увеличить на единицу
-    private static final int DATABASE_VERSION = 2;
-
-    static final String TABLE_PERSONS = "persons";
-    static final String TABLE_KEYWORDS = "keywords";
-    static final String TABLE_SITES = "sites";
-    static final String TABLE_USERS = "users";
-    static final String TABLE_ADMINS = "admins";
-
-    static final String KEY_ID = "_id";
-
-    static final String TABLE_PERSONS_FIELD_NAME = "name";
-
-    static final String TABLE_KEYWORDS_FIELD_NAME = "name";
-    static final String TABLE_KEYWORDS_FIELD_PERSON_ID = "person_id";
-
-    static final String TABLE_SITES_FIELD_NAME = "name";
-
-    static final String TABLE_USERS_FIELD_NICKNAME = "nickname";
-    static final String TABLE_USERS_FIELD_LOGIN = "login";
-    static final String TABLE_USERS_FIELD_PASSWORD = "password";
-
-    static final String TABLE_ADMINS_FIELD_LOGIN = "login";
-    static final String TABLE_ADMINS_FIELD_PASSWORD = "password";
-
     /**
      * -----------------------------
      * РЕАЛИЗАЦИЯ ИНТЕРФЕЙСА SQLite

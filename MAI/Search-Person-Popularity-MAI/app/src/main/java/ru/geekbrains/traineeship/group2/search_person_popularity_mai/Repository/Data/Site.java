@@ -7,6 +7,7 @@ package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository
 public class Site
 {
     private int id;
+
     private String name;
 
     public Site()
@@ -15,6 +16,12 @@ public class Site
 
     public Site( String name )
     {
+        this.name = name;
+    }
+
+    public Site( int id, String name )
+    {
+        this.id = id;
         this.name = name;
     }
 
@@ -37,4 +44,11 @@ public class Site
     {
         this.name = name;
     }
+
+    @Override
+    public String toString()
+    {
+        return name;
+    }
+
 }

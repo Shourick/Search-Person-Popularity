@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Users;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,11 +12,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.User;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
+
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.*;
 
 public class UsersDirectoryActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -57,9 +58,9 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
         btnUserEdit.setOnClickListener( this );
         btnUserDelete.setOnClickListener( this );
 
-        repository.showRepositoryInfo();
+        repository.getRepositoryUtils().showRepositoryInfo();
 
-        listAllUsers = repository.getAllUsers();
+        listAllUsers = repository.getUserRepository().getAllUsers();
         listUserAdapter = new ArrayAdapter<User>( this, android.R.layout.simple_list_item_1, listAllUsers );
         lvUsersList.setAdapter( listUserAdapter );
         selectedUserId = -1;
@@ -100,28 +101,28 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
         Intent intent;
         switch ( v.getId() )
         {
-
             case R.id.btnUserAdd:
                 intent = new Intent( this, UsersDirectoryAddUserActivity.class );
-                startActivityForResult( intent, Constants.REQUEST_CODE_ADD_USER );
+                startActivityForResult( intent, REQUEST_CODE_ADD_USER );
                 break;
 
             case R.id.btnUserEdit:
                 if ( isUserSelected() )
                 {
                     intent = new Intent( this, UsersDirectoryEditUserActivity.class );
-                    intent.putExtra( Constants.USER_ID, selectedUserId );
-                    intent.putExtra( Constants.USER_NICKNAME, tvNickname.getText().toString() );
-                    intent.putExtra( Constants.USER_LOGIN, tvLogin.getText().toString() );
-                    intent.putExtra( Constants.USER_PASSWORD, tvPassword.getText().toString() );
-                    startActivityForResult( intent, Constants.REQUEST_CODE_EDIT_USER );
+                    intent.putExtra( USER_ID, selectedUserId );
+                    intent.putExtra( USER_NICKNAME, tvNickname.getText().toString() );
+                    intent.putExtra( USER_LOGIN, tvLogin.getText().toString() );
+                    intent.putExtra( USER_PASSWORD, tvPassword.getText().toString() );
+                    startActivityForResult( intent, REQUEST_CODE_EDIT_USER );
                 }
                 break;
 
             case R.id.btnUserDelete:
                 if ( isUserSelected() )
                 {
-                    repository.deleteUser( new User( tvNickname.getText().toString(),
+                    repository.getUserRepository().deleteUser( new User(selectedUserId,
+                            tvNickname.getText().toString(),
                             tvLogin.getText().toString(),
                             tvPassword.getText().toString() ) );
                 }
@@ -142,14 +143,14 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
         switch ( requestCode )
         {
 
-            case Constants.REQUEST_CODE_ADD_USER:
+            case REQUEST_CODE_ADD_USER:
                 if ( resultCode == RESULT_OK )
                 {
                     initializeSelectedUser();
                 }
                 break;
 
-            case Constants.REQUEST_CODE_EDIT_USER:
+            case REQUEST_CODE_EDIT_USER:
                 if ( resultCode == RESULT_OK )
                 {
                     initializeSelectedUser();
@@ -167,7 +168,7 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
         tvPassword.setText( "" );
 
         listAllUsers.clear();
-        listAllUsers.addAll( repository.getAllUsers() );
+        listAllUsers.addAll( repository.getUserRepository().getAllUsers() );
         listUserAdapter.notifyDataSetChanged();
     }
 

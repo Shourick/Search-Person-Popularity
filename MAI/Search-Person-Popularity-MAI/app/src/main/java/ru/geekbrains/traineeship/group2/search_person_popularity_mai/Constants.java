@@ -6,8 +6,48 @@ package ru.geekbrains.traineeship.group2.search_person_popularity_mai;
 
 public class Constants
 {
+    // Имя файла базы данных
+    public static final String DATABASE_NAME = "searchPersonPopularity.db";
+
+    // Версия базы данных. При изменении схемы увеличить на единицу
+    public static final int DATABASE_VERSION = 2;
+
+    public static final String TABLE_PERSONS = "persons";
+    public static final String TABLE_KEYWORDS = "keywords";
+    public static final String TABLE_SITES = "sites";
+    public static final String TABLE_USERS = "users";
+    public static final String TABLE_ADMINS = "admins";
+
+    public static final String KEY_ID = "_id";
+
+    public static final String TABLE_PERSONS_FIELD_NAME = "name";
+
+    public static final String TABLE_KEYWORDS_FIELD_NAME = "name";
+    public static final String TABLE_KEYWORDS_FIELD_PERSON_ID = "person_id";
+
+    public static final String TABLE_SITES_FIELD_NAME = "name";
+
+    public static final String TABLE_USERS_FIELD_NICKNAME = "nickname";
+    public static final String TABLE_USERS_FIELD_LOGIN = "login";
+    public static final String TABLE_USERS_FIELD_PASSWORD = "password";
+
+    public static final String TABLE_ADMINS_FIELD_LOGIN = "login";
+    public static final String TABLE_ADMINS_FIELD_PASSWORD = "password";
+
+    public static final int REQUEST_CODE_ADD_PERSON = 1;
+    public static final int REQUEST_CODE_EDIT_PERSON = 2;
+
+    public static final int REQUEST_CODE_ADD_SITE = 1;
+    public static final int REQUEST_CODE_EDIT_SITE = 2;
+
     public static final int REQUEST_CODE_ADD_USER = 1;
     public static final int REQUEST_CODE_EDIT_USER = 2;
+
+    public static final String PERSON_ID = "site_id";
+    public static final String PERSON_NAME = "site_name";
+
+    public static final String SITE_ID = "site_id";
+    public static final String SITE_NAME = "site_name";
 
     public static final String USER_ID = "user_id";
     public static final String USER_NICKNAME = "user_nickname";

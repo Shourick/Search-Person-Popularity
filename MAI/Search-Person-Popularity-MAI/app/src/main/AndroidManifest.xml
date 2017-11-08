@@ -21,23 +21,31 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.PersonsDirectoryActivity">
+        <activity android:name=".Activities.Persons.PersonsDirectoryActivity">
         </activity>
-        <activity android:name=".Activities.SitesDirectoryActivity">
+        <activity android:name=".Activities.Sites.SitesDirectoryActivity">
         </activity>
-        <activity android:name=".Activities.KeywordsDirectoryActivity">
+        <activity android:name=".Activities.Keywords.KeywordsDirectoryActivity">
         </activity>
-        <activity android:name=".Activities.UsersDirectoryActivity">
+        <activity android:name=".Activities.Users.UsersDirectoryActivity">
         </activity>
-        <activity android:name=".Activities.UsersDirectoryAddUserActivity">
+        <activity android:name=".Activities.Users.UsersDirectoryAddUserActivity">
         </activity>
-        <activity android:name=".Activities.UsersDirectoryEditUserActivity">
+        <activity android:name=".Activities.Users.UsersDirectoryEditUserActivity">
         </activity>
         <activity
             android:name=".AdminLoginActivity"
             android:label="@string/title_activity_admin_login">
         </activity>
-        <activity android:name=".Activities.AdminLoginActivity">
+        <activity android:name=".Activities.Admins.AdminLoginActivity">
+        </activity>
+        <activity android:name=".Activities.Sites.SitesDirectoryAddSiteActivity">
+        </activity>
+        <activity android:name=".Activities.Sites.SitesDirectoryEditSiteActivity">
+        </activity>
+        <activity android:name=".Activities.Persons.PersonsDirectoryAddPersonActivity">
+        </activity>
+        <activity android:name=".Activities.Persons.PersonsDirectoryEditPersonActivity">
         </activity>
     </application>
 

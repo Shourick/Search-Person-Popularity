@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Keywords;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,7 +29,7 @@ public class KeywordsDirectoryActivity extends AppCompatActivity implements View
         btnBackKeywordsDirectory = (Button) findViewById( R.id.btnBackKeywordsDirectory );
         btnBackKeywordsDirectory.setOnClickListener( this );
 
-        repository.showRepositoryInfo();
+        repository.getRepositoryUtils().showRepositoryInfo();
 
     }
 

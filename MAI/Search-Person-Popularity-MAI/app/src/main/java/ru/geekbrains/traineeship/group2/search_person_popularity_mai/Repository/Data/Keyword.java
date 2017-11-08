@@ -19,6 +19,13 @@ public class Keyword
         this.name = name;
     }
 
+    public Keyword( int id, String name, int personId )
+    {
+        this.id = id;
+        this.name = name;
+        this.personId = personId;
+    }
+
     public int getId()
     {
         return id;
@@ -47,5 +54,11 @@ public class Keyword
     public void setPersonId( int personId )
     {
         this.personId = personId;
+    }
+
+    @Override
+    public String toString()
+    {
+        return name;
     }
 }

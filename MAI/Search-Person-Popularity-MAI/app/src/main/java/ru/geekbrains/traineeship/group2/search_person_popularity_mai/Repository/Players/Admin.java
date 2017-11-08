@@ -20,6 +20,13 @@ public class Admin
         this.password = password;
     }
 
+    public Admin( int id, String login, String password )
+    {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+    }
+
     public int getId()
     {
         return id;
@@ -49,4 +56,11 @@ public class Admin
     {
         this.password = password;
     }
+
+    @Override
+    public String toString()
+    {
+        return login;
+    }
+
 }
