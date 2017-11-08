@@ -28,16 +28,15 @@
                 </p>
             </div>
             <!--<p><input type="submit" value="Отправить" class="btn btn-default btn-md" ></p></div>-->
-            <button type="submit" class="btn">Подтвердить</button>
-
+            <button type="submit" id="submit_btn" class="btn">Подтвердить</button>
+    </div>
+</form>
         <!--<div class="politics-table">-->
             <!--{% render_table ds_table %}-->
         <!--</div>-->
 
-        <div class="politics-table">
-            {% if sites %}{% render_table sites %}{% else %}{% endif %}
-        </div>
-    </div>
-</form>
+<div class="politics-table">
+    {% if sites %}{% render_table sites %}{% else %}{% endif %}
+</div>
 
 {% endblock %}
