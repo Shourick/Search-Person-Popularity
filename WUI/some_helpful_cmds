@@ -1,0 +1,21 @@
+# Для любопытных джавистов и тех, кто подзабыл, но хочет следить за WUI =)
+# Приветствуются комментарии и очень приветствуются предложения =)
+
+
+python manage.py startapp
+python manage.py createsuperuser
+python manage.py fill_db
+python manage.py makemigrations
+python manage.py migrate
+
+python manage.py runserver
+
+
+# Виртуальное окружение
+
+PYTHONPATH -m venv virt_envs_name
+
+venv_path\bin\activate
+venv_path\Scripts\activate
+
+C:\Users\fidz\#code\#GB_PRACTICE\PROJ\proj_venv\Scripts\activate
