@@ -5,7 +5,23 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.*;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.DATABASE_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.DATABASE_VERSION;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.KEY_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_ADMINS;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_ADMINS_FIELD_LOGIN;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_ADMINS_FIELD_PASSWORD;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_KEYWORDS;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_KEYWORDS_FIELD_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_KEYWORDS_FIELD_PERSON_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_PERSONS;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_PERSONS_FIELD_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_SITES;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_SITES_FIELD_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_USERS;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_USERS_FIELD_LOGIN;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_USERS_FIELD_NICKNAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_USERS_FIELD_PASSWORD;
 
 /**
  * Created by skubatko on 02/11/17.

@@ -18,12 +18,10 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
-
     /**
      * repository применяем глобально во всех Activities для обмена данными с БД
      * при доступности Веб-сервиса поменять на класс, имплементирующий работу с Веб-сервисом
      */
-
     public static SQLiteRepository repository;
 
     private Button btnPersonsDirectory,
@@ -108,11 +106,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onStart()
+    {
+        super.onStart();
+        AdminAuthorization.setNotAuthorized( this );
+    }
 
+    @Override
+    protected void onRestart()
+    {
+        super.onRestart();
+        AdminAuthorization.setNotAuthorized( this );
+    }
+
+    @Override
     protected void onStop()
     {
         super.onStop();
         repository.close();
         AdminAuthorization.setNotAuthorized( this );
     }
+
 }

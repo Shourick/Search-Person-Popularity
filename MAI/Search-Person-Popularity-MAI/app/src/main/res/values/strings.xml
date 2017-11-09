@@ -34,4 +34,9 @@
     <string name="person_name">Выбранная личность:</string>
     <string name="add_person_title">Добавить личность</string>
     <string name="edit_person_title">Редактировать личность</string>
+    <string name="keywords_title">Ключевые слова</string>
+    <string name="keyword_name">Ключевое слово:</string>
+    <string name="person_for_keywords_stitle">Личность:</string>
+    <string name="add_keyword_title">Добавить ключевое слово</string>
+    <string name="edit_keyword_title">Редактировать ключевое слово</string>
 </resources>

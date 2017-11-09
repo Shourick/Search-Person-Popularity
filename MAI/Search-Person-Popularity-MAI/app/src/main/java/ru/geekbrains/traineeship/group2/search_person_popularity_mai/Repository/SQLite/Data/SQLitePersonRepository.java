@@ -19,10 +19,6 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Cons
  * Created by skubatko on 08/11/17
  */
 
-/**
- * Persons
- */
-
 public class SQLitePersonRepository implements IPersonRepository
 {
     private SQLiteRepository repository;

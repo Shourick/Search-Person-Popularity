@@ -47,6 +47,10 @@
         </activity>
         <activity android:name=".Activities.Persons.PersonsDirectoryEditPersonActivity">
         </activity>
+        <activity android:name=".Activities.Keywords.KeywordsDirectoryAddKeywordActivity">
+        </activity>
+        <activity android:name=".Activities.Keywords.KeywordsDirectoryEditKeywordActivity">
+        </activity>
     </application>
 
 </manifest>
