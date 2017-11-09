@@ -4,14 +4,15 @@ DROP TABLE IF EXISTS `spp`.`personpagerank`;
 DROP TABLE IF EXISTS `spp`.`persons`;
 DROP TABLE IF EXISTS `spp`.`pages`;
 DROP TABLE IF EXISTS `spp`.`sites`;
+DROP TABLE IF EXISTS `spp`.`users`;
 CREATE TABLE IF NOT EXISTS `spp`.`persons` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
-    `Name` BLOB(2048) NOT NULL,
+    `Name` NVARCHAR(2048) NOT NULL,
     PRIMARY KEY (`ID`)
 );
 CREATE TABLE IF NOT EXISTS `spp`.`keywords` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
-	`Name` BLOB(2048) NOT NULL,
+	`Name` NVARCHAR(2048) NOT NULL,
     `PersonID` INT NOT NULL,
 	PRIMARY KEY (`ID`),
     INDEX `fk_PersonID_idx` (`PersonID` ASC),
@@ -23,12 +24,12 @@ CREATE TABLE IF NOT EXISTS `spp`.`keywords` (
 );
 CREATE TABLE IF NOT EXISTS `spp`.`sites` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
-    `Name` VARCHAR(256) NOT NULL,
+    `Name` NVARCHAR(256) NOT NULL,
     PRIMARY KEY (`ID`)
 );
 CREATE TABLE IF NOT EXISTS `spp`.`pages` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
-    `Url` BLOB(2048) NOT NULL,
+    `Url` NVARCHAR(2048) NOT NULL,
     `SiteID` INT NOT NULL,
     `FoundDateTime` DATETIME NULL,
     `LastScanDate` DATETIME NULL,
@@ -58,3 +59,11 @@ CREATE TABLE IF NOT EXISTS `spp`.`personpagerank` (
 		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 );
+CREATE TABLE `spp`.`users` (
+    `ID` INT NOT NULL AUTO_INCREMENT,
+    `Name` NVARCHAR(256) NOT NULL,
+    `Login` NVARCHAR(128) NOT NULL,
+    `Password` NVARCHAR(2048) NOT NULL,
+    `Admin` TINYINT(1) NOT NULL DEFAULT 0,
+    PRIMARY KEY (`ID`),
+    UNIQUE INDEX `Login_UNIQUE` (`Login` ASC));

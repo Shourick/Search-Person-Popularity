@@ -7,6 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Admins.AdminLoginActivity;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Keywords.KeywordsDirectoryActivity;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Persons.PersonsDirectoryActivity;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Sites.SitesDirectoryActivity;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Users.UsersDirectoryActivity;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.AdminAuthorization;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.SQLiteRepository;
@@ -21,8 +26,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public static SQLiteRepository repository;
 
-    private Button btnPersonsDirectory, btnKeywordsDirectory,
-            btnSitesDirectory, btnUsersDirectory,btnAdminLogout;
+    private Button btnPersonsDirectory,
+            btnKeywordsDirectory,
+            btnSitesDirectory,
+            btnUsersDirectory,
+            btnAdminLogout;
 
     @Override
     protected void onCreate( Bundle savedInstanceState )
@@ -43,10 +51,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnAdminLogout.setOnClickListener( this );
 
         repository = new SQLiteRepository( this );
-//        repository.initialize();
-        repository.showInfo();
+//        repository.getRepositoryUtils().initializeRepository();
+        repository.getRepositoryUtils().showRepositoryInfo();
 
-//		Here is a checkpoint if Admin is authorized
+//		Checkpoint if Admin is authorized
         if ( AdminAuthorization.isNotAuthorized( this ) )
         {
             onLogout();
@@ -84,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.btnAdminLogout:
-                AdminAuthorization.setIsNotAuthorized( this );
+                AdminAuthorization.setNotAuthorized( this );
                 onLogout();
                 break;
         }
@@ -97,11 +105,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adminAuthorization.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP );
         startActivity( adminAuthorization );
         finish();
-    }    @Override
+    }
+
+    @Override
 
     protected void onStop()
     {
         super.onStop();
         repository.close();
+        AdminAuthorization.setNotAuthorized( this );
     }
 }

@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Users;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,20 +7,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.User;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
 
-public class UsersDirectoryEditUserActivity extends AppCompatActivity implements View.OnClickListener {
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.*;
+
+public class UsersDirectoryEditUserActivity extends AppCompatActivity implements View.OnClickListener
+{
 
     EditText etEditUserNickname, etEditUserLogin, etEditUserPassword;
     Button btnEditUserOK, btnEditUserCancel;
     int editedUserId;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState ) {
+    protected void onCreate( Bundle savedInstanceState )
+    {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_users_directory_edit_user );
 
@@ -35,18 +38,21 @@ public class UsersDirectoryEditUserActivity extends AppCompatActivity implements
         btnEditUserCancel.setOnClickListener( this );
 
         Bundle extras = getIntent().getExtras();
-        if ( extras != null ) {
-            editedUserId = extras.getInt( Constants.USER_ID );
-            etEditUserNickname.setText( extras.getString( Constants.USER_NICKNAME ) );
-            etEditUserLogin.setText( extras.getString( Constants.USER_LOGIN ) );
-            etEditUserPassword.setText( extras.getString( Constants.USER_PASSWORD ) );
+        if ( extras != null )
+        {
+            editedUserId = extras.getInt( USER_ID );
+            etEditUserNickname.setText( extras.getString( USER_NICKNAME ) );
+            etEditUserLogin.setText( extras.getString( USER_LOGIN ) );
+            etEditUserPassword.setText( extras.getString( USER_PASSWORD ) );
         }
     }
 
     @Override
-    public void onClick( View v ) {
+    public void onClick( View v )
+    {
         Intent intent;
-        switch ( v.getId() ) {
+        switch ( v.getId() )
+        {
 
             case R.id.btnEditUserOK:
                 User editedUser = new User( etEditUserNickname.getText().toString(),
@@ -54,7 +60,7 @@ public class UsersDirectoryEditUserActivity extends AppCompatActivity implements
                         etEditUserPassword.getText().toString() );
                 editedUser.setId( editedUserId );
 
-                repository.updateUser( editedUser );
+                repository.getUserRepository().updateUser( editedUser );
 
                 intent = new Intent();
                 setResult( RESULT_OK, intent );
