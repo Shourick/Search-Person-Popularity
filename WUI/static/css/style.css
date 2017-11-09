@@ -109,3 +109,17 @@ input[type=date] {
 table {
     width: 90%;
 }
+#site_id {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.date-from-to {
+    margin-top: 20px;
+}
+.politics-table {
+    margin: 20px;
+}
+.politics-table th{
+    text-align: center;
+}
+
