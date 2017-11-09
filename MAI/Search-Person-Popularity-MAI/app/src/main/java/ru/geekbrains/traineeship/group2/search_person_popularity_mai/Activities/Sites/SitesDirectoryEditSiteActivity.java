@@ -1,8 +1,8 @@
 package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Sites;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,8 +11,8 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Site;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
-
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.*;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.SITE_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.SITE_NAME;
 
 public class SitesDirectoryEditSiteActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -51,7 +51,7 @@ public class SitesDirectoryEditSiteActivity extends AppCompatActivity implements
         {
 
             case R.id.btnEditSiteOK:
-                Site editedSite = new Site( etEditSiteName.getText().toString());
+                Site editedSite = new Site( etEditSiteName.getText().toString() );
                 editedSite.setId( editedSiteId );
 
                 repository.getSiteRepository().updateSite( editedSite );

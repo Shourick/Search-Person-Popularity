@@ -16,8 +16,12 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.User;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
-
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.*;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.REQUEST_CODE_ADD_USER;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.REQUEST_CODE_EDIT_USER;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.USER_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.USER_LOGIN;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.USER_NICKNAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.USER_PASSWORD;
 
 public class UsersDirectoryActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -121,7 +125,7 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
             case R.id.btnUserDelete:
                 if ( isUserSelected() )
                 {
-                    repository.getUserRepository().deleteUser( new User(selectedUserId,
+                    repository.getUserRepository().deleteUser( new User( selectedUserId,
                             tvNickname.getText().toString(),
                             tvLogin.getText().toString(),
                             tvPassword.getText().toString() ) );

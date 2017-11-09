@@ -37,6 +37,9 @@ public class Constants
     public static final int REQUEST_CODE_ADD_PERSON = 1;
     public static final int REQUEST_CODE_EDIT_PERSON = 2;
 
+    public static final int REQUEST_CODE_ADD_KEYWORD = 1;
+    public static final int REQUEST_CODE_EDIT_KEYWORD = 2;
+
     public static final int REQUEST_CODE_ADD_SITE = 1;
     public static final int REQUEST_CODE_EDIT_SITE = 2;
 
@@ -45,6 +48,10 @@ public class Constants
 
     public static final String PERSON_ID = "site_id";
     public static final String PERSON_NAME = "site_name";
+
+    public static final String KEYWORD_ID = "keyword_id";
+    public static final String KEYWORD_NAME = "keyword_name";
+    public static final String PERSON_FOR_KEYWORD_ID = "person_for_keyword_id";
 
     public static final String SITE_ID = "site_id";
     public static final String SITE_NAME = "site_name";
