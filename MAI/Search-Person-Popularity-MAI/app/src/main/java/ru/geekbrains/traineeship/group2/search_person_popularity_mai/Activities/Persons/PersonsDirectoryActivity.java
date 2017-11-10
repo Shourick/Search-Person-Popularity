@@ -12,23 +12,21 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Persons.PersonsDirectoryAddPersonActivity;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Persons.PersonsDirectoryEditPersonActivity;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Person;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
-
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.*;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.PERSON_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.PERSON_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.REQUEST_CODE_ADD_PERSON;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.REQUEST_CODE_EDIT_PERSON;
 
 public class PersonsDirectoryActivity extends AppCompatActivity implements View.OnClickListener
 {
-
     /**
      * databaseHandler применяем глобально во всех Activities для обмена данными с БД
      * при доступности Веб-сервиса поменять на класс, имплементирующий работу с Веб-сервисом
      */
-
     Button btnBackPersonsDirectory, btnPersonAdd, btnPersonEdit, btnPersonDelete;
     TextView tvPersonName;
 

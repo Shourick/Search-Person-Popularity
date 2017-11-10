@@ -11,8 +11,10 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.User;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
-
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.*;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.USER_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.USER_LOGIN;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.USER_NICKNAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.USER_PASSWORD;
 
 public class UsersDirectoryEditUserActivity extends AppCompatActivity implements View.OnClickListener
 {
