@@ -81,8 +81,7 @@ public class SQLiteKeywordRepository implements IKeywordRepository
         try ( Cursor cursorKeywords = db.query(
                 TABLE_KEYWORDS,                                     // table
                 new String[] { KEY_ID,
-                        TABLE_KEYWORDS_FIELD_NAME,
-                        TABLE_KEYWORDS_FIELD_PERSON_ID },            // columns
+                        TABLE_KEYWORDS_FIELD_NAME },            // columns
                 TABLE_KEYWORDS_FIELD_PERSON_ID + " = ?",            // columns WHERE
                 new String[] { Integer.toString( personId ) },           // values WHERE
                 null,                                               // group by
@@ -96,7 +95,7 @@ public class SQLiteKeywordRepository implements IKeywordRepository
                     Keyword keyword = new Keyword();
                     keyword.setId( Integer.parseInt( cursorKeywords.getString( 0 ) ) );
                     keyword.setName( cursorKeywords.getString( 1 ) );
-                    keyword.setPersonId( Integer.parseInt( cursorKeywords.getString( 2 ) ) );
+                    keyword.setPersonId( personId );
                     keywordList.add( keyword );
                 } while ( cursorKeywords.moveToNext() );
             }

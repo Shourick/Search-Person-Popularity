@@ -19,6 +19,12 @@ public class Keyword
         this.name = name;
     }
 
+    public Keyword( String name, int personId )
+    {
+        this.name = name;
+        this.personId = personId;
+    }
+
     public Keyword( int id, String name, int personId )
     {
         this.id = id;
