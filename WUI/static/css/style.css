@@ -12,6 +12,11 @@ body {
 a.header {
     color: #012C4A;
 }
+.white {
+    color: white;
+    float: left;
+    margin: 20pt;
+}
 .menu {
   background-color: #012C4A;
   left: -285px;
