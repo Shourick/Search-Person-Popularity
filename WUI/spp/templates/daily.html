@@ -3,8 +3,8 @@
 {% load render_table from django_tables2 %}
 {% block content %}
 
-<!--TODO: form action-->
-<form class="well form-inline"  method="post" id="daily_stat">
+
+<form class="well form-inline stat"  method="post" id="daily_stat" action="">
      {% csrf_token %}
     <div class="form-group">
         <legend>Ежедневная статистика</legend>
@@ -31,12 +31,9 @@
             <button type="submit" id="submit_btn" class="btn">Подтвердить</button>
     </div>
 </form>
-        <!--<div class="politics-table">-->
-            <!--{% render_table ds_table %}-->
-        <!--</div>-->
 
-<div class="politics-table">
-    {% if sites %}{% render_table sites %}{% else %}{% endif %}
+<div class="politics-table hidden" id="politics-table">
+    {% if sites %}{% render_table ds_table %}{% else %}{% endif %}
 </div>
 
 {% endblock %}
