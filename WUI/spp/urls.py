@@ -21,7 +21,8 @@ urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'^general/$', general, name='general'),
     url(r'^daily/$', daily, name='daily'),
-    url(r'^contacts/$', contacts, name='contacts'),
+    url(r'^support/$', support, name='support'),
+
     url(r'^user/', include('userManagementApp.urls')),
 
 ]

@@ -5,7 +5,7 @@ from datetime import datetime
 
 
 class Command(BaseCommand):
-    help = 'Fill DB fake data'
+    help = 'Fill DB with fake data'
 
     def handle(self, *args, **options):
 

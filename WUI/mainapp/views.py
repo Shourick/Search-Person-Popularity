@@ -28,7 +28,7 @@ def daily(request):
     return render(request, 'daily.html', {'title': title, 'sites': sites, 'politics': politics, 'ds_table': ds_table})
 
 
-def contacts(request):
+def support(request):
     title = 'Контакты'
     if request.method == 'POST':
         form = ContactForm(request.POST)
@@ -53,4 +53,4 @@ def contacts(request):
         # Заполняем форму
         form = ContactForm()
         # Отправляем форму на страницу
-    return render(request, 'email/contacts.html', {'title': title, 'form': form})
+    return render(request, 'email/support.html', {'title': title, 'form': form})
