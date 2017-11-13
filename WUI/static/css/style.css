@@ -13,7 +13,6 @@ a.header {
 	background-repeat: no-repeat;
     background-position: 50% 25%;
     color: #012C4A;
-/*    overflow:  visible;*/
 }
 .white {
     color: white;
@@ -91,6 +90,13 @@ h1 {
 h2 {
     margin: 20pt;
 }
+.main_txt {
+    width: 60%;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    margin: 20pt auto;
+    padding-top: 40pt;
+}
 .main_btn a.btn, button {
     background-color: #58B9E4;
     color: white;
@@ -129,4 +135,3 @@ table {
 .politics-table th{
     text-align: center;
 }
-
