@@ -14,7 +14,6 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Users.UsersDirectoryActivity;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.AdminAuthorization;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.RESTfulRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.SQLiteRepository;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -22,8 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * repository применяем глобально во всех Activities для обмена данными с БД
      * при доступности Веб-сервиса поменять на класс, имплементирующий работу с Веб-сервисом
      */
-    public static RESTfulRepository repository;
-//    public static SQLiteRepository repository;
+    public static SQLiteRepository repository;
 
     private Button btnPersonsDirectory,
             btnKeywordsDirectory,
@@ -48,9 +46,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnUsersDirectory.setOnClickListener( this );
         btnAdminLogout.setOnClickListener( this );
 
-        repository = new RESTfulRepository();
-//        repository = new SQLiteRepository( this );
-//        repository.getRepositoryUtils().initializeRepository();
+        repository = new SQLiteRepository( this );
+        repository.getRepositoryUtils().initializeRepository(this);
         repository.getRepositoryUtils().showRepositoryInfo();
 
 
@@ -118,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
-//        repository.close();
+        repository.close();
 //        AdminAuthorization.setNotAuthorized( this );
     }
 

@@ -31,6 +31,9 @@ public class SQLitePersonRepository implements IPersonRepository {
     public void addPerson( Person person ) {
         try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
+            if ( person.getId() != 0 ) {
+                contentValues.put( KEY_ID, person.getId() );
+            }
             contentValues.put( TABLE_PERSONS_FIELD_NAME, person.getName() );
 
             db.insert( TABLE_PERSONS, null, contentValues );

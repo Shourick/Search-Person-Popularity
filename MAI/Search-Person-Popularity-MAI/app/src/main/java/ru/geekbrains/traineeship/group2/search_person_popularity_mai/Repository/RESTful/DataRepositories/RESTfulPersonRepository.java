@@ -1,7 +1,6 @@
 package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.DataRepositories;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -11,7 +10,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Person;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.Data.IPersonRepository;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.IPlayersRestAPI.IPersonRestAPI;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.Persons.IPersonRestAPI;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.API_URL_BASE;
 
@@ -23,6 +22,7 @@ public class RESTfulPersonRepository implements IPersonRepository {
 
     private Retrofit retrofit;
     private IPersonRestAPI personRestAPI;
+    private int personCount;
 
     public RESTfulPersonRepository() {
         retrofit = new Retrofit.Builder()
@@ -77,7 +77,8 @@ public class RESTfulPersonRepository implements IPersonRepository {
         personRestAPI.getAllPersons().enqueue( new Callback<List<Person>>() {
             @Override
             public void onResponse( Call<List<Person>> call, Response<List<Person>> response ) {
-                System.out.println("Table response: "+response.body().size());
+                System.out.println( "Table response: " + response.body().size() );
+                personCount = response.body().size();
             }
 
             @Override
@@ -85,7 +86,8 @@ public class RESTfulPersonRepository implements IPersonRepository {
 
             }
         } );
-        return 0;
+        System.out.println( "Table response personsCount: " + personCount );
+        return personCount;
     }
 
     @Override

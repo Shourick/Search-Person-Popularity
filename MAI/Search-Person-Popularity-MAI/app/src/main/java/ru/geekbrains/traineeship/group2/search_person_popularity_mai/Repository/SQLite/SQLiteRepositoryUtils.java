@@ -1,11 +1,18 @@
 package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite;
 
+import android.content.Context;
+
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Keyword;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Person;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Site;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.IRepositoryUtils;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.Admin;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.User;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.Admins.RESTfulAdminsLoader;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.Keywords.RESTfulKeywordsLoader;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.Persons.RESTfulPersonsLoader;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.Sites.RESTfulSitesLoader;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.Users.RESTfulUsersLoader;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.DataRepositories.SQLiteKeywordRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.DataRepositories.SQLitePersonRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.DataRepositories.SQLiteSiteRepository;
@@ -24,7 +31,6 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Cons
 
 public class SQLiteRepositoryUtils implements IRepositoryUtils {
 
-    private SQLiteRepository repository;
     private SQLitePersonRepository personRepository;
     private SQLiteKeywordRepository keywordRepository;
     private SQLiteSiteRepository siteRepository;
@@ -32,7 +38,6 @@ public class SQLiteRepositoryUtils implements IRepositoryUtils {
     private SQLiteAdminRepository adminRepository;
 
     public SQLiteRepositoryUtils( SQLiteRepository repository ) {
-        this.repository = repository;
         this.personRepository = repository.getPersonRepository();
         this.keywordRepository = repository.getKeywordRepository();
         this.siteRepository = repository.getSiteRepository();
@@ -41,37 +46,22 @@ public class SQLiteRepositoryUtils implements IRepositoryUtils {
     }
 
     @Override
-    public void initializeRepository() {
+    public void initializeRepository(Context context) {
 
         personRepository.deleteAllPersons();
-        personRepository.addPerson( new Person( "Путин" ) );
-        personRepository.addPerson( new Person( "Медведев" ) );
-        personRepository.addPerson( new Person( "Жириновский" ) );
+        new RESTfulPersonsLoader(context).execute();
 
         keywordRepository.deleteAllKeywords();
-        keywordRepository.addKeyword( new Keyword( "Путину" ), personRepository.getPersonByName( "Путин" ).getId() );
-        keywordRepository.addKeyword( new Keyword( "Путина" ), personRepository.getPersonByName( "Путин" ).getId() );
-        keywordRepository.addKeyword( new Keyword( "Путиным" ), personRepository.getPersonByName( "Путин" ).getId() );
-        keywordRepository.addKeyword( new Keyword( "Медведеву" ), personRepository.getPersonByName( "Медведев" ).getId() );
-        keywordRepository.addKeyword( new Keyword( "Медведева" ), personRepository.getPersonByName( "Медведев" ).getId() );
-        keywordRepository.addKeyword( new Keyword( "Медведевым" ), personRepository.getPersonByName( "Медведев" ).getId() );
-        keywordRepository.addKeyword( new Keyword( "Жириновскому" ), personRepository.getPersonByName( "Жириновский" ).getId() );
-        keywordRepository.addKeyword( new Keyword( "Жириновского" ), personRepository.getPersonByName( "Жириновский" ).getId() );
-        keywordRepository.addKeyword( new Keyword( "Жириновским" ), personRepository.getPersonByName( "Жириновский" ).getId() );
-
-        siteRepository.deleteAllSites();
-        siteRepository.addSite( new Site( "http://gazeta.ru" ) );
-        siteRepository.addSite( new Site( "http://yandex.ru" ) );
-        siteRepository.addSite( new Site( "http://rbc.ru" ) );
-
-        userRepository.deleteAllUsers();
-        userRepository.addUser( new User( "u1", "user1", "pass1" ) );
-        userRepository.addUser( new User( "u2", "user2", "pass2" ) );
-        userRepository.addUser( new User( "u3", "user3", "pass3" ) );
-
-        adminRepository.deleteAllAdmins();
-        adminRepository.addAdmin( new Admin( "admin1", "pass1" ) );
-        adminRepository.addAdmin( new Admin( "admin2", "pass2" ) );
+//        new RESTfulKeywordsLoader(context).execute();
+//
+//        siteRepository.deleteAllSites();
+//        new RESTfulSitesLoader(context).execute();
+//
+//        userRepository.deleteAllUsers();
+//        new RESTfulUsersLoader(context).execute();
+//
+//        adminRepository.deleteAllAdmins();
+//        new RESTfulAdminsLoader(context).execute();
 
     }
 

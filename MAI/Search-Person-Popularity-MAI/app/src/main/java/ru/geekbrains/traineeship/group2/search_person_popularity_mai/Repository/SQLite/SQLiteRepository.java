@@ -10,8 +10,7 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.PlayerRepositories.SQLiteUserRepository;
 
 /**
- * Класс для работы с базой SQLite для возможности тестирования бизнес-логики
- * пока создается Веб-сервис
+ * Класс для работы с базой SQLite в качестве буфера обмена с API
  * <p>
  * Created by skubatko on 27/10/17.
  */
@@ -31,6 +30,7 @@ public class SQLiteRepository extends SQLiteHelper implements IRepository {
      */
     public SQLiteRepository( Context context ) {
         super( context );
+
         this.persons = new SQLitePersonRepository( this );
         this.keywords = new SQLiteKeywordRepository( this );
         this.sites = new SQLiteSiteRepository( this );

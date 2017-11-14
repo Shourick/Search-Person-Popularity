@@ -21,6 +21,7 @@ public class Person {
     }
 
     public Person( String name ) {
+        this.id = 0;
         this.name = name;
     }
 

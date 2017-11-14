@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.IPlayersRestAPI;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.Persons;
 
 import java.util.List;
 
