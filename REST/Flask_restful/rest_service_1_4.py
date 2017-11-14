@@ -1,20 +1,27 @@
-from flask import Flask, request
+from flask import Flask, request, abort
 from flask_restful import Resource, Api
+from functools import wraps
 import MySQLdb
 import Flask_restful.encrypt_password as encrypt
 
 
-app = Flask(__name__)
-api = Api(app)
+def get_current_user_role(request):
+    pass
 
-# config = {
-#     'user': 'spp',
-#     'password': 'spp',
-#     'database': 'spp',
-#     'host': 'localhost',
-#     'charset': 'utf8'
-# }
-# db = MySQLdb
+
+def error_response():
+    abort(403)
+
+
+def requires_roles(*roles):
+    def wrapper(f):
+        @wraps(f)
+        def wrapped(*args, **kwargs):
+            if get_current_user_role(request) not in roles:
+                return error_response()
+            return f(*args, **kwargs)
+        return wrapped
+    return wrapper
 
 
 class WorkResource(Resource):
@@ -42,19 +49,21 @@ class Dictionary(WorkResource):
         conn = cls.conn
         cursor = cls.cursor
         table = cls.table
+        keys = ['id', 'name']
         if _id is not None:
             cursor.execute(
-                "select Name from `{}` where ID='{}'".format(table, _id)
+                "select ID, Name from `{}` where ID=%s".format(table),
+                (_id,)
             )
         elif _name is not None:
             cursor.execute(
-                "select ID from `{}` where Name='{}'".format(table, _name)
+                "select ID, Name from `{}` where Name=%s".format(table), (_name,)
             )
         else:
-            cursor.execute("select Name from `{}`".format(table))
-        result = cursor.fetchall()
+            cursor.execute("select ID, Name from `{}`".format(table))
+        result = [dict(zip(keys, data)) for data in cursor.fetchall()]
         conn.close()
-        return [i[0] for i in result]
+        return result
 
     @classmethod
     def put(cls, _name=None, person_id=None):
@@ -64,12 +73,12 @@ class Dictionary(WorkResource):
         table = cls.table
         if person_id is not None:
             cursor.execute(
-                "insert into `{}` (Name, PersonID) values ('{}', '{}')"
-                .format(table, _name, person_id))
+                "insert into `{}` (Name, PersonID) values (%s, %s)".format(table),
+                (_name, person_id))
         else:
             cursor.execute(
-                "insert into `{}` (Name) values ('{}')"
-                .format(table, _name))
+                "insert into `{}` (Name) values (%s)".format(table),
+                (_name,))
         conn.commit()
         result = cursor.lastrowid
         conn.close()
@@ -83,24 +92,27 @@ class Dictionary(WorkResource):
         table = cls.table
         if person_id is not None:
             cursor.execute(
-                "update `{}` set Name='{}', PersonID='{}' where ID='{}'"
-                .format(table, _name, person_id, _id)
+                "update `{}` set Name=%s, PersonID=%s where ID=%s".format(table),
+                (_name, person_id, _id)
             )
         else:
             cursor.execute(
-                "update `{}` set Name='{}' where ID='{}'".format(table, _name, _id)
+                "update `{} set Name=%s where ID=%s".format(table),
+                (_name, _id)
             )
         conn.commit()
         conn.close()
 
     @classmethod
+    @requires_roles('admin')
     def delete(cls, _id=None):
         # cls.__init__()
         conn = cls.conn
         cursor = cls.cursor
         table = cls.table
         if _id is not None:
-            cursor.execute("delete from `{}` where ID='{}'".format(table, _id))
+            cursor.execute("delete from `{}` where ID=%s".format(table),
+            (_id,))
         else:
             cursor.execute("delete from `{}`".format(table))
         conn.commit()
@@ -119,37 +131,36 @@ class Keywords(Dictionary):
         conn = self.conn
         cursor = self.cursor
         table = self.table
-        if _id is None and _name is None:
+        keys = ['id', 'name', 'person_id']
+        if _id is None and _name is None and \
+           person_id is None and person_name is None:
             cursor.execute(
-                """select t2.Name, t1.Name from `{}` t1
-                    join persons t2 on t1.PersonID=t2.ID
-                """.format(table)
+                """select t1.ID, t1.Name, t1.PersonID from `{}` t1
+                    join persons t2 on t1.PersonID=t2.ID""".format(table)
             )
-            result = {}
-            for item in cursor.fetchall():
-                result.setdefault(item[0], []).append(item[1])
         else:
             if person_id is not None:
                 cursor.execute(
-                    "select Name from `{}` where PersonID='{}'".format(table, person_id)
+                    """select ID, Name, PersonID from `{}` 
+                        where PersonID=%s""".format(table), (person_id,)
                 )
             elif person_name is not None:
                 cursor.execute(
-                    """select t1.Name from `{}` t1
+                    """select t1.ID, t1.Name, t1.PersonID from `{}` t1
                         join persons t2 on t1.PersonID=t2.ID
-                        where t2.Name='{}'""".format(table, person_name)
+                        where t2.Name=%s""".format(table), (person_name,)
                 )
             elif _id is not None:
                 cursor.execute(
-                    "select Name from `{}` where ID='{}'".format(table, _id)
+                    """select ID, Name, PersonID from `{}` 
+                        where ID=%s""".format(table), (_id,)
                 )
             elif _name is not None:
                 cursor.execute(
-                    """select t2.Name from `{}` t1
-                        join persons t2 on t1.PersonID=t2.ID
-                        where t1.Name='{}'""".format(table, _name)
+                    """select ID, Name, PersonID from `{}` 
+                        where Name=%s""".format(table), (_name,)
                 )
-            result = [i[0] for i in cursor.fetchall()]
+        result = [dict(zip(keys, data)) for data in cursor.fetchall()]
         conn.close()
         return result
 
@@ -227,7 +238,7 @@ class Users(WorkResource):
         stored_password = encrypt.password_to_store(_password)
         sql_str = """
             insert into `{}` (Login, Name, Admin, Password)
-            values 
+            values
             ('{}', '{}', '{}', '{}')""".format(
             table, _login, _name, _admin, stored_password
         )
@@ -244,24 +255,25 @@ class Users(WorkResource):
         sql_str = ''
         if _password is None:
             if _name is not None and _admin is not None:
-                sql_str = """update `{}` set Name='{}', Admin='{}' 
+                sql_str = """update `{}` set Name='{}', Admin='{}'
                     where ID='{}'""".format(table, _name, _admin, _id)
             else:
                 if _name is not None:
-                    sql_str = """update `{}` set Name='{}' 
+                    sql_str = """update `{}` set Name='{}'
                         where ID='{}'""".format(table, _name, _id)
                 else:
-                    sql_str = """update `{}` set Admin='{}' 
+                    sql_str = """update `{}` set Admin='{}'
                         where ID='{}'""".format(table, _admin, _id)
         else:
             stored_password = encrypt.password_to_store(_password)
-            sql_str = """update `{}` set Password='{}' 
+            sql_str = """update `{}` set Password='{}'
                 where ID='{}'""".format(table, stored_password, _id)
         if sql_str != '':
             cursor.execute(sql_str)
         conn.commit()
         conn.close()
 
+    @requires_roles('admin')
     def delete(self, _id=None, _login=None, _admin=None):
         conn = self.conn
         cursor = self.cursor
@@ -278,6 +290,9 @@ class Users(WorkResource):
         conn.commit()
         conn.close()
 
+
+app = Flask(__name__)
+api = Api(app)
 
 api.add_resource(
     Keywords,
