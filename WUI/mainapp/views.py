@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from .models import *
+from spp.models import *
 from .tables import GeneralStatisticsTable, DailyStatisticsTable
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
 from .forms import ContactForm
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -11,19 +12,21 @@ def index(request):
     return render(request, 'index.html', {'title': title})
 
 
+# @login_required
 def general(request):
     title = 'Общая статистика'
-    sites = Site.objects.all()
-    politics = Politic.objects.all()
-    person_page_rank = PersonPageRank.objects.all()
+    sites = Sites.objects.all()
+    politics = Persons.objects.all()
+    person_page_rank = Personpagerank.objects.all()
     gs_table = GeneralStatisticsTable(person_page_rank)
     return render(request, 'general.html', {'title': title, 'sites': sites, 'politics': politics, 'gs_table': gs_table})
 
 
+# @login_required
 def daily(request):
     title = 'Ежедневная статистика'
-    sites = Site.objects.all()
-    politics = Politic.objects.all()
+    sites = Sites.objects.all()
+    politics = Persons.objects.all()
     ds_table = DailyStatisticsTable(politics)
     return render(request, 'daily.html', {'title': title, 'sites': sites, 'politics': politics, 'ds_table': ds_table})
 
@@ -54,3 +57,13 @@ def support(request):
         form = ContactForm()
         # Отправляем форму на страницу
     return render(request, 'email/support.html', {'title': title, 'form': form})
+
+#
+@login_required
+def general_stat(request, site_id=1):
+        # sites = Sites.objects.all()
+        # politics = Persons.objects.all()
+        # pages = Personpagerank.get_data_by_site_id(site_id)
+        # gs_table = GeneralStatisticsTable(pages)
+        # return render(request, 'general_stat.html', {'pages': pages, 'sites': sites, 'politics': politics, 'gs_table': gs_table})
+    pass

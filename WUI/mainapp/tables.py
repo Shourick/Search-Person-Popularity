@@ -1,9 +1,9 @@
 import django_tables2 as tables
-from .models import Politic
+from spp.models import Persons
 
 class GeneralStatisticsTable(tables.Table):
     # class Meta:
-    #     model = Politic
+    #     model = Persons
     name = tables.Column(accessor='person_id.name')
     rank = tables.Column()
 
