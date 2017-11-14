@@ -1,26 +1,26 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.PlayerModels;
 
 /**
  * Created by skubatko on 02/11/17.
  */
 
-public class User {
+public class UserModel {
 
     private int id;
     private String nickName;
     private String login;
     private String password;
 
-    public User() {
+    public UserModel() {
     }
 
-    public User( String nickName, String login, String password ) {
+    public UserModel( String nickName, String login, String password ) {
         this.nickName = nickName;
         this.login = login;
         this.password = password;
     }
 
-    public User( int id, String nickName, String login, String password ) {
+    public UserModel( int id, String nickName, String login, String password ) {
         this.id = id;
         this.nickName = nickName;
         this.login = login;

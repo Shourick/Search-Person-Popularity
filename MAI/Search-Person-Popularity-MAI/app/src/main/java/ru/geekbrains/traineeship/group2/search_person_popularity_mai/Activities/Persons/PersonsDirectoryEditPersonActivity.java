@@ -14,16 +14,14 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Acti
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.PERSON_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.PERSON_NAME;
 
-public class PersonsDirectoryEditPersonActivity extends AppCompatActivity implements View.OnClickListener
-{
+public class PersonsDirectoryEditPersonActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText etEditPersonName;
     Button btnEditPersonOK, btnEditPersonCancel;
     int editedPersonId;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState )
-    {
+    protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_persons_directory_edit_person );
 
@@ -36,19 +34,16 @@ public class PersonsDirectoryEditPersonActivity extends AppCompatActivity implem
         btnEditPersonCancel.setOnClickListener( this );
 
         Bundle extras = getIntent().getExtras();
-        if ( extras != null )
-        {
+        if ( extras != null ) {
             editedPersonId = extras.getInt( PERSON_ID );
             etEditPersonName.setText( extras.getString( PERSON_NAME ) );
         }
     }
 
     @Override
-    public void onClick( View v )
-    {
+    public void onClick( View v ) {
         Intent intent;
-        switch ( v.getId() )
-        {
+        switch ( v.getId() ) {
 
             case R.id.btnEditPersonOK:
                 Person editedPerson = new Person( etEditPersonName.getText().toString() );

@@ -6,11 +6,11 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.IRepositoryUtils;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.Admin;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.User;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Data.SQLiteKeywordRepository;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Data.SQLitePersonRepository;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Data.SQLiteSiteRepository;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Players.SQLiteAdminRepository;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Players.SQLiteUserRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.DataRepositories.SQLiteKeywordRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.DataRepositories.SQLitePersonRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.DataRepositories.SQLiteSiteRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.PlayerRepositories.SQLiteAdminRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.PlayerRepositories.SQLiteUserRepository;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_ADMINS;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_KEYWORDS;
@@ -22,8 +22,8 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Cons
  * Created by skubatko on 08/11/17
  */
 
-public class SQLiteRepositoryUtils implements IRepositoryUtils
-{
+public class SQLiteRepositoryUtils implements IRepositoryUtils {
+
     private SQLiteRepository repository;
     private SQLitePersonRepository personRepository;
     private SQLiteKeywordRepository keywordRepository;
@@ -31,8 +31,7 @@ public class SQLiteRepositoryUtils implements IRepositoryUtils
     private SQLiteUserRepository userRepository;
     private SQLiteAdminRepository adminRepository;
 
-    public SQLiteRepositoryUtils( SQLiteRepository repository )
-    {
+    public SQLiteRepositoryUtils( SQLiteRepository repository ) {
         this.repository = repository;
         this.personRepository = repository.getPersonRepository();
         this.keywordRepository = repository.getKeywordRepository();
@@ -42,8 +41,7 @@ public class SQLiteRepositoryUtils implements IRepositoryUtils
     }
 
     @Override
-    public void initializeRepository()
-    {
+    public void initializeRepository() {
 
         personRepository.deleteAllPersons();
         personRepository.addPerson( new Person( "Путин" ) );
@@ -78,8 +76,7 @@ public class SQLiteRepositoryUtils implements IRepositoryUtils
     }
 
     @Override
-    public void showRepositoryInfo()
-    {
+    public void showRepositoryInfo() {
 
         System.out.println( "Table: " + TABLE_PERSONS + " содержит: " + personRepository.getPersonsCount() + " записей" );
         System.out.println( "Table: " + TABLE_KEYWORDS + " содержит: " + keywordRepository.getKeywordsCount() + " записей" );
@@ -87,13 +84,11 @@ public class SQLiteRepositoryUtils implements IRepositoryUtils
         System.out.println( "Table: " + TABLE_USERS + " содержит: " + userRepository.getUsersCount() + " записей" );
         System.out.println( "Table: " + TABLE_ADMINS + " содержит: " + adminRepository.getAdminsCount() + " записей" );
 
-        for ( Person o : personRepository.getAllPersons() )
-        {
+        for ( Person o : personRepository.getAllPersons() ) {
             System.out.println( "Table: " + TABLE_PERSONS + " : " + o.getId() + ", " + o.getName() );
         }
 
-        for ( Keyword o : keywordRepository.getAllKeywords() )
-        {
+        for ( Keyword o : keywordRepository.getAllKeywords() ) {
             Person person = personRepository.getPersonById( o.getPersonId() );
             System.out.println( "Table: " +
                     TABLE_KEYWORDS + " : " +
@@ -101,25 +96,20 @@ public class SQLiteRepositoryUtils implements IRepositoryUtils
                     person.getId() + ", " + person.getName() );
         }
 
-        for ( Site o : siteRepository.getAllSites() )
-        {
+        for ( Site o : siteRepository.getAllSites() ) {
             System.out.println( "Table: " + TABLE_SITES + " : " + o.getId() + ", " + o.getName() );
         }
 
-        for ( User o : userRepository.getAllUsers() )
-        {
+        for ( User o : userRepository.getAllUsers() ) {
             System.out.println( "Table: " + TABLE_USERS + " : " +
                     o.getId() + ", " + o.getNickName() + ", " +
                     o.getLogin() + ", " + o.getPassword() );
         }
 
-        for ( Admin o : adminRepository.getAllAdmins() )
-        {
+        for ( Admin o : adminRepository.getAllAdmins() ) {
             System.out.println( "Table: " + TABLE_ADMINS + " : " +
                     o.getId() + ", " + o.getLogin() + ", " + o.getPassword() );
         }
 
     }
-
-
 }

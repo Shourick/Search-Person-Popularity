@@ -13,8 +13,8 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
  * Created by skubatko on 03/11/17.
  */
 
-public interface IPersonRepository
-{
+public interface IPersonRepository {
+
     public void addPerson( Person person );       // добавляем Личность
 
     Person getPersonById( int id );               // получаем Личность по id

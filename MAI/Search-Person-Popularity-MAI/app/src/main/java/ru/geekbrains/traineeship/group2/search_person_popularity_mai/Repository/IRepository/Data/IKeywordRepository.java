@@ -13,8 +13,8 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
  * Created by skubatko on 03/11/17.
  */
 
-public interface IKeywordRepository
-{
+public interface IKeywordRepository {
+
     public void addKeyword( Keyword keyword, int personId );  // добавляем Ключевое слово для Личности personId
 
     Keyword getKeyword( int id );                             // получаем Ключевое слово по его id

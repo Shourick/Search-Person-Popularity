@@ -3,11 +3,11 @@ package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository
 import android.content.Context;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.IRepository;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Data.SQLiteKeywordRepository;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Data.SQLitePersonRepository;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Data.SQLiteSiteRepository;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Players.SQLiteAdminRepository;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Players.SQLiteUserRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.DataRepositories.SQLiteKeywordRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.DataRepositories.SQLitePersonRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.DataRepositories.SQLiteSiteRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.PlayerRepositories.SQLiteAdminRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.PlayerRepositories.SQLiteUserRepository;
 
 /**
  * Класс для работы с базой SQLite для возможности тестирования бизнес-логики
@@ -15,9 +15,8 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
  * <p>
  * Created by skubatko on 27/10/17.
  */
+public class SQLiteRepository extends SQLiteHelper implements IRepository {
 
-public class SQLiteRepository extends SQLiteHelper implements IRepository
-{
     private SQLitePersonRepository persons;
     private SQLiteKeywordRepository keywords;
     private SQLiteSiteRepository sites;
@@ -30,8 +29,7 @@ public class SQLiteRepository extends SQLiteHelper implements IRepository
      *
      * @param context Контекст приложения
      */
-    public SQLiteRepository( Context context )
-    {
+    public SQLiteRepository( Context context ) {
         super( context );
         this.persons = new SQLitePersonRepository( this );
         this.keywords = new SQLiteKeywordRepository( this );
@@ -42,38 +40,32 @@ public class SQLiteRepository extends SQLiteHelper implements IRepository
     }
 
     @Override
-    public SQLitePersonRepository getPersonRepository()
-    {
+    public SQLitePersonRepository getPersonRepository() {
         return persons;
     }
 
     @Override
-    public SQLiteKeywordRepository getKeywordRepository()
-    {
+    public SQLiteKeywordRepository getKeywordRepository() {
         return keywords;
     }
 
     @Override
-    public SQLiteSiteRepository getSiteRepository()
-    {
+    public SQLiteSiteRepository getSiteRepository() {
         return sites;
     }
 
     @Override
-    public SQLiteUserRepository getUserRepository()
-    {
+    public SQLiteUserRepository getUserRepository() {
         return users;
     }
 
     @Override
-    public SQLiteAdminRepository getAdminRepository()
-    {
+    public SQLiteAdminRepository getAdminRepository() {
         return admins;
     }
 
     @Override
-    public SQLiteRepositoryUtils getRepositoryUtils()
-    {
+    public SQLiteRepositoryUtils getRepositoryUtils() {
         return repositoryUtils;
     }
 }

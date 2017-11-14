@@ -24,8 +24,7 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Cons
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.REQUEST_CODE_ADD_KEYWORD;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.REQUEST_CODE_EDIT_KEYWORD;
 
-public class KeywordsDirectoryActivity extends AppCompatActivity implements View.OnClickListener
-{
+public class KeywordsDirectoryActivity extends AppCompatActivity implements View.OnClickListener {
     /**
      * repository применяем глобально во всех Activities для обмена данными с БД
      * при доступности Веб-сервиса поменять на класс, имплементирующий работу с Веб-сервисом
@@ -45,8 +44,7 @@ public class KeywordsDirectoryActivity extends AppCompatActivity implements View
     int selectedKeywordId;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState )
-    {
+    protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_keywords_directory );
 
@@ -78,19 +76,16 @@ public class KeywordsDirectoryActivity extends AppCompatActivity implements View
         spPersonForKeywords.setAdapter( listPersonForKeywordsAdapter );
         selectedPersonForKeywordsId = listAllPersonsForKeywords.get( 0 ).getId();
 
-        spPersonForKeywords.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener()
-        {
+        spPersonForKeywords.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected( AdapterView<?> adapterView, View view, int position, long id )
-            {
+            public void onItemSelected( AdapterView<?> adapterView, View view, int position, long id ) {
                 Person selectedPerson = (Person) adapterView.getSelectedItem();
                 selectedPersonForKeywordsId = selectedPerson.getId();
                 initializeSelectedKeyword();
             }
 
             @Override
-            public void onNothingSelected( AdapterView<?> parent )
-            {
+            public void onNothingSelected( AdapterView<?> parent ) {
             }
         } );
 
@@ -101,40 +96,33 @@ public class KeywordsDirectoryActivity extends AppCompatActivity implements View
         lvKeywordsByPersonList.setAdapter( listKeywordsByPersonAdapter );
         selectedKeywordId = -1;
 
-        lvKeywordsByPersonList.setOnItemClickListener( new AdapterView.OnItemClickListener()
-        {
+        lvKeywordsByPersonList.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick( AdapterView<?> adapterView, View itemClicked, int position, long id )
-            {
+            public void onItemClick( AdapterView<?> adapterView, View itemClicked, int position, long id ) {
                 adapterView.requestFocusFromTouch();
                 adapterView.setSelection( position );
             }
         } );
 
-        lvKeywordsByPersonList.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener()
-        {
+        lvKeywordsByPersonList.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected( AdapterView<?> adapterView, View itemSelected, int position, long id )
-            {
+            public void onItemSelected( AdapterView<?> adapterView, View itemSelected, int position, long id ) {
                 Keyword selectedKeyword = (Keyword) adapterView.getSelectedItem();
                 selectedKeywordId = selectedKeyword.getId();
                 tvKeywordName.setText( selectedKeyword.getName() );
             }
 
             @Override
-            public void onNothingSelected( AdapterView<?> parent )
-            {
+            public void onNothingSelected( AdapterView<?> parent ) {
             }
         } );
     }
 
     @Override
-    public void onClick( View v )
-    {
+    public void onClick( View v ) {
         Intent intent;
 
-        switch ( v.getId() )
-        {
+        switch ( v.getId() ) {
             case R.id.btnKeywordAdd:
                 intent = new Intent( this, KeywordsDirectoryAddKeywordActivity.class );
                 intent.putExtra( PERSON_FOR_KEYWORD_ID, selectedPersonForKeywordsId );
@@ -142,8 +130,7 @@ public class KeywordsDirectoryActivity extends AppCompatActivity implements View
                 break;
 
             case R.id.btnKeywordEdit:
-                if ( isKeywordSelected() )
-                {
+                if ( isKeywordSelected() ) {
                     intent = new Intent( this, KeywordsDirectoryEditKeywordActivity.class );
                     intent.putExtra( KEYWORD_ID, selectedKeywordId );
                     intent.putExtra( KEYWORD_NAME, tvKeywordName.getText().toString() );
@@ -153,8 +140,7 @@ public class KeywordsDirectoryActivity extends AppCompatActivity implements View
                 break;
 
             case R.id.btnKeywordDelete:
-                if ( isKeywordSelected() )
-                {
+                if ( isKeywordSelected() ) {
                     repository.getKeywordRepository().deleteKeyword(
                             new Keyword( selectedKeywordId, tvKeywordName.getText().toString(), selectedPersonForKeywordsId ) );
                 }
@@ -170,29 +156,24 @@ public class KeywordsDirectoryActivity extends AppCompatActivity implements View
     }
 
     @Override
-    protected void onActivityResult( int requestCode, int resultCode, Intent data )
-    {
-        switch ( requestCode )
-        {
+    protected void onActivityResult( int requestCode, int resultCode, Intent data ) {
+        switch ( requestCode ) {
 
             case REQUEST_CODE_ADD_KEYWORD:
-                if ( resultCode == RESULT_OK )
-                {
+                if ( resultCode == RESULT_OK ) {
                     initializeSelectedKeyword();
                 }
                 break;
 
             case REQUEST_CODE_EDIT_KEYWORD:
-                if ( resultCode == RESULT_OK )
-                {
+                if ( resultCode == RESULT_OK ) {
                     initializeSelectedKeyword();
                 }
                 break;
         }
     }
 
-    private void initializeSelectedKeyword()
-    {
+    private void initializeSelectedKeyword() {
         selectedKeywordId = -1;
 
         tvKeywordName.setText( "" );
@@ -202,8 +183,7 @@ public class KeywordsDirectoryActivity extends AppCompatActivity implements View
         listKeywordsByPersonAdapter.notifyDataSetChanged();
     }
 
-    private boolean isKeywordSelected()
-    {
+    private boolean isKeywordSelected() {
         return selectedKeywordId != -1;
     }
 

@@ -1,30 +1,22 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.DataModels;
 
 /**
  * Created by skubatko on 28/10/17.
  */
 
-public class Person {
+public class PersonModel {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-
-    @SerializedName("name")
-    @Expose
+    private int id;
     private String name;
 
-    public Person() {
+    public PersonModel() {
     }
 
-    public Person( String name ) {
+    public PersonModel( String name ) {
         this.name = name;
     }
 
-    public Person( int id, String name ) {
+    public PersonModel( int id, String name ) {
         this.id = id;
         this.name = name;
     }

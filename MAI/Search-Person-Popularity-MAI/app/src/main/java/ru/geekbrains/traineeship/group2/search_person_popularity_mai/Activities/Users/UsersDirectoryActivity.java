@@ -23,8 +23,7 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Cons
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.USER_NICKNAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.USER_PASSWORD;
 
-public class UsersDirectoryActivity extends AppCompatActivity implements View.OnClickListener
-{
+public class UsersDirectoryActivity extends AppCompatActivity implements View.OnClickListener {
 
     /**
      * repository применяем глобально во всех Activities для обмена данными с БД
@@ -41,8 +40,7 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
     int selectedUserId;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState )
-    {
+    protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_users );
 
@@ -69,21 +67,17 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
         lvUsersList.setAdapter( listUserAdapter );
         selectedUserId = -1;
 
-        lvUsersList.setOnItemClickListener( new AdapterView.OnItemClickListener()
-        {
+        lvUsersList.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick( AdapterView<?> adapterView, View itemClicked, int position, long id )
-            {
+            public void onItemClick( AdapterView<?> adapterView, View itemClicked, int position, long id ) {
                 adapterView.requestFocusFromTouch();
                 adapterView.setSelection( position );
             }
         } );
 
-        lvUsersList.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener()
-        {
+        lvUsersList.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected( AdapterView<?> adapterView, View itemSelected, int position, long id )
-            {
+            public void onItemSelected( AdapterView<?> adapterView, View itemSelected, int position, long id ) {
                 User selectedUser = (User) adapterView.getSelectedItem();
                 selectedUserId = selectedUser.getId();
                 tvNickname.setText( selectedUser.getNickName() );
@@ -92,27 +86,23 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
             }
 
             @Override
-            public void onNothingSelected( AdapterView<?> parent )
-            {
+            public void onNothingSelected( AdapterView<?> parent ) {
             }
         } );
 
     }
 
     @Override
-    public void onClick( View v )
-    {
+    public void onClick( View v ) {
         Intent intent;
-        switch ( v.getId() )
-        {
+        switch ( v.getId() ) {
             case R.id.btnUserAdd:
                 intent = new Intent( this, UsersDirectoryAddUserActivity.class );
                 startActivityForResult( intent, REQUEST_CODE_ADD_USER );
                 break;
 
             case R.id.btnUserEdit:
-                if ( isUserSelected() )
-                {
+                if ( isUserSelected() ) {
                     intent = new Intent( this, UsersDirectoryEditUserActivity.class );
                     intent.putExtra( USER_ID, selectedUserId );
                     intent.putExtra( USER_NICKNAME, tvNickname.getText().toString() );
@@ -123,8 +113,7 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
                 break;
 
             case R.id.btnUserDelete:
-                if ( isUserSelected() )
-                {
+                if ( isUserSelected() ) {
                     repository.getUserRepository().deleteUser( new User( selectedUserId,
                             tvNickname.getText().toString(),
                             tvLogin.getText().toString(),
@@ -142,29 +131,24 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
     }
 
     @Override
-    protected void onActivityResult( int requestCode, int resultCode, Intent data )
-    {
-        switch ( requestCode )
-        {
+    protected void onActivityResult( int requestCode, int resultCode, Intent data ) {
+        switch ( requestCode ) {
 
             case REQUEST_CODE_ADD_USER:
-                if ( resultCode == RESULT_OK )
-                {
+                if ( resultCode == RESULT_OK ) {
                     initializeSelectedUser();
                 }
                 break;
 
             case REQUEST_CODE_EDIT_USER:
-                if ( resultCode == RESULT_OK )
-                {
+                if ( resultCode == RESULT_OK ) {
                     initializeSelectedUser();
                 }
                 break;
         }
     }
 
-    private void initializeSelectedUser()
-    {
+    private void initializeSelectedUser() {
         selectedUserId = -1;
 
         tvNickname.setText( "" );
@@ -176,8 +160,7 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
         listUserAdapter.notifyDataSetChanged();
     }
 
-    private boolean isUserSelected()
-    {
+    private boolean isUserSelected() {
         return selectedUserId != -1;
     }
 

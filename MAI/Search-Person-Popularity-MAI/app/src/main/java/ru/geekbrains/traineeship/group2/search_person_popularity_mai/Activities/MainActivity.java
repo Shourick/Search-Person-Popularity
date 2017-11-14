@@ -14,15 +14,16 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Users.UsersDirectoryActivity;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.AdminAuthorization;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.RESTfulRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.SQLiteRepository;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener
-{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     /**
      * repository применяем глобально во всех Activities для обмена данными с БД
      * при доступности Веб-сервиса поменять на класс, имплементирующий работу с Веб-сервисом
      */
-    public static SQLiteRepository repository;
+    public static RESTfulRepository repository;
+//    public static SQLiteRepository repository;
 
     private Button btnPersonsDirectory,
             btnKeywordsDirectory,
@@ -31,8 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btnAdminLogout;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState )
-    {
+    protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
 
@@ -48,23 +48,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnUsersDirectory.setOnClickListener( this );
         btnAdminLogout.setOnClickListener( this );
 
-        repository = new SQLiteRepository( this );
+        repository = new RESTfulRepository();
+//        repository = new SQLiteRepository( this );
 //        repository.getRepositoryUtils().initializeRepository();
         repository.getRepositoryUtils().showRepositoryInfo();
 
-//		Checkpoint if Admin is authorized
-        if ( AdminAuthorization.isNotAuthorized( this ) )
-        {
-            onLogout();
-        }
+
+//		Checkpoint if AdminModel is authorized
+//        if ( AdminAuthorization.isNotAuthorized( this ) ) {
+//            onLogout();
+//        }
     }
 
     @Override
-    public void onClick( View v )
-    {
+    public void onClick( View v ) {
         Intent intent;
-        switch ( v.getId() )
-        {
+        switch ( v.getId() ) {
             case R.id.btnPersonsDirectory:
                 Toast.makeText( v.getContext(), "btnPersonsDirectory", Toast.LENGTH_SHORT ).show();
                 intent = new Intent( this, PersonsDirectoryActivity.class );
@@ -97,8 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void onLogout()
-    {
+    private void onLogout() {
         Intent adminAuthorization = new Intent( this, AdminLoginActivity.class );
         adminAuthorization.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP );
         startActivity( adminAuthorization );
@@ -106,25 +104,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected void onStart()
-    {
+    protected void onStart() {
         super.onStart();
-        AdminAuthorization.setNotAuthorized( this );
+//        AdminAuthorization.setNotAuthorized( this );
     }
 
     @Override
-    protected void onRestart()
-    {
+    protected void onRestart() {
         super.onRestart();
-        AdminAuthorization.setNotAuthorized( this );
+//        AdminAuthorization.setNotAuthorized( this );
     }
 
     @Override
-    protected void onStop()
-    {
+    protected void onStop() {
         super.onStop();
-        repository.close();
-        AdminAuthorization.setNotAuthorized( this );
+//        repository.close();
+//        AdminAuthorization.setNotAuthorized( this );
     }
 
 }

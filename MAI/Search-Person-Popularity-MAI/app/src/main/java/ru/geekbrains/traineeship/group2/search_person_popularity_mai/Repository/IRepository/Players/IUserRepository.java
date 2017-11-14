@@ -13,8 +13,8 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
  * Created by skubatko on 03/11/17.
  */
 
-public interface IUserRepository
-{
+public interface IUserRepository {
+
     public void addUser( User user );         // добавляем Поьзователя
 
     User getUser( int id );                   // получаем Поьзователя по его id

@@ -1,30 +1,23 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.DataModels;
 
 /**
  * Created by skubatko on 28/10/17.
  */
 
-public class Person {
+public class SiteModel {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
+    private int id;
 
-    @SerializedName("name")
-    @Expose
     private String name;
 
-    public Person() {
+    public SiteModel() {
     }
 
-    public Person( String name ) {
+    public SiteModel( String name ) {
         this.name = name;
     }
 
-    public Person( int id, String name ) {
+    public SiteModel( int id, String name ) {
         this.id = id;
         this.name = name;
     }
@@ -49,4 +42,5 @@ public class Person {
     public String toString() {
         return name;
     }
+
 }

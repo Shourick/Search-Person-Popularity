@@ -12,14 +12,13 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
 
-public class UsersDirectoryAddUserActivity extends AppCompatActivity implements View.OnClickListener
-{
+public class UsersDirectoryAddUserActivity extends AppCompatActivity implements View.OnClickListener {
+
     EditText etAddUserNickname, etAddUserLogin, etAddUserPassword;
     Button btnAddUserOK, btnAddUserCancel;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState )
-    {
+    protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_users_directory_add_user );
 
@@ -35,12 +34,10 @@ public class UsersDirectoryAddUserActivity extends AppCompatActivity implements 
     }
 
     @Override
-    public void onClick( View v )
-    {
+    public void onClick( View v ) {
         Intent intent;
 
-        switch ( v.getId() )
-        {
+        switch ( v.getId() ) {
 
             case R.id.btnAddUserOK:
                 repository.getUserRepository().addUser(

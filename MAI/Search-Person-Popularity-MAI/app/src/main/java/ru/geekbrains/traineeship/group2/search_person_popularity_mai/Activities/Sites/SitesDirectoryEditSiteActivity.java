@@ -14,16 +14,14 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Acti
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.SITE_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.SITE_NAME;
 
-public class SitesDirectoryEditSiteActivity extends AppCompatActivity implements View.OnClickListener
-{
+public class SitesDirectoryEditSiteActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText etEditSiteName;
     Button btnEditSiteOK, btnEditSiteCancel;
     int editedSiteId;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState )
-    {
+    protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_sites_directory_edit_site );
 
@@ -36,19 +34,16 @@ public class SitesDirectoryEditSiteActivity extends AppCompatActivity implements
         btnEditSiteCancel.setOnClickListener( this );
 
         Bundle extras = getIntent().getExtras();
-        if ( extras != null )
-        {
+        if ( extras != null ) {
             editedSiteId = extras.getInt( SITE_ID );
             etEditSiteName.setText( extras.getString( SITE_NAME ) );
         }
     }
 
     @Override
-    public void onClick( View v )
-    {
+    public void onClick( View v ) {
         Intent intent;
-        switch ( v.getId() )
-        {
+        switch ( v.getId() ) {
 
             case R.id.btnEditSiteOK:
                 Site editedSite = new Site( etEditSiteName.getText().toString() );

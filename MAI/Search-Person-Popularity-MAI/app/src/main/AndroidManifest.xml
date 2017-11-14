@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <uses-permission android:name="android.permission.READ_PROFILE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -32,10 +33,6 @@
         <activity android:name=".Activities.Users.UsersDirectoryAddUserActivity">
         </activity>
         <activity android:name=".Activities.Users.UsersDirectoryEditUserActivity">
-        </activity>
-        <activity
-            android:name=".AdminLoginActivity"
-            android:label="@string/title_activity_admin_login">
         </activity>
         <activity android:name=".Activities.Admins.AdminLoginActivity">
         </activity>

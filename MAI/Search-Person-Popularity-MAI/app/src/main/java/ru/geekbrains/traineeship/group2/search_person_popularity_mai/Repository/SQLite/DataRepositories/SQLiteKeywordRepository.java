@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Data;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.DataRepositories;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -20,21 +20,17 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Cons
  * Created by skubatko on 08/11/17
  */
 
-public class SQLiteKeywordRepository implements IKeywordRepository
-{
+public class SQLiteKeywordRepository implements IKeywordRepository {
 
     private SQLiteRepository repository;
 
-    public SQLiteKeywordRepository( SQLiteRepository repository )
-    {
+    public SQLiteKeywordRepository( SQLiteRepository repository ) {
         this.repository = repository;
     }
 
     @Override
-    public void addKeyword( Keyword keyword, int personId )
-    {
-        try ( SQLiteDatabase db = repository.getWritableDatabase() )
-        {
+    public void addKeyword( Keyword keyword, int personId ) {
+        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
             contentValues.put( TABLE_KEYWORDS_FIELD_NAME, keyword.getName() );
             contentValues.put( TABLE_KEYWORDS_FIELD_PERSON_ID, personId );
@@ -45,8 +41,7 @@ public class SQLiteKeywordRepository implements IKeywordRepository
     }
 
     @Override
-    public Keyword getKeyword( int id )
-    {
+    public Keyword getKeyword( int id ) {
         Keyword keyword = new Keyword();
         SQLiteDatabase db = repository.getReadableDatabase();
 
@@ -61,8 +56,7 @@ public class SQLiteKeywordRepository implements IKeywordRepository
                 null,                                       // having
                 null ) )                                     // order by
         {
-            if ( cursorKeywords.moveToFirst() )
-            {
+            if ( cursorKeywords.moveToFirst() ) {
                 keyword.setId( Integer.parseInt( cursorKeywords.getString( 0 ) ) );
                 keyword.setName( cursorKeywords.getString( 1 ) );
                 keyword.setPersonId( Integer.parseInt( cursorKeywords.getString( 2 ) ) );
@@ -72,8 +66,7 @@ public class SQLiteKeywordRepository implements IKeywordRepository
     }
 
     @Override
-    public List<Keyword> getPersonKeywords( int personId )
-    {
+    public List<Keyword> getPersonKeywords( int personId ) {
         List<Keyword> keywordList = new ArrayList<>();
 
         SQLiteDatabase db = repository.getReadableDatabase();
@@ -88,10 +81,8 @@ public class SQLiteKeywordRepository implements IKeywordRepository
                 null,                                               // having
                 null ) )                                             // order by
         {
-            if ( cursorKeywords.moveToFirst() )
-            {
-                do
-                {
+            if ( cursorKeywords.moveToFirst() ) {
+                do {
                     Keyword keyword = new Keyword();
                     keyword.setId( Integer.parseInt( cursorKeywords.getString( 0 ) ) );
                     keyword.setName( cursorKeywords.getString( 1 ) );
@@ -104,18 +95,14 @@ public class SQLiteKeywordRepository implements IKeywordRepository
     }
 
     @Override
-    public List<Keyword> getAllKeywords()
-    {
+    public List<Keyword> getAllKeywords() {
         List<Keyword> keywordList = new ArrayList<>();
         String keywordListQuery = "SELECT * FROM " + TABLE_KEYWORDS;
         SQLiteDatabase db = repository.getReadableDatabase();
 
-        try ( Cursor cursorKeywords = db.rawQuery( keywordListQuery, null ) )
-        {
-            if ( cursorKeywords.moveToFirst() )
-            {
-                do
-                {
+        try ( Cursor cursorKeywords = db.rawQuery( keywordListQuery, null ) ) {
+            if ( cursorKeywords.moveToFirst() ) {
+                do {
                     Keyword keyword = new Keyword();
                     keyword.setId( Integer.parseInt( cursorKeywords.getString( 0 ) ) );
                     keyword.setName( cursorKeywords.getString( 1 ) );
@@ -129,25 +116,21 @@ public class SQLiteKeywordRepository implements IKeywordRepository
     }
 
     @Override
-    public int getKeywordsCount()
-    {
+    public int getKeywordsCount() {
         int count = 0;
         String countQuery = "SELECT * FROM " + TABLE_KEYWORDS;
         SQLiteDatabase db = repository.getReadableDatabase();
 
-        try ( Cursor cursorKeywords = db.rawQuery( countQuery, null ) )
-        {
+        try ( Cursor cursorKeywords = db.rawQuery( countQuery, null ) ) {
             count = cursorKeywords.getCount();
         }
         return count;
     }
 
     @Override
-    public int updateKeyword( Keyword keyword )
-    {
+    public int updateKeyword( Keyword keyword ) {
         int result = 0;
-        try ( SQLiteDatabase db = repository.getWritableDatabase() )
-        {
+        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
             contentValues.put( TABLE_KEYWORDS_FIELD_NAME, keyword.getName() );
 
@@ -160,10 +143,8 @@ public class SQLiteKeywordRepository implements IKeywordRepository
     }
 
     @Override
-    public void deleteKeyword( Keyword keyword )
-    {
-        try ( SQLiteDatabase db = repository.getWritableDatabase() )
-        {
+    public void deleteKeyword( Keyword keyword ) {
+        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             db.delete( TABLE_KEYWORDS,
                     KEY_ID + " = ?",
                     new String[] { String.valueOf( keyword.getId() ) } );
@@ -171,10 +152,8 @@ public class SQLiteKeywordRepository implements IKeywordRepository
     }
 
     @Override
-    public void deleteAllKeywords()
-    {
-        try ( SQLiteDatabase db = repository.getWritableDatabase() )
-        {
+    public void deleteAllKeywords() {
+        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             db.delete( TABLE_KEYWORDS, null, null );
         }
     }

@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Players;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.PlayerRepositories;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -21,20 +21,17 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Cons
  * Created by skubatko on 08/11/17
  */
 
-public class SQLiteUserRepository implements IUserRepository
-{
+public class SQLiteUserRepository implements IUserRepository {
+
     private SQLiteRepository repository;
 
-    public SQLiteUserRepository( SQLiteRepository repository )
-    {
+    public SQLiteUserRepository( SQLiteRepository repository ) {
         this.repository = repository;
     }
 
     @Override
-    public void addUser( User user )
-    {
-        try ( SQLiteDatabase db = repository.getWritableDatabase() )
-        {
+    public void addUser( User user ) {
+        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
             contentValues.put( TABLE_USERS_FIELD_NICKNAME, user.getNickName() );
             contentValues.put( TABLE_USERS_FIELD_LOGIN, user.getLogin() );
@@ -46,8 +43,7 @@ public class SQLiteUserRepository implements IUserRepository
     }
 
     @Override
-    public User getUser( int id )
-    {
+    public User getUser( int id ) {
         User user = new User();
         SQLiteDatabase db = repository.getReadableDatabase();
 
@@ -63,8 +59,7 @@ public class SQLiteUserRepository implements IUserRepository
                 null,                                     // having
                 null ) )                                  // order by
         {
-            if ( cursorUsers.moveToFirst() )
-            {
+            if ( cursorUsers.moveToFirst() ) {
                 user.setId( Integer.parseInt( cursorUsers.getString( 0 ) ) );
                 user.setNickName( cursorUsers.getString( 1 ) );
                 user.setLogin( cursorUsers.getString( 2 ) );
@@ -75,18 +70,14 @@ public class SQLiteUserRepository implements IUserRepository
     }
 
     @Override
-    public List<User> getAllUsers()
-    {
+    public List<User> getAllUsers() {
         List<User> siteList = new ArrayList<>();
         String userListQuery = "SELECT * FROM " + TABLE_USERS;
         SQLiteDatabase db = repository.getReadableDatabase();
 
-        try ( Cursor cursorUsers = db.rawQuery( userListQuery, null ) )
-        {
-            if ( cursorUsers.moveToFirst() )
-            {
-                do
-                {
+        try ( Cursor cursorUsers = db.rawQuery( userListQuery, null ) ) {
+            if ( cursorUsers.moveToFirst() ) {
+                do {
                     User user = new User();
                     user.setId( Integer.parseInt( cursorUsers.getString( 0 ) ) );
                     user.setNickName( cursorUsers.getString( 1 ) );
@@ -101,25 +92,21 @@ public class SQLiteUserRepository implements IUserRepository
     }
 
     @Override
-    public int getUsersCount()
-    {
+    public int getUsersCount() {
         int count = 0;
         String countQuery = "SELECT * FROM " + TABLE_USERS;
         SQLiteDatabase db = repository.getReadableDatabase();
 
-        try ( Cursor cursorUsers = db.rawQuery( countQuery, null ) )
-        {
+        try ( Cursor cursorUsers = db.rawQuery( countQuery, null ) ) {
             count = cursorUsers.getCount();
         }
         return count;
     }
 
     @Override
-    public int updateUser( User user )
-    {
+    public int updateUser( User user ) {
         int result = 0;
-        try ( SQLiteDatabase db = repository.getWritableDatabase() )
-        {
+        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
             contentValues.put( TABLE_USERS_FIELD_NICKNAME, user.getNickName() );
             contentValues.put( TABLE_USERS_FIELD_LOGIN, user.getLogin() );
@@ -134,10 +121,8 @@ public class SQLiteUserRepository implements IUserRepository
     }
 
     @Override
-    public void deleteUser( User user )
-    {
-        try ( SQLiteDatabase dbWritable = repository.getWritableDatabase() )
-        {
+    public void deleteUser( User user ) {
+        try ( SQLiteDatabase dbWritable = repository.getWritableDatabase() ) {
             dbWritable.delete( TABLE_USERS,
                     KEY_ID + " = ?",
                     new String[] { String.valueOf( user.getId() ) }
@@ -146,10 +131,8 @@ public class SQLiteUserRepository implements IUserRepository
     }
 
     @Override
-    public void deleteAllUsers()
-    {
-        try ( SQLiteDatabase db = repository.getWritableDatabase() )
-        {
+    public void deleteAllUsers() {
+        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             db.delete( TABLE_USERS, null, null );
         }
     }

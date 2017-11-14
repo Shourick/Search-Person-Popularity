@@ -27,21 +27,17 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Cons
  * Created by skubatko on 02/11/17.
  */
 
-public class SQLiteHelper extends SQLiteOpenHelper
-{
-    /**
-     * -----------------------------
-     * РЕАЛИЗАЦИЯ ИНТЕРФЕЙСА SQLite
-     * -----------------------------
-     */
+/**
+ * РЕАЛИЗАЦИЯ ИНТЕРФЕЙСА SQLite
+ */
+public class SQLiteHelper extends SQLiteOpenHelper {
 
     /**
-     * Конструктор {@link SQLiteRepository}.
+     * Конструктор {@link SQLiteHelper}.
      *
      * @param context Контекст приложения
      */
-    public SQLiteHelper( Context context )
-    {
+    public SQLiteHelper( Context context ) {
         super( context, DATABASE_NAME, null, DATABASE_VERSION );
     }
 
@@ -49,8 +45,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
      * Вызывается при создании базы данных
      */
     @Override
-    public void onCreate( SQLiteDatabase db )
-    {
+    public void onCreate( SQLiteDatabase db ) {
         createPersonsTable( db );
         createKeywordsTable( db );
         createSitesTable( db );
@@ -63,8 +58,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
     /**
      * Создание таблицы Persons
      */
-    private void createPersonsTable( SQLiteDatabase db )
-    {
+    private void createPersonsTable( SQLiteDatabase db ) {
         /**
          * SQL запрос для создания таблицы Persons:
          *  CREATE TABLE persons (
@@ -82,8 +76,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
     /**
      * Создание таблицы Keywords
      */
-    private void createKeywordsTable( SQLiteDatabase db )
-    {
+    private void createKeywordsTable( SQLiteDatabase db ) {
         /**
          * SQL запрос для создания таблицы Keywords:
          *  CREATE TABLE keywords (
@@ -106,8 +99,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
     /**
      * Создание таблицы Sites
      */
-    private void createSitesTable( SQLiteDatabase db )
-    {
+    private void createSitesTable( SQLiteDatabase db ) {
         /**
          * SQL запрос для создания таблицы Sites:
          *  CREATE TABLE sites (
@@ -126,8 +118,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
     /**
      * Создание таблицы Users
      */
-    private void createUsersTable( SQLiteDatabase db )
-    {
+    private void createUsersTable( SQLiteDatabase db ) {
         /**
          * SQL запрос для создания таблицы Sites:
          *  CREATE TABLE users (
@@ -150,8 +141,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
     /**
      * Создание таблицы Admins
      */
-    private void createAdminsTable( SQLiteDatabase db )
-    {
+    private void createAdminsTable( SQLiteDatabase db ) {
         /**
          * SQL запрос для создания таблицы Sites:
          *  CREATE TABLE admins (
@@ -174,8 +164,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
      * Увеличение версии схемы
      */
     @Override
-    public void onUpgrade( SQLiteDatabase db, int oldVersion, int newVersion )
-    {
+    public void onUpgrade( SQLiteDatabase db, int oldVersion, int newVersion ) {
         db.execSQL( "DROP TABLE IF EXISTS " + TABLE_PERSONS );
         db.execSQL( "DROP TABLE IF EXISTS " + TABLE_KEYWORDS );
         db.execSQL( "DROP TABLE IF EXISTS " + TABLE_SITES );
@@ -190,8 +179,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
      * Уменьшение версии схемы
      */
     @Override
-    public void onDowngrade( SQLiteDatabase db, int oldVersion, int newVersion )
-    {
+    public void onDowngrade( SQLiteDatabase db, int oldVersion, int newVersion ) {
         db.execSQL( "DROP TABLE IF EXISTS " + TABLE_PERSONS );
         db.execSQL( "DROP TABLE IF EXISTS " + TABLE_KEYWORDS );
         db.execSQL( "DROP TABLE IF EXISTS " + TABLE_SITES );

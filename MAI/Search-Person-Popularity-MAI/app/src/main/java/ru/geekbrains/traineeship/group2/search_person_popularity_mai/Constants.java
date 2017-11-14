@@ -4,8 +4,10 @@ package ru.geekbrains.traineeship.group2.search_person_popularity_mai;
  * Created by skubatko on 04/11/17
  */
 
-public class Constants
-{
+public class Constants {
+
+    public static final String API_URL_BASE = "http://shourick.pythonanywhere.com/";
+
     // Имя файла базы данных
     public static final String DATABASE_NAME = "searchPersonPopularity.db";
 
