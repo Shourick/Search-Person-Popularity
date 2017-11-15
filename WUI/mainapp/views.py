@@ -4,6 +4,7 @@ from .tables import GeneralStatisticsTable, DailyStatisticsTable
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
 from .forms import ContactForm
+import requests
 
 
 def index(request):
@@ -13,17 +14,23 @@ def index(request):
 
 def general(request):
     title = 'Общая статистика'
-    sites = Site.objects.all()
+    # sites = Site.objects.all()
+    sites = requests.get("http://94.130.27.143/sites").json()
     politics = Politic.objects.all()
-    person_page_rank = PersonPageRank.objects.all()
-    gs_table = GeneralStatisticsTable(person_page_rank)
+    # politics = r.json()
+    # person_page_rank = PersonPageRank.objects.all()
+    # gs_table = GeneralStatisticsTable(person_page_rank)
+    r = requests.get("http://94.130.27.143/persons")
+    gs_table = GeneralStatisticsTable(r.json())
     return render(request, 'general.html', {'title': title, 'sites': sites, 'politics': politics, 'gs_table': gs_table})
 
 
 def daily(request):
     title = 'Ежедневная статистика'
-    sites = Site.objects.all()
-    politics = Politic.objects.all()
+    # sites = Site.objects.all()
+    sites = requests.get("http://94.130.27.143/sites").json()
+    # politics = Politic.objects.all()
+    politics = requests.get("http://94.130.27.143/persons").json()
     ds_table = DailyStatisticsTable(politics)
     return render(request, 'daily.html', {'title': title, 'sites': sites, 'politics': politics, 'ds_table': ds_table})
 

@@ -2,10 +2,10 @@ import django_tables2 as tables
 from .models import Politic
 
 class GeneralStatisticsTable(tables.Table):
-    # class Meta:
-    #     model = Politic
-    name = tables.Column(accessor='person_id.name')
-    rank = tables.Column()
+    class Meta:
+        model = Politic
+    # name = tables.Column(accessor='person_id.name')
+    # rank = tables.Column()
 
 
 class DailyStatisticsTable(tables.Table):
