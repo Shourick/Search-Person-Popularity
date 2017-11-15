@@ -1,3 +1,4 @@
+use spp;
 insert into `persons` (Name) values ('Путин');
 insert into `persons` (Name) values ('Собчак');
 insert into `persons` (Name) values ('Навальный');

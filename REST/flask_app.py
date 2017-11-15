@@ -1,9 +1,8 @@
 from flask import Flask, request, abort
 from flask_restful import Resource, Api
 from functools import wraps
-import MySQLdb
-import Flask_restful.encrypt_password as encrypt
-
+import encrypt_password as encrypt
+import settings
 
 def get_current_user_role(request):
     pass
@@ -25,14 +24,8 @@ def requires_roles(*roles):
 
 
 class WorkResource(Resource):
-    config = {
-        'user': 'spp',
-        'password': 'spp',
-        'database': 'spp',
-        'host': 'localhost',
-        'charset': 'utf8'
-    }
-    db = MySQLdb
+    config = settings.config
+    db = settings.db
 
     @classmethod
     def __init__(cls):
@@ -104,7 +97,7 @@ class Dictionary(WorkResource):
         conn.close()
 
     @classmethod
-    @requires_roles('admin')
+    #@requires_roles('admin')
     def delete(cls, _id=None):
         # cls.__init__()
         conn = cls.conn
