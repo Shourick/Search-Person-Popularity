@@ -12,9 +12,12 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Persons.PersonsDirectoryActivity;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Sites.SitesDirectoryActivity;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Users.UsersDirectoryActivity;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.AdminAuthorization;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.AdminAuthorization;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.SQLiteRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RepositorySync;
+
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.MAIN_DATABASE_NAME;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     /**
@@ -22,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * при доступности Веб-сервиса поменять на класс, имплементирующий работу с Веб-сервисом
      */
     public static SQLiteRepository repository;
+    public static SQLiteRepository synchronizedRepository;
 
     private Button btnPersonsDirectory,
             btnKeywordsDirectory,
@@ -46,9 +50,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnUsersDirectory.setOnClickListener( this );
         btnAdminLogout.setOnClickListener( this );
 
-        repository = new SQLiteRepository( this );
-        repository.getRepositoryUtils().initializeRepository(this);
-        repository.getRepositoryUtils().showRepositoryInfo();
+        repository = new SQLiteRepository( this, MAIN_DATABASE_NAME );
+
+        new RepositorySync( this ).execute(  );
+
+        repository.showRepositoryInfo();
 
 
 //		Checkpoint if AdminModel is authorized

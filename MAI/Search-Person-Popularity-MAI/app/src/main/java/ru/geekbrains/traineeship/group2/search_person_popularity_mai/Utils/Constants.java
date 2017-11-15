@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils;
 
 /**
  * Created by skubatko on 04/11/17
@@ -9,7 +9,8 @@ public class Constants {
     public static final String API_URL_BASE = "http://shourick.pythonanywhere.com/";
 
     // Имя файла базы данных
-    public static final String DATABASE_NAME = "searchPersonPopularity.db";
+    public static final String MAIN_DATABASE_NAME = "searchPersonPopularity.db";
+    public static final String SYNCHRONIZED_DATABASE_NAME = "searchPPSynced.db";
 
     // Версия базы данных. При изменении схемы увеличить на единицу
     public static final int DATABASE_VERSION = 2;
@@ -67,4 +68,6 @@ public class Constants {
     public static final String PREFERENCES_AUTHORIZED_KEY = "isAuthorized";
 
     public static final int MAX_OF_ADMIN_AUTHORIZATION_TRIES = 3;
+
+    public static final String MESSAGE_SYNCRONIZING = "Идет синхронизация ...";
 }

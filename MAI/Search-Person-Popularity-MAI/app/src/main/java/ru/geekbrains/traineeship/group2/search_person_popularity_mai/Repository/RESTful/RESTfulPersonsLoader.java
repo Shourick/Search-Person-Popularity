@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.Keywords;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -10,21 +10,22 @@ import java.util.List;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Keyword;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Person;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.IRestAPI.IPersonRestAPI;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.API_URL_BASE;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.API_URL_BASE;
 
 /**
  * Created by skubatko on 15/11/17
  */
 
-public class RESTfulKeywordsLoader extends AsyncTask<Void, Void, List<Keyword>> {
+public class RESTfulPersonsLoader extends AsyncTask<Void, Void, List<Person>> {
 
     private ProgressDialog progress;
     private Context context;
 
-    public RESTfulKeywordsLoader( Context context ) {
+    public RESTfulPersonsLoader( Context context ) {
         this.context = context;
     }
 
@@ -36,15 +37,15 @@ public class RESTfulKeywordsLoader extends AsyncTask<Void, Void, List<Keyword>> 
     }
 
     @Override
-    protected List<Keyword> doInBackground( Void... params ) {
-        List<Keyword> keywords = new ArrayList<>();
+    protected List<Person> doInBackground( Void... params ) {
+        List<Person> persons = new ArrayList<>();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl( API_URL_BASE )
                 .addConverterFactory( GsonConverterFactory.create() )
                 .build();
-        IKeywordRestAPI keywordRestAPI = retrofit.create( IKeywordRestAPI.class );
+        IPersonRestAPI personRestAPI = retrofit.create( IPersonRestAPI.class );
         try {
-            keywords = keywordRestAPI.getAllKeywords().execute().body();
+            persons = personRestAPI.getAllPersons().execute().body();
         } catch ( IOException e ) {
             e.printStackTrace();
         }
@@ -55,13 +56,13 @@ public class RESTfulKeywordsLoader extends AsyncTask<Void, Void, List<Keyword>> 
             e.printStackTrace();
         }
 
-        return keywords;
+        return persons;
     }
 
     @Override
-    protected void onPostExecute( List<Keyword> keywords ) {
-        for ( Keyword o : keywords ) {
-            repository.getKeywordRepository().addKeyword( o, o.getPersonId() );
+    protected void onPostExecute( List<Person> persons ) {
+        for ( Person o : persons ) {
+            repository.getPersonRepository().addPerson( o );
         }
         progress.dismiss();
     }

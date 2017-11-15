@@ -1,27 +1,26 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.DATABASE_NAME;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.DATABASE_VERSION;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.KEY_ID;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_ADMINS;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_ADMINS_FIELD_LOGIN;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_ADMINS_FIELD_PASSWORD;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_KEYWORDS;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_KEYWORDS_FIELD_NAME;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_KEYWORDS_FIELD_PERSON_ID;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_PERSONS;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_PERSONS_FIELD_NAME;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_SITES;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_SITES_FIELD_NAME;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_USERS;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_USERS_FIELD_LOGIN;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_USERS_FIELD_NICKNAME;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_USERS_FIELD_PASSWORD;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.DATABASE_VERSION;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEY_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_ADMINS;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_ADMINS_FIELD_LOGIN;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_ADMINS_FIELD_PASSWORD;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_KEYWORDS;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_KEYWORDS_FIELD_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_KEYWORDS_FIELD_PERSON_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_PERSONS;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_PERSONS_FIELD_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_SITES;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_SITES_FIELD_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_USERS;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_USERS_FIELD_LOGIN;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_USERS_FIELD_NICKNAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_USERS_FIELD_PASSWORD;
 
 /**
  * Created by skubatko on 02/11/17.
@@ -33,12 +32,12 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Cons
 public class SQLiteHelper extends SQLiteOpenHelper {
 
     /**
-     * Конструктор {@link SQLiteHelper}.
+     * Конструктор {@link SQLiteHelper}
      *
      * @param context Контекст приложения
      */
-    public SQLiteHelper( Context context ) {
-        super( context, DATABASE_NAME, null, DATABASE_VERSION );
+    public SQLiteHelper( Context context, String dbName ) {
+        super( context, dbName, null, DATABASE_VERSION );
     }
 
     /**

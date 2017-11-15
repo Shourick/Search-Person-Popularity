@@ -11,8 +11,8 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Person;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.PERSON_ID;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.PERSON_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.PERSON_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.PERSON_NAME;
 
 public class PersonsDirectoryEditPersonActivity extends AppCompatActivity implements View.OnClickListener {
 

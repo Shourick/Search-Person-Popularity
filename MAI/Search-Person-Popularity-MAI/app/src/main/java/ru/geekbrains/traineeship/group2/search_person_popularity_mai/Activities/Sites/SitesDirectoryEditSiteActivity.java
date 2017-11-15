@@ -11,8 +11,8 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Site;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.SITE_ID;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.SITE_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.SITE_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.SITE_NAME;
 
 public class SitesDirectoryEditSiteActivity extends AppCompatActivity implements View.OnClickListener {
 

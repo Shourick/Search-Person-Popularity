@@ -11,7 +11,7 @@ public interface IRepositoryUtils {
     /**
      * Заполнение Repository фейковыми значениями
      */
-    public void initializeRepository( Context context);
+    public void synchronizeRepository( Context context);
 
     /**
      * Выводит содержимое Repository в лог системы для проверки

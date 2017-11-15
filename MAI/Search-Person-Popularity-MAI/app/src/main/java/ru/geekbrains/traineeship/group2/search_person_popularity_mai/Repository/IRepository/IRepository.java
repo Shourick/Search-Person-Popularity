@@ -22,5 +22,4 @@ public interface IRepository {
 
     public IAdminRepository getAdminRepository();
 
-    public IRepositoryUtils getRepositoryUtils();
 }

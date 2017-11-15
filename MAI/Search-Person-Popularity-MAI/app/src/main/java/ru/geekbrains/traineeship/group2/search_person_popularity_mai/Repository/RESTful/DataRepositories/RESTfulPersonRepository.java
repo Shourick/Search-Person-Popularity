@@ -3,16 +3,14 @@ package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository
 import java.io.IOException;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Person;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.Data.IPersonRepository;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.Persons.IPersonRestAPI;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.IRestAPI.IPersonRestAPI;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.API_URL_BASE;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.API_URL_BASE;
 
 /**
  * Created by skubatko on 13/11/17
@@ -20,12 +18,10 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Cons
 
 public class RESTfulPersonRepository implements IPersonRepository {
 
-    private Retrofit retrofit;
     private IPersonRestAPI personRestAPI;
-    private int personCount;
 
     public RESTfulPersonRepository() {
-        retrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl( API_URL_BASE )
                 .addConverterFactory( GsonConverterFactory.create() )
                 .build();
@@ -33,88 +29,52 @@ public class RESTfulPersonRepository implements IPersonRepository {
     }
 
     @Override
-    public void addPerson( Person person ) {
-        try {
-            personRestAPI.addPerson( person.getName() ).execute();
-        } catch ( IOException e ) {
-            e.printStackTrace();
-        }
+    public void addPerson( Person person ) throws IOException {
+        personRestAPI.addPerson( person.getName() ).execute();
     }
 
     @Override
-    public Person getPersonById( int id ) {
-        try {
-            return new Person( id, personRestAPI.getPersonById( id ).execute().body() );
-        } catch ( IOException e ) {
-            e.printStackTrace();
-        }
-        return null;
+    public Person getPersonById( int id ) throws IOException {
+        return new Person( id, personRestAPI.getPersonById( id ).execute().body() );
     }
 
     @Override
-    public Person getPersonByName( String name ) {
-        try {
-            return new Person( personRestAPI.getPersonByName( name ).execute().body(), name );
-        } catch ( IOException e ) {
-            e.printStackTrace();
+    public Person getPersonByName( String name ) throws IOException {
+        Response<Integer> response = personRestAPI.getPersonByName( name ).execute();
+        if ( response.isSuccessful() ) {
+
+            return new Person( response.body(), name );
         }
         return null;
     }
 
     @Override
-    public List<Person> getAllPersons() {
-        try {
-            return personRestAPI.getAllPersons().execute().body();
-        } catch ( IOException e ) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
-    @Override
-    public int getPersonsCount() {
-        personRestAPI.getAllPersons().enqueue( new Callback<List<Person>>() {
-            @Override
-            public void onResponse( Call<List<Person>> call, Response<List<Person>> response ) {
-                System.out.println( "Table response: " + response.body().size() );
-                personCount = response.body().size();
-            }
-
-            @Override
-            public void onFailure( Call<List<Person>> call, Throwable t ) {
-
-            }
-        } );
-        System.out.println( "Table response personsCount: " + personCount );
-        return personCount;
+    public List<Person> getAllPersons() throws IOException {
+        return personRestAPI.getAllPersons().execute().body();
     }
 
     @Override
-    public int updatePerson( Person person ) {
-        try {
-            personRestAPI.updatePerson( person.getId(), person.getName() ).execute();
-        } catch ( IOException e ) {
-            e.printStackTrace();
+    public int getPersonsCount() throws IOException {
+        Response<List<Person>> response = personRestAPI.getAllPersons().execute();
+        if ( response.isSuccessful() ) {
+            return response.body().size();
         }
         return 0;
     }
 
     @Override
-    public void deletePerson( Person person ) {
-        try {
-            personRestAPI.deletePerson( person.getId() ).execute();
-        } catch ( IOException e ) {
-            e.printStackTrace();
-        }
+    public int updatePerson( Person person ) throws IOException {
+        personRestAPI.updatePerson( person.getId(), person.getName() ).execute();
+        return 0;
     }
 
     @Override
-    public void deleteAllPersons() {
-        try {
-            personRestAPI.deleteAllPersons().execute();
-        } catch ( IOException e ) {
-            e.printStackTrace();
-        }
+    public void deletePerson( Person person ) throws IOException {
+        personRestAPI.deletePerson( person.getId() ).execute();
+    }
+
+    @Override
+    public void deleteAllPersons() throws IOException {
+        personRestAPI.deleteAllPersons().execute();
     }
 }

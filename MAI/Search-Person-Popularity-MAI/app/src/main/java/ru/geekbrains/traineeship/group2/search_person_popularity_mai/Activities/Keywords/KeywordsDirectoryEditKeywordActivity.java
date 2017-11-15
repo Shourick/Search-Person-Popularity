@@ -11,9 +11,9 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Keyword;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.KEYWORD_ID;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.KEYWORD_NAME;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.PERSON_FOR_KEYWORD_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEYWORD_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEYWORD_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.PERSON_FOR_KEYWORD_ID;
 
 public class KeywordsDirectoryEditKeywordActivity extends AppCompatActivity implements View.OnClickListener {
 

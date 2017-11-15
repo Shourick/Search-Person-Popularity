@@ -9,11 +9,11 @@ import java.util.List;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Site;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.Data.ISiteRepository;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.SQLiteRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.KEY_ID;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_SITES;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_SITES_FIELD_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEY_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_SITES;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_SITES_FIELD_NAME;
 
 /**
  * Created by skubatko on 08/11/17

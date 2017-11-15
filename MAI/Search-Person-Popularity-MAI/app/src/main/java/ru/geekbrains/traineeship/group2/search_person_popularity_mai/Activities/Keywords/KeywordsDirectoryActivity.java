@@ -18,11 +18,11 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Person;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.KEYWORD_ID;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.KEYWORD_NAME;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.PERSON_FOR_KEYWORD_ID;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.REQUEST_CODE_ADD_KEYWORD;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.REQUEST_CODE_EDIT_KEYWORD;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEYWORD_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEYWORD_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.PERSON_FOR_KEYWORD_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.REQUEST_CODE_ADD_KEYWORD;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.REQUEST_CODE_EDIT_KEYWORD;
 
 public class KeywordsDirectoryActivity extends AppCompatActivity implements View.OnClickListener {
     /**
@@ -66,7 +66,7 @@ public class KeywordsDirectoryActivity extends AppCompatActivity implements View
         btnKeywordEdit.setOnClickListener( this );
         btnKeywordDelete.setOnClickListener( this );
 
-        repository.getRepositoryUtils().showRepositoryInfo();
+        repository.showRepositoryInfo();
 
         listAllPersonsForKeywords = repository.getPersonRepository().getAllPersons();
         listPersonForKeywordsAdapter = new ArrayAdapter<Person>( this,

@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.Persons;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.IRestAPI;
 
 import java.util.List;
 

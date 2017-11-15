@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils;
 
 import android.content.Context;
 
