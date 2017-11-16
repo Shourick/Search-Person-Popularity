@@ -25,19 +25,17 @@ def general(request):
 # @login_required
 def daily(request):
     title = 'Ежедневная статистика'
-    sites = Sites.objects.all()
     sites = requests.get("http://94.130.27.143/sites").json()
-    # politics = Politic.objects.all()
-    politics = requests.get("http://94.130.27.143/persons").json()
-    ds_table = DailyStatisticsTable(politics)
-    return render(request, 'daily.html', {'title': title, 'sites': sites, 'politics': politics, 'ds_table': ds_table})
+    persons = requests.get("http://94.130.27.143/persons").json()
+    ds_table = DailyStatisticsTable(persons)
+    return render(request, 'daily.html', {'title': title, 'sites': sites, 'persons': persons, 'ds_table': ds_table})
 
 
 def support(request):
     title = 'Контакты'
     if request.method == 'POST':
         form = ContactForm(request.POST)
-        # Если форма заполнена корректно, сохраняем все введённые   пользователем значения
+        # Если форма заполнена корректно, сохраняем все введённые пользователем значения
         if form.is_valid():
             subject = form.cleaned_data['subject']
             sender = form.cleaned_data['sender']
