@@ -3,6 +3,9 @@ package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_NAME;
+
 /**
  * Created by skubatko on 28/10/17.
  */
@@ -18,10 +21,12 @@ public class Person {
     private String name;
 
     public Person() {
+        this.id = EMPTY_ID;
+        this.name = EMPTY_NAME;
     }
 
     public Person( String name ) {
-        this.id = 0;
+        this.id = EMPTY_ID;
         this.name = name;
     }
 

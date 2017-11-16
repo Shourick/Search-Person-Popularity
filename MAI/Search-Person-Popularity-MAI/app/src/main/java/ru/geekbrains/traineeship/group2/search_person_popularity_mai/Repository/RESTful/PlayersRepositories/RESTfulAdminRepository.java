@@ -33,7 +33,11 @@ public class RESTfulAdminRepository implements IAdminRepository {
 
     @Override
     public int addAdmin( Admin admin ) throws IOException {
-        Response<Integer> response = adminRestAPI.addAdmin( admin.getLogin() ).execute();
+        Response<Integer> response = adminRestAPI.addAdmin(
+                admin.getNickName(),
+                admin.getLogin(),
+                admin.getPassword() )
+                .execute();
         if ( response.isSuccessful() ) {
             return response.body();
         }
@@ -42,11 +46,11 @@ public class RESTfulAdminRepository implements IAdminRepository {
 
     @Override
     public Admin getAdmin( int id ) throws IOException {
-        Response<String> response = adminRestAPI.getAdminById( id ).execute();
+        Response<Admin> response = adminRestAPI.getAdminById( id ).execute();
         if ( response.isSuccessful() ) {
-            return new Admin( id, response.body(),response.body() );
+            return response.body();
         }
-        return new Admin( EMPTY_ID, EMPTY_NAME, EMPTY_NAME );
+        return new Admin( EMPTY_ID, EMPTY_NAME, EMPTY_NAME, EMPTY_NAME );
     }
 
     @Override
@@ -65,7 +69,8 @@ public class RESTfulAdminRepository implements IAdminRepository {
 
     @Override
     public int updateAdmin( Admin admin ) throws IOException {
-        adminRestAPI.updateAdmin( admin.getId(), admin.getLogin() ).execute();
+        adminRestAPI.updateAdmin( admin.getId(), admin.getNickName() ).execute();
+        adminRestAPI.updateAdminPassword( admin.getId(), admin.getPassword() ).execute();
         return UPDATE_OK;
     }
 

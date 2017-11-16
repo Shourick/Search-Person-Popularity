@@ -2,6 +2,7 @@ package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -35,17 +36,17 @@ public interface IKeywordRestAPI {
     Call<List<Keyword>> getAllKeywords();                       // получаем список всех
 
     @POST( "keywords/{id}/{person_id}/{name}" )
-    Call updateKeyword(
+    Call<ResponseBody> updateKeyword(
             @Path( "id" ) int id,
             @Path( "person_id" ) int person_id,
             @Path( "name" ) String name
     );                                                          // обновляем данные
 
     @DELETE( "keywords/{id}" )
-    Call deleteKeyword(
+    Call<ResponseBody> deleteKeyword(
             @Path( "id" ) int id );                             // удаляем c id
 
     @DELETE( "keywords" )
-    Call deleteAllKeywords();                                   // удаляем все
+    Call<ResponseBody> deleteAllKeywords();                                   // удаляем все
 
 }

@@ -1,23 +1,43 @@
 package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_NAME;
+
 /**
  * Created by skubatko on 28/10/17.
  */
 
 public class Keyword {
 
+    @SerializedName( "id" )
+    @Expose
     private int id;
+
+    @SerializedName( "name" )
+    @Expose
     private String name;
+
+    @SerializedName( "person_id" )
+    @Expose
     private int personId;
 
     public Keyword() {
+        this.id = EMPTY_ID;
+        this.name = EMPTY_NAME;
+        this.personId = EMPTY_ID;
     }
 
     public Keyword( String name ) {
+        this.id = EMPTY_ID;
         this.name = name;
+        this.personId = EMPTY_ID;
     }
 
     public Keyword( String name, int personId ) {
+        this.id = EMPTY_ID;
         this.name = name;
         this.personId = personId;
     }

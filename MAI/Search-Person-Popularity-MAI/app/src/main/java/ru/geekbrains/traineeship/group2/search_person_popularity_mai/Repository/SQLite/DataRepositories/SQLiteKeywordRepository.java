@@ -11,6 +11,7 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.Data.IKeywordRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEY_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_KEYWORDS;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_KEYWORDS_FIELD_NAME;
@@ -32,6 +33,9 @@ public class SQLiteKeywordRepository implements IKeywordRepository {
     public int addKeyword( Keyword keyword, int personId ) {
         try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
+            if ( keyword.getId() != EMPTY_ID ) {
+                contentValues.put( KEY_ID, keyword.getId() );
+            }
             contentValues.put( TABLE_KEYWORDS_FIELD_NAME, keyword.getName() );
             contentValues.put( TABLE_KEYWORDS_FIELD_PERSON_ID, personId );
 

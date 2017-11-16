@@ -2,6 +2,7 @@ package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -34,15 +35,15 @@ public interface ISiteRestAPI {
     Call<List<Site>> getAllSites();         // получаем список всех
 
     @POST( "sites/{id}/{name}" )
-    Call updateSite(
+    Call<ResponseBody> updateSite(
             @Path( "id" ) int id, @Path( "name" ) String name
     );                                          // обновляем данные
 
     @DELETE( "sites/{id}" )
-    Call deleteSite(
+    Call<ResponseBody> deleteSite(
             @Path( "id" ) int id );             // удаляем по id
 
     @DELETE( "sites" )
-    Call deleteAllSites();                    // удаляем все
+    Call<ResponseBody> deleteAllSites();                    // удаляем все
 
 }

@@ -33,6 +33,9 @@ public class SQLiteSiteRepository implements ISiteRepository {
     public int addSite( Site site ) {
         try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
+            if ( site.getId() != EMPTY_ID ) {
+                contentValues.put( KEY_ID, site.getId() );
+            }
             contentValues.put( TABLE_SITES_FIELD_NAME, site.getName() );
 
             db.insert( TABLE_SITES, null, contentValues );

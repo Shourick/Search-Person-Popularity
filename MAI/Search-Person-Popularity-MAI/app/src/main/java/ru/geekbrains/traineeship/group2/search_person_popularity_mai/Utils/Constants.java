@@ -14,7 +14,7 @@ public class Constants {
     public static final String SYNCHRONIZED_DATABASE_NAME = "searchPPSynced.db";
 
     // Версия базы данных. При изменении схемы увеличить на единицу
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
 
     public static final String TABLE_PERSONS = "persons";
     public static final String TABLE_KEYWORDS = "keywords";
@@ -31,10 +31,11 @@ public class Constants {
 
     public static final String TABLE_SITES_FIELD_NAME = "name";
 
-    public static final String TABLE_USERS_FIELD_NICKNAME = "nickname";
+    public static final String TABLE_USERS_FIELD_NICKNAME = "user_nickname";
     public static final String TABLE_USERS_FIELD_LOGIN = "login";
     public static final String TABLE_USERS_FIELD_PASSWORD = "password";
 
+    public static final String TABLE_ADMINS_FIELD_NICKNAME = "admin_nickname";
     public static final String TABLE_ADMINS_FIELD_LOGIN = "login";
     public static final String TABLE_ADMINS_FIELD_PASSWORD = "password";
 

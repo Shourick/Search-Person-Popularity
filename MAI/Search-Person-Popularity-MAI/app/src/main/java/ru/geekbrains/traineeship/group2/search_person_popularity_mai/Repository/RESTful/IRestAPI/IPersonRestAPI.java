@@ -2,6 +2,7 @@ package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -34,15 +35,15 @@ public interface IPersonRestAPI {
     Call<List<Person>> getAllPersons();         // получаем список всех
 
     @POST( "persons/{id}/{name}" )
-    Call updatePerson(
+    Call<ResponseBody> updatePerson(
             @Path( "id" ) int id, @Path( "name" ) String name
     );                                          // обновляем данные
 
     @DELETE( "persons/{id}" )
-    Call deletePerson(
+    Call<ResponseBody> deletePerson(
             @Path( "id" ) int id );             // удаляем по id
 
     @DELETE( "persons" )
-    Call deleteAllPersons();                    // удаляем все
+    Call<ResponseBody> deleteAllPersons();                    // удаляем все
 
 }

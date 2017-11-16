@@ -101,7 +101,8 @@ public class SQLiteRepository extends SQLiteHelper implements IRepository {
 
         for ( Admin o : admins.getAllAdmins() ) {
             System.out.println( "Table: " + TABLE_ADMINS + " : " +
-                    o.getId() + ", " + o.getLogin() + ", " + o.getPassword() );
+                    o.getId() + ", " + o.getNickName() + ", " +
+                    o.getLogin() + ", " + o.getPassword() );
         }
 
     }}

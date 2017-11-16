@@ -11,6 +11,7 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.User;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEY_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_USERS;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_USERS_FIELD_LOGIN;
@@ -33,6 +34,9 @@ public class SQLiteUserRepository implements IUserRepository {
     public int addUser( User user ) {
         try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
+            if ( user.getId() != EMPTY_ID ) {
+                contentValues.put( KEY_ID, user.getId() );
+            }
             contentValues.put( TABLE_USERS_FIELD_NICKNAME, user.getNickName() );
             contentValues.put( TABLE_USERS_FIELD_LOGIN, user.getLogin() );
             contentValues.put( TABLE_USERS_FIELD_PASSWORD, user.getPassword() );

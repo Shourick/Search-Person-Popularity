@@ -57,9 +57,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         new RepositorySync( this ).execute();
 
-//        repository.showRepositoryInfo();
-
-
 //		Checkpoint if AdminModel is authorized
 //        if ( AdminAuthorization.isNotAuthorized( this ) ) {
 //            onLogout();
@@ -71,25 +68,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent;
         switch ( v.getId() ) {
             case R.id.btnPersonsDirectory:
-                Toast.makeText( v.getContext(), "btnPersonsDirectory", Toast.LENGTH_SHORT ).show();
                 intent = new Intent( this, PersonsDirectoryActivity.class );
                 startActivity( intent );
                 break;
 
             case R.id.btnKeywordsDirectory:
-                Toast.makeText( v.getContext(), "btnKeywordsDirectory", Toast.LENGTH_SHORT ).show();
                 intent = new Intent( this, KeywordsDirectoryActivity.class );
                 startActivity( intent );
                 break;
 
             case R.id.btnSitesDirectory:
-                Toast.makeText( v.getContext(), "btnSitesDirectory", Toast.LENGTH_SHORT ).show();
                 intent = new Intent( this, SitesDirectoryActivity.class );
                 startActivity( intent );
                 break;
 
             case R.id.btnUsersDirectory:
-                Toast.makeText( v.getContext(), "btnUsersDirectory", Toast.LENGTH_SHORT ).show();
                 intent = new Intent( this, UsersDirectoryActivity.class );
                 startActivity( intent );
                 break;

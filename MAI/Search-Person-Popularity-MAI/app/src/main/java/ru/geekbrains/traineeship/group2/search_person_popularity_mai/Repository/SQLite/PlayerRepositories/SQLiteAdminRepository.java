@@ -11,9 +11,11 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.Admin;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEY_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_ADMINS;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_ADMINS_FIELD_LOGIN;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_ADMINS_FIELD_NICKNAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_ADMINS_FIELD_PASSWORD;
 
 /**
@@ -32,6 +34,7 @@ public class SQLiteAdminRepository implements IAdminRepository {
     public int addAdmin( Admin admin ) {
         try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
+            contentValues.put( TABLE_ADMINS_FIELD_NICKNAME, admin.getNickName() );
             contentValues.put( TABLE_ADMINS_FIELD_LOGIN, admin.getLogin() );
             contentValues.put( TABLE_ADMINS_FIELD_PASSWORD, admin.getPassword() );
 
@@ -48,6 +51,7 @@ public class SQLiteAdminRepository implements IAdminRepository {
         try ( Cursor cursorSites = db.query(
                 TABLE_ADMINS,                              // table
                 new String[] { KEY_ID,
+                        TABLE_ADMINS_FIELD_NICKNAME,
                         TABLE_ADMINS_FIELD_LOGIN,
                         TABLE_ADMINS_FIELD_PASSWORD },     // columns
                 KEY_ID + " = ?",                                     // columns WHERE
@@ -58,6 +62,7 @@ public class SQLiteAdminRepository implements IAdminRepository {
         {
             if ( cursorSites.moveToFirst() ) {
                 admin.setId( Integer.parseInt( cursorSites.getString( 0 ) ) );
+                admin.setNickName( cursorSites.getString( 1 ) );
                 admin.setLogin( cursorSites.getString( 1 ) );
                 admin.setPassword( cursorSites.getString( 2 ) );
             }
@@ -76,8 +81,9 @@ public class SQLiteAdminRepository implements IAdminRepository {
                 do {
                     Admin admin = new Admin();
                     admin.setId( Integer.parseInt( cursorAdmins.getString( 0 ) ) );
-                    admin.setLogin( cursorAdmins.getString( 1 ) );
-                    admin.setPassword( cursorAdmins.getString( 2 ) );
+                    admin.setNickName( cursorAdmins.getString( 1 ) );
+                    admin.setLogin( cursorAdmins.getString( 2) );
+                    admin.setPassword( cursorAdmins.getString( 3 ) );
                     adminList.add( admin );
                 } while ( cursorAdmins.moveToNext() );
             }
@@ -103,6 +109,10 @@ public class SQLiteAdminRepository implements IAdminRepository {
         int result = 0;
         try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
+            if ( admin.getId() != EMPTY_ID ) {
+                contentValues.put( KEY_ID, admin.getId() );
+            }
+            contentValues.put( TABLE_ADMINS_FIELD_NICKNAME, admin.getLogin() );
             contentValues.put( TABLE_ADMINS_FIELD_LOGIN, admin.getLogin() );
             contentValues.put( TABLE_ADMINS_FIELD_PASSWORD, admin.getPassword() );
 

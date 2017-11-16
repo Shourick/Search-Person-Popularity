@@ -33,7 +33,7 @@ public class RESTfulUserRepository implements IUserRepository {
 
     @Override
     public int addUser( User user ) throws IOException {
-        Response<Integer> response = userRestAPI.addUser( user.getNickName() ).execute();
+        Response<Integer> response = userRestAPI.addUser(user.getLogin(), user.getNickName(),user.getPassword() ).execute();
         if ( response.isSuccessful() ) {
             return response.body();
         }
@@ -42,9 +42,9 @@ public class RESTfulUserRepository implements IUserRepository {
 
     @Override
     public User getUser( int id ) throws IOException {
-        Response<String> response = userRestAPI.getUserById( id ).execute();
+        Response<User> response = userRestAPI.getUserById( id ).execute();
         if ( response.isSuccessful() ) {
-            return new User( id, response.body(), response.body(), response.body() );
+            return response.body();
         }
         return new User( EMPTY_ID, EMPTY_NAME, EMPTY_NAME, EMPTY_NAME );
     }
@@ -66,6 +66,7 @@ public class RESTfulUserRepository implements IUserRepository {
     @Override
     public int updateUser( User user ) throws IOException {
         userRestAPI.updateUser( user.getId(), user.getNickName() ).execute();
+        userRestAPI.updateUserPassword( user.getId(), user.getPassword() ).execute();
         return UPDATE_OK;
     }
 

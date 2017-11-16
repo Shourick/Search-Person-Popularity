@@ -1,20 +1,42 @@
 package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_NAME;
+
 /**
  * Created by skubatko on 02/11/17.
  */
 
 public class User {
 
+    @SerializedName( "id" )
+    @Expose
     private int id;
+
+    @SerializedName( "name" )
+    @Expose
     private String nickName;
+
+    @SerializedName( "login" )
+    @Expose
     private String login;
+
+    @SerializedName( "password" )
+    @Expose
     private String password;
 
     public User() {
+        this.id = EMPTY_ID;
+        this.nickName = EMPTY_NAME;
+        this.login = EMPTY_NAME;
+        this.password = EMPTY_NAME;
     }
 
     public User( String nickName, String login, String password ) {
+        this.id = EMPTY_ID;
         this.nickName = nickName;
         this.login = login;
         this.password = password;
@@ -25,6 +47,13 @@ public class User {
         this.nickName = nickName;
         this.login = login;
         this.password = password;
+    }
+
+    public User( String nickName, int id, String login ) {
+        this.id = id;
+        this.nickName = login;
+        this.login = login;
+        this.password = EMPTY_NAME;
     }
 
     public int getId() {

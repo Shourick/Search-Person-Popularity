@@ -33,7 +33,7 @@ public class SQLitePersonRepository implements IPersonRepository {
     public int addPerson( Person person ) {
         try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
-            if ( person.getId() != 0 ) {
+            if ( person.getId() != EMPTY_ID ) {
                 contentValues.put( KEY_ID, person.getId() );
             }
             contentValues.put( TABLE_PERSONS_FIELD_NAME, person.getName() );
