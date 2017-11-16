@@ -1,5 +1,6 @@
 package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.Data;
 
+import java.io.IOException;
 import java.util.List;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Person;
@@ -13,21 +14,21 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
  * Created by skubatko on 03/11/17.
  */
 
-public interface IPersonRepository
-{
-    public void addPerson( Person person );       // добавляем Личность
+public interface IPersonRepository {
 
-    Person getPersonById( int id );               // получаем Личность по id
+    public void addPerson( Person person ) throws IOException;       // добавляем Личность
 
-    Person getPersonByName( String name );        // получаем Личность по Имени
+    Person getPersonById( int id ) throws IOException;               // получаем Личность по id
 
-    List getAllPersons();                       // получаем список всех Личностей
+    Person getPersonByName( String name ) throws IOException;        // получаем Личность по Имени
 
-    int getPersonsCount();                      // получаем количество Личностей в Репозитории
+    List getAllPersons() throws IOException;                       // получаем список всех Личностей
 
-    int updatePerson( Person person );            // обновляем данные по Личности
+    int getPersonsCount() throws IOException;                      // получаем количество Личностей в Репозитории
 
-    void deletePerson( Person person );           // удаляем Личность
+    int updatePerson( Person person ) throws IOException;            // обновляем данные по Личности
 
-    void deleteAllPersons();                    // удаляем все Личности
+    void deletePerson( Person person ) throws IOException;           // удаляем Личность
+
+    void deleteAllPersons() throws IOException;                    // удаляем все Личности
 }

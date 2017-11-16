@@ -11,16 +11,14 @@ import android.widget.Toast;
 import java.util.List;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.AdminAuthorization;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.AdminAuthorization;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.Admin;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.MAX_OF_ADMIN_AUTHORIZATION_TRIES;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.*;
-
-public class AdminLoginActivity extends AppCompatActivity implements View.OnClickListener
-{
+public class AdminLoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText etAdminLogin, etAdminPassword;
     private Button btnAdminLogin;
@@ -28,8 +26,7 @@ public class AdminLoginActivity extends AppCompatActivity implements View.OnClic
     private int numberOfAuthorizationTries;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState )
-    {
+    protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_admin_login );
 
@@ -43,26 +40,20 @@ public class AdminLoginActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
-    public void onClick( View v )
-    {
+    public void onClick( View v ) {
         numberOfAuthorizationTries++;
 
-        switch ( v.getId() )
-        {
+        switch ( v.getId() ) {
             case R.id.btnAdminLogin:
-                if ( isAuthorizationDataValid() )
-                {
+                if ( isAuthorizationDataValid() ) {
                     AdminAuthorization.setAuthorized( this );
                     Intent main = new Intent( this, MainActivity.class );
                     startActivity( main );
                     finish();
-                } else
-                {
-                    if ( numberOfAuthorizationTries < MAX_OF_ADMIN_AUTHORIZATION_TRIES )
-                    {
+                } else {
+                    if ( numberOfAuthorizationTries < MAX_OF_ADMIN_AUTHORIZATION_TRIES ) {
                         Toast.makeText( v.getContext(), "Неверные данные автораизации !!!", Toast.LENGTH_SHORT ).show();
-                    } else
-                    {
+                    } else {
                         authorizationFails();
                     }
                 }
@@ -72,22 +63,18 @@ public class AdminLoginActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-    private boolean isAuthorizationDataValid()
-    {
+    private boolean isAuthorizationDataValid() {
         List<Admin> adminList = repository.getAdminRepository().getAllAdmins();
-        for ( Admin o : adminList )
-        {
+        for ( Admin o : adminList ) {
             if ( o.getLogin().equals( etAdminLogin.getText().toString() ) &&
-                    o.getPassword().equals( etAdminPassword.getText().toString() ) )
-            {
+                    o.getPassword().equals( etAdminPassword.getText().toString() ) ) {
                 return true;
             }
         }
         return false;
     }
 
-    private void authorizationFails()
-    {
+    private void authorizationFails() {
         etAdminLogin.setEnabled( false );
         etAdminPassword.setEnabled( false );
         btnAdminLogin.setEnabled( false );

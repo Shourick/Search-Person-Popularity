@@ -11,20 +11,18 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Keyword;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.KEYWORD_ID;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.KEYWORD_NAME;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.PERSON_FOR_KEYWORD_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEYWORD_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEYWORD_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.PERSON_FOR_KEYWORD_ID;
 
-public class KeywordsDirectoryEditKeywordActivity extends AppCompatActivity implements View.OnClickListener
-{
+public class KeywordsDirectoryEditKeywordActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText etEditKeywordName;
     Button btnEditKeywordOK, btnEditKeywordCancel;
     int editedKeywordId, selectedPersonIdForKeywords;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState )
-    {
+    protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_keywords_directory_edit_keyword );
 
@@ -37,8 +35,7 @@ public class KeywordsDirectoryEditKeywordActivity extends AppCompatActivity impl
         btnEditKeywordCancel.setOnClickListener( this );
 
         Bundle extras = getIntent().getExtras();
-        if ( extras != null )
-        {
+        if ( extras != null ) {
             editedKeywordId = extras.getInt( KEYWORD_ID );
             etEditKeywordName.setText( extras.getString( KEYWORD_NAME ) );
             selectedPersonIdForKeywords = extras.getInt( PERSON_FOR_KEYWORD_ID );
@@ -46,11 +43,9 @@ public class KeywordsDirectoryEditKeywordActivity extends AppCompatActivity impl
     }
 
     @Override
-    public void onClick( View v )
-    {
+    public void onClick( View v ) {
         Intent intent;
-        switch ( v.getId() )
-        {
+        switch ( v.getId() ) {
 
             case R.id.btnEditKeywordOK:
                 Keyword editedKeyword = new Keyword( etEditKeywordName.getText().toString() );

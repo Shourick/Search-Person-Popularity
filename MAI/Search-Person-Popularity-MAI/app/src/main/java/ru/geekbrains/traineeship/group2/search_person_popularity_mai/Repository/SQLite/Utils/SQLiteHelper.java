@@ -1,56 +1,50 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.DATABASE_NAME;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.DATABASE_VERSION;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.KEY_ID;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_ADMINS;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_ADMINS_FIELD_LOGIN;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_ADMINS_FIELD_PASSWORD;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_KEYWORDS;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_KEYWORDS_FIELD_NAME;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_KEYWORDS_FIELD_PERSON_ID;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_PERSONS;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_PERSONS_FIELD_NAME;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_SITES;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_SITES_FIELD_NAME;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_USERS;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_USERS_FIELD_LOGIN;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_USERS_FIELD_NICKNAME;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_USERS_FIELD_PASSWORD;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.DATABASE_VERSION;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEY_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_ADMINS;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_ADMINS_FIELD_LOGIN;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_ADMINS_FIELD_PASSWORD;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_KEYWORDS;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_KEYWORDS_FIELD_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_KEYWORDS_FIELD_PERSON_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_PERSONS;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_PERSONS_FIELD_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_SITES;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_SITES_FIELD_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_USERS;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_USERS_FIELD_LOGIN;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_USERS_FIELD_NICKNAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_USERS_FIELD_PASSWORD;
 
 /**
  * Created by skubatko on 02/11/17.
  */
 
-public class SQLiteHelper extends SQLiteOpenHelper
-{
-    /**
-     * -----------------------------
-     * РЕАЛИЗАЦИЯ ИНТЕРФЕЙСА SQLite
-     * -----------------------------
-     */
+/**
+ * РЕАЛИЗАЦИЯ ИНТЕРФЕЙСА SQLite
+ */
+public class SQLiteHelper extends SQLiteOpenHelper {
 
     /**
-     * Конструктор {@link SQLiteRepository}.
+     * Конструктор {@link SQLiteHelper}
      *
      * @param context Контекст приложения
      */
-    public SQLiteHelper( Context context )
-    {
-        super( context, DATABASE_NAME, null, DATABASE_VERSION );
+    public SQLiteHelper( Context context, String dbName ) {
+        super( context, dbName, null, DATABASE_VERSION );
     }
 
     /**
      * Вызывается при создании базы данных
      */
     @Override
-    public void onCreate( SQLiteDatabase db )
-    {
+    public void onCreate( SQLiteDatabase db ) {
         createPersonsTable( db );
         createKeywordsTable( db );
         createSitesTable( db );
@@ -63,8 +57,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
     /**
      * Создание таблицы Persons
      */
-    private void createPersonsTable( SQLiteDatabase db )
-    {
+    private void createPersonsTable( SQLiteDatabase db ) {
         /**
          * SQL запрос для создания таблицы Persons:
          *  CREATE TABLE persons (
@@ -82,8 +75,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
     /**
      * Создание таблицы Keywords
      */
-    private void createKeywordsTable( SQLiteDatabase db )
-    {
+    private void createKeywordsTable( SQLiteDatabase db ) {
         /**
          * SQL запрос для создания таблицы Keywords:
          *  CREATE TABLE keywords (
@@ -106,8 +98,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
     /**
      * Создание таблицы Sites
      */
-    private void createSitesTable( SQLiteDatabase db )
-    {
+    private void createSitesTable( SQLiteDatabase db ) {
         /**
          * SQL запрос для создания таблицы Sites:
          *  CREATE TABLE sites (
@@ -126,8 +117,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
     /**
      * Создание таблицы Users
      */
-    private void createUsersTable( SQLiteDatabase db )
-    {
+    private void createUsersTable( SQLiteDatabase db ) {
         /**
          * SQL запрос для создания таблицы Sites:
          *  CREATE TABLE users (
@@ -150,8 +140,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
     /**
      * Создание таблицы Admins
      */
-    private void createAdminsTable( SQLiteDatabase db )
-    {
+    private void createAdminsTable( SQLiteDatabase db ) {
         /**
          * SQL запрос для создания таблицы Sites:
          *  CREATE TABLE admins (
@@ -174,8 +163,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
      * Увеличение версии схемы
      */
     @Override
-    public void onUpgrade( SQLiteDatabase db, int oldVersion, int newVersion )
-    {
+    public void onUpgrade( SQLiteDatabase db, int oldVersion, int newVersion ) {
         db.execSQL( "DROP TABLE IF EXISTS " + TABLE_PERSONS );
         db.execSQL( "DROP TABLE IF EXISTS " + TABLE_KEYWORDS );
         db.execSQL( "DROP TABLE IF EXISTS " + TABLE_SITES );
@@ -190,8 +178,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
      * Уменьшение версии схемы
      */
     @Override
-    public void onDowngrade( SQLiteDatabase db, int oldVersion, int newVersion )
-    {
+    public void onDowngrade( SQLiteDatabase db, int oldVersion, int newVersion ) {
         db.execSQL( "DROP TABLE IF EXISTS " + TABLE_PERSONS );
         db.execSQL( "DROP TABLE IF EXISTS " + TABLE_KEYWORDS );
         db.execSQL( "DROP TABLE IF EXISTS " + TABLE_SITES );

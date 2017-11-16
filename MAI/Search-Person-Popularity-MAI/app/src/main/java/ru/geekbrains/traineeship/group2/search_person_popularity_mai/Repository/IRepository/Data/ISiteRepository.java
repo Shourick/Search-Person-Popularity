@@ -13,8 +13,8 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
  * Created by skubatko on 03/11/17.
  */
 
-public interface ISiteRepository
-{
+public interface ISiteRepository {
+
     public void addSite( Site site );         // добавляем Сайт
 
     Site getSite( int id );                   // получаем Сайт по его id

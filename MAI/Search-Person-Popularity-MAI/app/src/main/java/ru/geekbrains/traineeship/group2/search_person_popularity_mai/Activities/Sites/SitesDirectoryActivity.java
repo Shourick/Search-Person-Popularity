@@ -16,13 +16,12 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Site;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.REQUEST_CODE_ADD_SITE;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.REQUEST_CODE_EDIT_SITE;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.SITE_ID;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.SITE_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.REQUEST_CODE_ADD_SITE;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.REQUEST_CODE_EDIT_SITE;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.SITE_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.SITE_NAME;
 
-public class SitesDirectoryActivity extends AppCompatActivity implements View.OnClickListener
-{
+public class SitesDirectoryActivity extends AppCompatActivity implements View.OnClickListener {
 
     /**
      * databaseHandler применяем глобально во всех Activities для обмена данными с БД
@@ -39,8 +38,7 @@ public class SitesDirectoryActivity extends AppCompatActivity implements View.On
     int selectedSiteId;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState )
-    {
+    protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_sites_directory );
 
@@ -58,55 +56,47 @@ public class SitesDirectoryActivity extends AppCompatActivity implements View.On
         btnSiteEdit.setOnClickListener( this );
         btnSiteDelete.setOnClickListener( this );
 
-        repository.getRepositoryUtils().showRepositoryInfo();
+        repository.showRepositoryInfo();
 
         listAllSites = repository.getSiteRepository().getAllSites();
         listSiteAdapter = new ArrayAdapter<Site>( this, android.R.layout.simple_list_item_1, listAllSites );
         lvSitesList.setAdapter( listSiteAdapter );
         selectedSiteId = -1;
 
-        lvSitesList.setOnItemClickListener( new AdapterView.OnItemClickListener()
-        {
+        lvSitesList.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick( AdapterView<?> adapterView, View itemClicked, int position, long id )
-            {
+            public void onItemClick( AdapterView<?> adapterView, View itemClicked, int position, long id ) {
                 adapterView.requestFocusFromTouch();
                 adapterView.setSelection( position );
             }
         } );
 
-        lvSitesList.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener()
-        {
+        lvSitesList.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected( AdapterView<?> adapterView, View itemSelected, int position, long id )
-            {
+            public void onItemSelected( AdapterView<?> adapterView, View itemSelected, int position, long id ) {
                 Site selectedSite = (Site) adapterView.getSelectedItem();
                 selectedSiteId = selectedSite.getId();
                 tvSiteName.setText( selectedSite.getName() );
             }
 
             @Override
-            public void onNothingSelected( AdapterView<?> parent )
-            {
+            public void onNothingSelected( AdapterView<?> parent ) {
             }
         } );
     }
 
     @Override
-    public void onClick( View v )
-    {
+    public void onClick( View v ) {
         Intent intent;
 
-        switch ( v.getId() )
-        {
+        switch ( v.getId() ) {
             case R.id.btnSiteAdd:
                 intent = new Intent( this, SitesDirectoryAddSiteActivity.class );
                 startActivityForResult( intent, REQUEST_CODE_ADD_SITE );
                 break;
 
             case R.id.btnSiteEdit:
-                if ( isSiteSelected() )
-                {
+                if ( isSiteSelected() ) {
                     intent = new Intent( this, SitesDirectoryEditSiteActivity.class );
                     intent.putExtra( SITE_ID, selectedSiteId );
                     intent.putExtra( SITE_NAME, tvSiteName.getText().toString() );
@@ -115,8 +105,7 @@ public class SitesDirectoryActivity extends AppCompatActivity implements View.On
                 break;
 
             case R.id.btnSiteDelete:
-                if ( isSiteSelected() )
-                {
+                if ( isSiteSelected() ) {
                     repository.getSiteRepository().deleteSite(
                             new Site( selectedSiteId, tvSiteName.getText().toString() ) );
                 }
@@ -132,29 +121,24 @@ public class SitesDirectoryActivity extends AppCompatActivity implements View.On
     }
 
     @Override
-    protected void onActivityResult( int requestCode, int resultCode, Intent data )
-    {
-        switch ( requestCode )
-        {
+    protected void onActivityResult( int requestCode, int resultCode, Intent data ) {
+        switch ( requestCode ) {
 
             case REQUEST_CODE_ADD_SITE:
-                if ( resultCode == RESULT_OK )
-                {
+                if ( resultCode == RESULT_OK ) {
                     initializeSelectedSite();
                 }
                 break;
 
             case REQUEST_CODE_EDIT_SITE:
-                if ( resultCode == RESULT_OK )
-                {
+                if ( resultCode == RESULT_OK ) {
                     initializeSelectedSite();
                 }
                 break;
         }
     }
 
-    private void initializeSelectedSite()
-    {
+    private void initializeSelectedSite() {
         selectedSiteId = -1;
 
         tvSiteName.setText( "" );
@@ -164,8 +148,7 @@ public class SitesDirectoryActivity extends AppCompatActivity implements View.On
         listSiteAdapter.notifyDataSetChanged();
     }
 
-    private boolean isSiteSelected()
-    {
+    private boolean isSiteSelected() {
         return selectedSiteId != -1;
     }
 

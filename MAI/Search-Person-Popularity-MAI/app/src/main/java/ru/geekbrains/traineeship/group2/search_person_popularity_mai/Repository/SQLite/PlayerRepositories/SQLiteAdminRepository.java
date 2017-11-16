@@ -1,4 +1,4 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Players;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.PlayerRepositories;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -9,31 +9,28 @@ import java.util.List;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.Players.IAdminRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.Admin;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.SQLiteRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.KEY_ID;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_ADMINS;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_ADMINS_FIELD_LOGIN;
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Constants.TABLE_ADMINS_FIELD_PASSWORD;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEY_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_ADMINS;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_ADMINS_FIELD_LOGIN;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_ADMINS_FIELD_PASSWORD;
 
 /**
  * Created by skubatko on 08/11/17
  */
 
-public class SQLiteAdminRepository implements IAdminRepository
-{
+public class SQLiteAdminRepository implements IAdminRepository {
+
     private SQLiteRepository repository;
 
-    public SQLiteAdminRepository( SQLiteRepository repository )
-    {
+    public SQLiteAdminRepository( SQLiteRepository repository ) {
         this.repository = repository;
     }
 
     @Override
-    public void addAdmin( Admin admin )
-    {
-        try ( SQLiteDatabase db = repository.getWritableDatabase() )
-        {
+    public void addAdmin( Admin admin ) {
+        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
             contentValues.put( TABLE_ADMINS_FIELD_LOGIN, admin.getLogin() );
             contentValues.put( TABLE_ADMINS_FIELD_PASSWORD, admin.getPassword() );
@@ -43,8 +40,7 @@ public class SQLiteAdminRepository implements IAdminRepository
     }
 
     @Override
-    public Admin getAdmin( int id )
-    {
+    public Admin getAdmin( int id ) {
         Admin admin = new Admin();
         SQLiteDatabase db = repository.getReadableDatabase();
 
@@ -59,8 +55,7 @@ public class SQLiteAdminRepository implements IAdminRepository
                 null,                                       // having
                 null ) )                                     // order by
         {
-            if ( cursorSites.moveToFirst() )
-            {
+            if ( cursorSites.moveToFirst() ) {
                 admin.setId( Integer.parseInt( cursorSites.getString( 0 ) ) );
                 admin.setLogin( cursorSites.getString( 1 ) );
                 admin.setPassword( cursorSites.getString( 2 ) );
@@ -70,18 +65,14 @@ public class SQLiteAdminRepository implements IAdminRepository
     }
 
     @Override
-    public List<Admin> getAllAdmins()
-    {
+    public List<Admin> getAllAdmins() {
         List<Admin> adminList = new ArrayList<>();
         String adminListQuery = "SELECT * FROM " + TABLE_ADMINS;
         SQLiteDatabase db = repository.getReadableDatabase();
 
-        try ( Cursor cursorAdmins = db.rawQuery( adminListQuery, null ) )
-        {
-            if ( cursorAdmins.moveToFirst() )
-            {
-                do
-                {
+        try ( Cursor cursorAdmins = db.rawQuery( adminListQuery, null ) ) {
+            if ( cursorAdmins.moveToFirst() ) {
+                do {
                     Admin admin = new Admin();
                     admin.setId( Integer.parseInt( cursorAdmins.getString( 0 ) ) );
                     admin.setLogin( cursorAdmins.getString( 1 ) );
@@ -95,25 +86,21 @@ public class SQLiteAdminRepository implements IAdminRepository
     }
 
     @Override
-    public int getAdminsCount()
-    {
+    public int getAdminsCount() {
         int count = 0;
         String countQuery = "SELECT * FROM " + TABLE_ADMINS;
         SQLiteDatabase db = repository.getReadableDatabase();
 
-        try ( Cursor cursorAdmins = db.rawQuery( countQuery, null ) )
-        {
+        try ( Cursor cursorAdmins = db.rawQuery( countQuery, null ) ) {
             count = cursorAdmins.getCount();
         }
         return count;
     }
 
     @Override
-    public int updateAdmin( Admin admin )
-    {
+    public int updateAdmin( Admin admin ) {
         int result = 0;
-        try ( SQLiteDatabase db = repository.getWritableDatabase() )
-        {
+        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
             contentValues.put( TABLE_ADMINS_FIELD_LOGIN, admin.getLogin() );
             contentValues.put( TABLE_ADMINS_FIELD_PASSWORD, admin.getPassword() );
@@ -127,10 +114,8 @@ public class SQLiteAdminRepository implements IAdminRepository
     }
 
     @Override
-    public void deleteAdmin( Admin admin )
-    {
-        try ( SQLiteDatabase db = repository.getWritableDatabase() )
-        {
+    public void deleteAdmin( Admin admin ) {
+        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             db.delete( TABLE_ADMINS,
                     KEY_ID + " = ?",
                     new String[] { String.valueOf( admin.getId() ) } );
@@ -138,10 +123,8 @@ public class SQLiteAdminRepository implements IAdminRepository
     }
 
     @Override
-    public void deleteAllAdmins()
-    {
-        try ( SQLiteDatabase db = repository.getWritableDatabase() )
-        {
+    public void deleteAllAdmins() {
+        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             db.delete( TABLE_ADMINS, null, null );
         }
     }

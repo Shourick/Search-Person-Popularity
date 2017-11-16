@@ -12,14 +12,13 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
 
-public class SitesDirectoryAddSiteActivity extends AppCompatActivity implements View.OnClickListener
-{
+public class SitesDirectoryAddSiteActivity extends AppCompatActivity implements View.OnClickListener {
+
     EditText etAddSiteName;
     Button btnAddSiteOK, btnAddSiteCancel;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState )
-    {
+    protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_sites_directory_add_site );
 
@@ -33,12 +32,10 @@ public class SitesDirectoryAddSiteActivity extends AppCompatActivity implements 
     }
 
     @Override
-    public void onClick( View v )
-    {
+    public void onClick( View v ) {
         Intent intent;
 
-        switch ( v.getId() )
-        {
+        switch ( v.getId() ) {
 
             case R.id.btnAddSiteOK:
                 repository.getSiteRepository().addSite( new Site( etAddSiteName.getText().toString() ) );

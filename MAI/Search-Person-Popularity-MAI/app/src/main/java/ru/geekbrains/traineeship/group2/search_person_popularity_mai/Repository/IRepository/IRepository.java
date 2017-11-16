@@ -10,8 +10,8 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
  * Created by skubatko on 08/11/17
  */
 
-public interface IRepository
-{
+public interface IRepository {
+
     public IPersonRepository getPersonRepository();
 
     public IKeywordRepository getKeywordRepository();
@@ -22,5 +22,4 @@ public interface IRepository
 
     public IAdminRepository getAdminRepository();
 
-    public IRepositoryUtils getRepositoryUtils();
 }

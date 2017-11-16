@@ -13,8 +13,8 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
  * Created by skubatko on 03/11/17.
  */
 
-public interface IAdminRepository
-{
+public interface IAdminRepository {
+
     public void addAdmin( Admin admin );         // добавляем Администратора
 
     Admin getAdmin( int id );                   // получаем Администратора по его id
