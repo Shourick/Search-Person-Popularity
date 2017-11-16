@@ -53,4 +53,23 @@ public class Admin {
         return login;
     }
 
+    @Override
+    public boolean equals( Object o ) {
+        if ( o == null ) return false;
+        if ( !( o instanceof Admin ) ) return false;
+
+        Admin other = (Admin) o;
+        if ( this.getId() != other.getId() ) return false;
+        if ( !( this.getLogin().equals( other.getLogin() ) ) ) return false;
+        if ( !( this.getPassword().equals( other.getPassword() ) ) ) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) id *
+                login.hashCode() *
+                password.hashCode();
+    }
 }

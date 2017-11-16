@@ -11,6 +11,8 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.Data.IPersonRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_NAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEY_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_PERSONS;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_PERSONS_FIELD_NAME;
@@ -28,7 +30,7 @@ public class SQLitePersonRepository implements IPersonRepository {
     }
 
     @Override
-    public void addPerson( Person person ) {
+    public int addPerson( Person person ) {
         try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
             if ( person.getId() != 0 ) {
@@ -38,11 +40,12 @@ public class SQLitePersonRepository implements IPersonRepository {
 
             db.insert( TABLE_PERSONS, null, contentValues );
         }
+        return person.getId();
     }
 
     @Override
     public Person getPersonById( int id ) {
-        Person person = new Person();
+        Person person = new Person( EMPTY_ID, EMPTY_NAME );
         SQLiteDatabase db = repository.getReadableDatabase();
 
         try ( Cursor cursorPersons = db.query(
@@ -65,7 +68,7 @@ public class SQLitePersonRepository implements IPersonRepository {
 
     @Override
     public Person getPersonByName( String name ) {
-        Person person = new Person();
+        Person person = new Person( EMPTY_ID, EMPTY_NAME );
         SQLiteDatabase db = repository.getReadableDatabase();
 
         try ( Cursor cursorPersons = db.query(

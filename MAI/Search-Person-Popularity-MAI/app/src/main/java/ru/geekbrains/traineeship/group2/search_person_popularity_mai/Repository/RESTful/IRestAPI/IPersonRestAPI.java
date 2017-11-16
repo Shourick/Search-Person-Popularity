@@ -18,31 +18,31 @@ public interface IPersonRestAPI {
 
     @PUT( "persons/{name}" )
     Call<Integer> addPerson(
-            @Path( "name" ) String name );       // добавляем Личность
+            @Path( "name" ) String name );      // добавляем
 
     @GET( "persons/{id}" )
     Call<String> getPersonById(
             @Path( "id" ) int id
-    );               // получаем Личность по id
+    );                                          // получаем по id
 
     @GET( "persons/{name}" )
     Call<Integer> getPersonByName(
             @Path( "name" ) String name
-    );        // получаем Личность по Имени
+    );                                          // получаем по Имени
 
     @GET( "persons" )
-    Call<List<Person>> getAllPersons();                       // получаем список всех Личностей
+    Call<List<Person>> getAllPersons();         // получаем список всех
 
     @POST( "persons/{id}/{name}" )
     Call updatePerson(
             @Path( "id" ) int id, @Path( "name" ) String name
-    );            // обновляем данные по Личности
+    );                                          // обновляем данные
 
     @DELETE( "persons/{id}" )
     Call deletePerson(
-            @Path( "id" ) int id );           // удаляем Личность
+            @Path( "id" ) int id );             // удаляем по id
 
     @DELETE( "persons" )
-    Call deleteAllPersons();                    // удаляем все Личности
+    Call deleteAllPersons();                    // удаляем все
 
 }

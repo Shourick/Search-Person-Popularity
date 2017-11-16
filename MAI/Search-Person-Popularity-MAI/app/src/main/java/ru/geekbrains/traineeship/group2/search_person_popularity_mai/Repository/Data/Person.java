@@ -9,11 +9,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class Person {
 
-    @SerializedName("id")
+    @SerializedName( "id" )
     @Expose
     private Integer id;
 
-    @SerializedName("name")
+    @SerializedName( "name" )
     @Expose
     private String name;
 
@@ -49,5 +49,23 @@ public class Person {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public boolean equals( Object o ) {
+        if ( o == null ) return false;
+        if ( !( o instanceof Person ) ) return false;
+
+        Person other = (Person) o;
+        if ( this.getId() != other.getId() ) return false;
+        if ( !( this.getName().equals( other.getName() ) ) ) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) id *
+                name.hashCode();
     }
 }

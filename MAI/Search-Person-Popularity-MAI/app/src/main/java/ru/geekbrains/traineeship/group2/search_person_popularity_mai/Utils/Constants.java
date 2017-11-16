@@ -6,7 +6,8 @@ package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils;
 
 public class Constants {
 
-    public static final String API_URL_BASE = "http://shourick.pythonanywhere.com/";
+    public static final String API_URL_BASE = "http://94.130.27.143/";
+//    public static final String API_URL_BASE = "http://shourick.pythonanywhere.com/";
 
     // Имя файла базы данных
     public static final String MAIN_DATABASE_NAME = "searchPersonPopularity.db";
@@ -70,4 +71,9 @@ public class Constants {
     public static final int MAX_OF_ADMIN_AUTHORIZATION_TRIES = 3;
 
     public static final String MESSAGE_SYNCRONIZING = "Идет синхронизация ...";
+
+    public static final String EMPTY_NAME = "";
+    public static final int EMPTY_ID = -1;
+
+    public static final int UPDATE_OK = 0;
 }

@@ -14,33 +14,38 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
  * Created by skubatko on 15/11/17
  */
 
-interface IKeywordRestAPI {
-    @PUT( "keywords/{name}" )
+public interface IKeywordRestAPI {
+
+    @PUT( "keywords/{person_id}/{name}" )
     Call<Integer> addKeyword(
-            @Path( "name" ) String name );       // добавляем Личность
+            @Path( "person_id" ) int person_id, @Path( "name" ) String name
+    );                                                          // добавляем
 
     @GET( "keywords/{id}" )
-    Call<String> getKeywordById(
+    Call<Keyword> getKeyword(
             @Path( "id" ) int id
-    );               // получаем Личность по id
+    );                                                          // получаем  по id
 
-    @GET( "keywords/{name}" )
-    Call<Integer> getKeywordByName(
-            @Path( "name" ) String name
-    );        // получаем Личность по Имени
+    @GET( "keywords/person/{person_id}" )
+    Call<List<Keyword>> getPersonKeywords(
+            @Path( "person_id" ) int person_id
+    );                                                          // получаем по person_id
 
     @GET( "keywords" )
-    Call<List<Keyword>> getAllKeywords();                       // получаем список всех Личностей
+    Call<List<Keyword>> getAllKeywords();                       // получаем список всех
 
-    @POST( "keywords/{id}/{name}" )
+    @POST( "keywords/{id}/{person_id}/{name}" )
     Call updateKeyword(
-            @Path( "id" ) int id, @Path( "name" ) String name
-    );            // обновляем данные по Личности
+            @Path( "id" ) int id,
+            @Path( "person_id" ) int person_id,
+            @Path( "name" ) String name
+    );                                                          // обновляем данные
 
     @DELETE( "keywords/{id}" )
     Call deleteKeyword(
-            @Path( "id" ) int id );           // удаляем Личность
+            @Path( "id" ) int id );                             // удаляем c id
 
     @DELETE( "keywords" )
-    Call deleteAllKeywords();                    // удаляем все Личности
+    Call deleteAllKeywords();                                   // удаляем все
+
 }

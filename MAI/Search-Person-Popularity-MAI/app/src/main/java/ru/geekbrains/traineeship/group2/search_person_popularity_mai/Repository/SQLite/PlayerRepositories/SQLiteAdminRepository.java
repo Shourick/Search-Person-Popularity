@@ -29,7 +29,7 @@ public class SQLiteAdminRepository implements IAdminRepository {
     }
 
     @Override
-    public void addAdmin( Admin admin ) {
+    public int addAdmin( Admin admin ) {
         try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
             contentValues.put( TABLE_ADMINS_FIELD_LOGIN, admin.getLogin() );
@@ -37,6 +37,7 @@ public class SQLiteAdminRepository implements IAdminRepository {
 
             db.insert( TABLE_ADMINS, null, contentValues );
         }
+        return admin.getId();
     }
 
     @Override
@@ -49,7 +50,7 @@ public class SQLiteAdminRepository implements IAdminRepository {
                 new String[] { KEY_ID,
                         TABLE_ADMINS_FIELD_LOGIN,
                         TABLE_ADMINS_FIELD_PASSWORD },     // columns
-                KEY_ID,                                     // columns WHERE
+                KEY_ID + " = ?",                                     // columns WHERE
                 new String[] { Integer.toString( id ) },         // values WHERE
                 null,                                       // group by
                 null,                                       // having

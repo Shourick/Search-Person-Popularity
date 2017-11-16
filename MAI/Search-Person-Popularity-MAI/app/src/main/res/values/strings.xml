@@ -39,4 +39,5 @@
     <string name="person_for_keywords_stitle">Личность:</string>
     <string name="add_keyword_title">Добавить ключевое слово</string>
     <string name="edit_keyword_title">Редактировать ключевое слово</string>
+    <string name="btn_sync">Sync</string>
 </resources>

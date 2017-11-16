@@ -43,4 +43,21 @@ public class Site {
         return name;
     }
 
+
+    public boolean equals( Object o ) {
+        if ( o == null ) return false;
+        if ( !( o instanceof Site ) ) return false;
+
+        Site other = (Site) o;
+        if ( this.getId() != other.getId() ) return false;
+        if ( !( this.getName().equals( other.getName() ) ) ) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) id *
+                name.hashCode();
+    }
 }

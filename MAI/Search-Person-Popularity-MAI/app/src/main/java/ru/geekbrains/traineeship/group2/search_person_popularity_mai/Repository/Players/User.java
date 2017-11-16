@@ -63,4 +63,26 @@ public class User {
     public String toString() {
         return nickName;
     }
+
+    @Override
+    public boolean equals( Object o ) {
+        if ( o == null ) return false;
+        if ( !( o instanceof User ) ) return false;
+
+        User other = (User) o;
+        if ( this.getId() != other.getId() ) return false;
+        if ( !( this.getNickName().equals( other.getNickName() ) ) ) return false;
+        if ( !( this.getLogin().equals( other.getLogin() ) ) ) return false;
+        if ( !( this.getPassword().equals( other.getPassword() ) ) ) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) id *
+                nickName.hashCode() *
+                login.hashCode() *
+                password.hashCode();
+    }
 }

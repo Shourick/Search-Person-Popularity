@@ -30,7 +30,7 @@ public class SQLiteUserRepository implements IUserRepository {
     }
 
     @Override
-    public void addUser( User user ) {
+    public int addUser( User user ) {
         try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
             contentValues.put( TABLE_USERS_FIELD_NICKNAME, user.getNickName() );
@@ -39,7 +39,7 @@ public class SQLiteUserRepository implements IUserRepository {
 
             db.insert( TABLE_USERS, null, contentValues );
         }
-
+        return user.getId();
     }
 
     @Override
@@ -53,7 +53,7 @@ public class SQLiteUserRepository implements IUserRepository {
                         TABLE_USERS_FIELD_NICKNAME,
                         TABLE_USERS_FIELD_LOGIN,
                         TABLE_USERS_FIELD_PASSWORD },     // columns
-                KEY_ID,                                   // columns WHERE
+                KEY_ID + " = ?",                                   // columns WHERE
                 new String[] { Integer.toString( id ) },  // values WHERE
                 null,                                     // group by
                 null,                                     // having

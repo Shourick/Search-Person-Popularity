@@ -29,7 +29,7 @@ public class SQLiteKeywordRepository implements IKeywordRepository {
     }
 
     @Override
-    public void addKeyword( Keyword keyword, int personId ) {
+    public int addKeyword( Keyword keyword, int personId ) {
         try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
             contentValues.put( TABLE_KEYWORDS_FIELD_NAME, keyword.getName() );
@@ -37,7 +37,7 @@ public class SQLiteKeywordRepository implements IKeywordRepository {
 
             db.insert( TABLE_KEYWORDS, null, contentValues );
         }
-
+        return keyword.getId();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.Players;
 
+import java.io.IOException;
 import java.util.List;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.Admin;
@@ -15,17 +16,17 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 
 public interface IAdminRepository {
 
-    public void addAdmin( Admin admin );         // добавляем Администратора
+    int addAdmin( Admin admin ) throws IOException;         // добавляем Администратора
 
-    Admin getAdmin( int id );                   // получаем Администратора по его id
+    Admin getAdmin( int id ) throws IOException;                   // получаем Администратора по его id
 
-    List getAllAdmins();                     // получаем список всех Администраторов
+    List getAllAdmins() throws IOException;                     // получаем список всех Администраторов
 
-    int getAdminsCount();                    // получаем количество Администраторов в Репозитории
+    int getAdminsCount() throws IOException;                    // получаем количество Администраторов в Репозитории
 
-    int updateAdmin( Admin admin );              // обновляем Администратора
+    int updateAdmin( Admin admin ) throws IOException;              // обновляем Администратора
 
-    void deleteAdmin( Admin admin );             // удаляем Администратора
+    void deleteAdmin( Admin admin ) throws IOException;             // удаляем Администратора
 
-    void deleteAllAdmins();                  // удаляем всех Администраторов
+    void deleteAllAdmins() throws IOException;                  // удаляем всех Администраторов
 }

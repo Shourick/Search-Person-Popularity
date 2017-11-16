@@ -56,4 +56,22 @@ public class Keyword {
     public String toString() {
         return name;
     }
+ 
+    @Override
+    public boolean equals( Object o ) {
+        if ( o == null ) return false;
+        if ( !( o instanceof Keyword ) ) return false;
+
+        Keyword other = (Keyword) o;
+        if ( this.getId() != other.getId() ) return false;
+        if ( !( this.getName().equals( other.getName() ) ) ) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) id *
+                name.hashCode();
+    }
 }
