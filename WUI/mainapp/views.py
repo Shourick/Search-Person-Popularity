@@ -5,6 +5,7 @@ from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
 from .forms import ContactForm
 from django.contrib.auth.decorators import login_required
+import requests
 
 
 def index(request):
@@ -15,18 +16,19 @@ def index(request):
 # @login_required
 def general(request):
     title = 'Общая статистика'
-    sites = Sites.objects.all()
-    politics = Persons.objects.all()
-    person_page_rank = Personpagerank.objects.all()
-    gs_table = GeneralStatisticsTable(person_page_rank)
-    return render(request, 'general.html', {'title': title, 'sites': sites, 'politics': politics, 'gs_table': gs_table})
+    sites = requests.get("http://94.130.27.143/sites").json()
+    persons = requests.get("http://94.130.27.143/persons")
+    gs_table = GeneralStatisticsTable(persons.json())
+    return render(request, 'general.html', {'title': title, 'sites': sites, 'persons': persons, 'gs_table': gs_table})
 
 
 # @login_required
 def daily(request):
     title = 'Ежедневная статистика'
     sites = Sites.objects.all()
-    politics = Persons.objects.all()
+    sites = requests.get("http://94.130.27.143/sites").json()
+    # politics = Politic.objects.all()
+    politics = requests.get("http://94.130.27.143/persons").json()
     ds_table = DailyStatisticsTable(politics)
     return render(request, 'daily.html', {'title': title, 'sites': sites, 'politics': politics, 'ds_table': ds_table})
 
@@ -57,13 +59,3 @@ def support(request):
         form = ContactForm()
         # Отправляем форму на страницу
     return render(request, 'email/support.html', {'title': title, 'form': form})
-
-#
-@login_required
-def general_stat(request, site_id=1):
-        # sites = Sites.objects.all()
-        # politics = Persons.objects.all()
-        # pages = Personpagerank.get_data_by_site_id(site_id)
-        # gs_table = GeneralStatisticsTable(pages)
-        # return render(request, 'general_stat.html', {'pages': pages, 'sites': sites, 'politics': politics, 'gs_table': gs_table})
-    pass
