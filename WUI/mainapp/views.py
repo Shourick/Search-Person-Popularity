@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from spp.models import *
 from .tables import GeneralStatisticsTable, DailyStatisticsTable
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
@@ -41,7 +40,6 @@ def support(request):
             sender = form.cleaned_data['sender']
             message = form.cleaned_data['message']
             copy = form.cleaned_data['copy']
-
             recipients = ['crowd.scoring@yandex.ru']
             # Если пользователь захотел получить копию себе, добавляем его в список получателей
             if copy:
