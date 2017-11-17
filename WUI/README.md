@@ -5,6 +5,7 @@
 add to settings:
 
 DEBUG = TRUE
+
 INSTALLED_APPS = +[
     'spp',
     'mainapp',
