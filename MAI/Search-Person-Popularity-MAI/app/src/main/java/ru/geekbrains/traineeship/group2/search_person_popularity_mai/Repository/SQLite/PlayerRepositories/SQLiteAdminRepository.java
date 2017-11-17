@@ -34,6 +34,9 @@ public class SQLiteAdminRepository implements IAdminRepository {
     public int addAdmin( Admin admin ) {
         try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
+            if ( admin.getId() != EMPTY_ID ) {
+                contentValues.put( KEY_ID, admin.getId() );
+            }
             contentValues.put( TABLE_ADMINS_FIELD_NICKNAME, admin.getNickName() );
             contentValues.put( TABLE_ADMINS_FIELD_LOGIN, admin.getLogin() );
             contentValues.put( TABLE_ADMINS_FIELD_PASSWORD, admin.getPassword() );
@@ -82,7 +85,7 @@ public class SQLiteAdminRepository implements IAdminRepository {
                     Admin admin = new Admin();
                     admin.setId( Integer.parseInt( cursorAdmins.getString( 0 ) ) );
                     admin.setNickName( cursorAdmins.getString( 1 ) );
-                    admin.setLogin( cursorAdmins.getString( 2) );
+                    admin.setLogin( cursorAdmins.getString( 2 ) );
                     admin.setPassword( cursorAdmins.getString( 3 ) );
                     adminList.add( admin );
                 } while ( cursorAdmins.moveToNext() );

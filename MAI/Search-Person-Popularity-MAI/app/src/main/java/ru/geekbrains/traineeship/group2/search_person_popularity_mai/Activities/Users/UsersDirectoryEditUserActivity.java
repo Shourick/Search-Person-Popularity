@@ -34,6 +34,9 @@ public class UsersDirectoryEditUserActivity extends AppCompatActivity implements
         btnEditUserOK = (Button) findViewById( R.id.btnEditUserOK );
         btnEditUserCancel = (Button) findViewById( R.id.btnEditUserCancel );
 
+//        убрать при реализации обновления в API
+        etEditUserLogin.setEnabled( false );
+
         btnEditUserOK.setOnClickListener( this );
         btnEditUserCancel.setOnClickListener( this );
 

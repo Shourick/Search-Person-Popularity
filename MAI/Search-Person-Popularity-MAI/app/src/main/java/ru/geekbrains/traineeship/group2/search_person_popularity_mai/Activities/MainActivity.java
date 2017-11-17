@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Admins.AdminLoginActivity;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Admins.AdminsDirectoryActivity;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Keywords.KeywordsDirectoryActivity;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Persons.PersonsDirectoryActivity;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Sites.SitesDirectoryActivity;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btnKeywordsDirectory,
             btnSitesDirectory,
             btnUsersDirectory,
+            btnAdminsDirectory,
             btnSync,
             btnAdminLogout;
 
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnKeywordsDirectory = (Button) findViewById( R.id.btnKeywordsDirectory );
         btnSitesDirectory = (Button) findViewById( R.id.btnSitesDirectory );
         btnUsersDirectory = (Button) findViewById( R.id.btnUsersDirectory );
+        btnAdminsDirectory = (Button) findViewById( R.id.btnAdminsDirectory );
         btnSync = (Button) findViewById( R.id.btnSync );
         btnAdminLogout = (Button) findViewById( R.id.btnAdminLogout );
 
@@ -50,17 +53,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnKeywordsDirectory.setOnClickListener( this );
         btnSitesDirectory.setOnClickListener( this );
         btnUsersDirectory.setOnClickListener( this );
+        btnAdminsDirectory.setOnClickListener( this );
         btnSync.setOnClickListener( this );
         btnAdminLogout.setOnClickListener( this );
 
         repository = new SQLiteRepository( this, MAIN_DATABASE_NAME );
 
-        new RepositorySync( this ).execute();
+        if ( AdminAuthorization.isNotAuthorized( this ) ) {
+            onLogout();
+        }
 
-//		Checkpoint if AdminModel is authorized
-//        if ( AdminAuthorization.isNotAuthorized( this ) ) {
-//            onLogout();
-//        }
     }
 
     @Override
@@ -87,6 +89,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity( intent );
                 break;
 
+            case R.id.btnAdminsDirectory:
+                intent = new Intent( this, AdminsDirectoryActivity.class );
+                startActivity( intent );
+                break;
+
             case R.id.btnSync:
                 new RepositorySync( this ).execute();
                 break;
@@ -109,20 +116,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-//        AdminAuthorization.setNotAuthorized( this );
+        AdminAuthorization.setNotAuthorized( this );
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-//        AdminAuthorization.setNotAuthorized( this );
+        AdminAuthorization.setNotAuthorized( this );
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         repository.close();
-//        AdminAuthorization.setNotAuthorized( this );
+        AdminAuthorization.setNotAuthorized( this );
     }
 
 }

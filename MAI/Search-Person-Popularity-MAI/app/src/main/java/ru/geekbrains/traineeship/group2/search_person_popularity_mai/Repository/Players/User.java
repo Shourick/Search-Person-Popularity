@@ -42,18 +42,25 @@ public class User {
         this.password = password;
     }
 
-    public User( int id, String nickName, String login, String password ) {
-        this.id = id;
-        this.nickName = nickName;
-        this.login = login;
-        this.password = password;
-    }
-
     public User( String nickName, int id, String login ) {
         this.id = id;
         this.nickName = login;
         this.login = login;
         this.password = EMPTY_NAME;
+    }
+
+    public User( int id, String login, String nickName ) {
+        this.id = id;
+        this.nickName = nickName;
+        this.login = login;
+        this.password = EMPTY_NAME;
+    }
+
+    public User( int id, String nickName, String login, String password ) {
+        this.id = id;
+        this.nickName = nickName;
+        this.login = login;
+        this.password = password;
     }
 
     public int getId() {
@@ -102,7 +109,6 @@ public class User {
         if ( this.getId() != other.getId() ) return false;
         if ( !( this.getNickName().equals( other.getNickName() ) ) ) return false;
         if ( !( this.getLogin().equals( other.getLogin() ) ) ) return false;
-        if ( !( this.getPassword().equals( other.getPassword() ) ) ) return false;
 
         return true;
     }
@@ -111,7 +117,6 @@ public class User {
     public int hashCode() {
         return (int) id *
                 nickName.hashCode() *
-                login.hashCode() *
-                password.hashCode();
+                login.hashCode();
     }
 }

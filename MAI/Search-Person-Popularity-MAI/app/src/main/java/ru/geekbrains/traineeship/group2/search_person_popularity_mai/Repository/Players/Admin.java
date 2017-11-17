@@ -42,11 +42,11 @@ public class Admin {
         this.password = password;
     }
 
-    public Admin( int id, String login, String password ) {
+    public Admin( int id, String login, String nickName ) {
         this.id = id;
-        this.nickName = login;
+        this.nickName = nickName;
         this.login = login;
-        this.password = password;
+        this.password = EMPTY_NAME;
     }
 
     public Admin( String nickName, int id, String login ) {
@@ -109,7 +109,6 @@ public class Admin {
         if ( this.getId() != other.getId() ) return false;
         if ( !( this.getNickName().equals( other.getNickName() ) ) ) return false;
         if ( !( this.getLogin().equals( other.getLogin() ) ) ) return false;
-        if ( !( this.getPassword().equals( other.getPassword() ) ) ) return false;
 
         return true;
     }
@@ -118,7 +117,6 @@ public class Admin {
     public int hashCode() {
         return (int) id *
                 nickName.hashCode() *
-                login.hashCode() *
-                password.hashCode();
+                login.hashCode();
     }
 }
