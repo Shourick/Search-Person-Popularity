@@ -14,10 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-from mainapp.views import *
-from rest_framework import serializers, viewsets, routers
 from django.contrib.auth.models import User
-from spp.models import *
+from rest_framework import serializers, viewsets, routers
+
+from mainapp.models import *
+from mainapp.views import *
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
