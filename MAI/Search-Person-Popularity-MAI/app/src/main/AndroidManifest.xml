@@ -50,9 +50,9 @@
         </activity>
         <activity android:name=".Activities.Admins.AdminsDirectoryActivity">
         </activity>
-        <activity android:name=".Activities.Admins.AdminsDirectoryAddUserActivity">
+        <activity android:name=".Activities.Admins.AdminsDirectoryAddAdminActivity">
         </activity>
-        <activity android:name=".Activities.Admins.AdminsDirectoryEditUserActivity">
+        <activity android:name=".Activities.Admins.AdminsDirectoryEditAdminActivity">
         </activity>
     </application>
 

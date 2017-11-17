@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Admins.AdminLoginActivity;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Admins.AdminsDirectoryActivity;
@@ -14,8 +13,8 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Sites.SitesDirectoryActivity;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Users.UsersDirectoryActivity;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Utils.RepositorySync;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Utils.RepositorySync;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.AdminAuthorization;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.MAIN_DATABASE_NAME;

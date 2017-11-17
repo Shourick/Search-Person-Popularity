@@ -97,7 +97,7 @@ public class Admin {
 
     @Override
     public String toString() {
-        return login;
+        return nickName;
     }
 
     @Override

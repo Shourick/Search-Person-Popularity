@@ -51,6 +51,9 @@ public class Constants {
     public static final int REQUEST_CODE_ADD_USER = 1;
     public static final int REQUEST_CODE_EDIT_USER = 2;
 
+    public static final int REQUEST_CODE_ADD_ADMIN = 1;
+    public static final int REQUEST_CODE_EDIT_ADMIN = 2;
+
     public static final String PERSON_ID = "site_id";
     public static final String PERSON_NAME = "site_name";
 
@@ -65,6 +68,11 @@ public class Constants {
     public static final String USER_NICKNAME = "user_nickname";
     public static final String USER_LOGIN = "user_login";
     public static final String USER_PASSWORD = "user_password";
+
+    public static final String ADMIN_ID = "admin_id";
+    public static final String ADMIN_NICKNAME = "admin_nickname";
+    public static final String ADMIN_LOGIN = "admin_login";
+    public static final String ADMIN_PASSWORD = "admin_password";
 
     public static final String LOGIN_PREFERENCES = "login_data";
     public static final String PREFERENCES_AUTHORIZED_KEY = "isAuthorized";
