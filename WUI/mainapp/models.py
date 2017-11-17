@@ -3,7 +3,7 @@ from django.db import models
 
 """ 
 Классы, написаные с REST/Drop_and_Create_tables.sql
-создают schema 'spp' 
+create schema 'mainapp' 
 """
 
 
