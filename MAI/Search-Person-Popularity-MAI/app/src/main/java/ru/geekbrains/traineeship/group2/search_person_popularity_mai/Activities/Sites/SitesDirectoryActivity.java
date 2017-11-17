@@ -16,6 +16,7 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Site;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.ITEM_NOT_SELECTED;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.REQUEST_CODE_ADD_SITE;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.REQUEST_CODE_EDIT_SITE;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.SITE_ID;
@@ -61,7 +62,8 @@ public class SitesDirectoryActivity extends AppCompatActivity implements View.On
         listAllSites = repository.getSiteRepository().getAllSites();
         listSiteAdapter = new ArrayAdapter<Site>( this, android.R.layout.simple_list_item_1, listAllSites );
         lvSitesList.setAdapter( listSiteAdapter );
-        selectedSiteId = -1;
+
+        selectedSiteId = ITEM_NOT_SELECTED;
 
         lvSitesList.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
@@ -139,7 +141,7 @@ public class SitesDirectoryActivity extends AppCompatActivity implements View.On
     }
 
     private void initializeSelectedSite() {
-        selectedSiteId = -1;
+        selectedSiteId = ITEM_NOT_SELECTED;
 
         tvSiteName.setText( "" );
 
@@ -149,7 +151,7 @@ public class SitesDirectoryActivity extends AppCompatActivity implements View.On
     }
 
     private boolean isSiteSelected() {
-        return selectedSiteId != -1;
+        return selectedSiteId != ITEM_NOT_SELECTED;
     }
 
 }

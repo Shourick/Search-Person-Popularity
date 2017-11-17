@@ -20,6 +20,7 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Util
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.ADMIN_LOGIN;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.ADMIN_NICKNAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.ADMIN_PASSWORD;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.ITEM_NOT_SELECTED;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.REQUEST_CODE_ADD_ADMIN;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.REQUEST_CODE_EDIT_ADMIN;
 
@@ -65,7 +66,8 @@ public class AdminsDirectoryActivity extends AppCompatActivity implements View.O
         listAllAdmins = repository.getAdminRepository().getAllAdmins();
         listAdminAdapter = new ArrayAdapter<Admin>( this, android.R.layout.simple_list_item_1, listAllAdmins );
         lvAdminsList.setAdapter( listAdminAdapter );
-        selectedAdminId = -1;
+
+        selectedAdminId = ITEM_NOT_SELECTED;
 
         lvAdminsList.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
@@ -149,7 +151,7 @@ public class AdminsDirectoryActivity extends AppCompatActivity implements View.O
     }
 
     private void initializeSelectedAdmin() {
-        selectedAdminId = -1;
+        selectedAdminId = ITEM_NOT_SELECTED;
 
         tvNickname.setText( "" );
         tvLogin.setText( "" );
@@ -161,6 +163,6 @@ public class AdminsDirectoryActivity extends AppCompatActivity implements View.O
     }
 
     private boolean isAdminSelected() {
-        return selectedAdminId != -1;
+        return selectedAdminId != ITEM_NOT_SELECTED;
     }
 }

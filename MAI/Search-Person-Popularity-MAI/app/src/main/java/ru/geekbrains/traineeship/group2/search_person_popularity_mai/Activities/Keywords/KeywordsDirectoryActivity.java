@@ -18,6 +18,7 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Person;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.ITEM_NOT_SELECTED;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEYWORD_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEYWORD_NAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.PERSON_FOR_KEYWORD_ID;
@@ -94,7 +95,8 @@ public class KeywordsDirectoryActivity extends AppCompatActivity implements View
                 android.R.layout.simple_list_item_1,
                 listKeywordsByPerson );
         lvKeywordsByPersonList.setAdapter( listKeywordsByPersonAdapter );
-        selectedKeywordId = -1;
+
+        selectedKeywordId = ITEM_NOT_SELECTED;
 
         lvKeywordsByPersonList.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
@@ -174,7 +176,7 @@ public class KeywordsDirectoryActivity extends AppCompatActivity implements View
     }
 
     private void initializeSelectedKeyword() {
-        selectedKeywordId = -1;
+        selectedKeywordId = ITEM_NOT_SELECTED;
 
         tvKeywordName.setText( "" );
 
@@ -184,7 +186,7 @@ public class KeywordsDirectoryActivity extends AppCompatActivity implements View
     }
 
     private boolean isKeywordSelected() {
-        return selectedKeywordId != -1;
+        return selectedKeywordId != ITEM_NOT_SELECTED;
     }
 
 

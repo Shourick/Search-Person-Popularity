@@ -85,4 +85,6 @@ public class Constants {
     public static final int EMPTY_ID = -1;
 
     public static final int UPDATE_OK = 0;
+
+    public static final int ITEM_NOT_SELECTED = -1;
 }
