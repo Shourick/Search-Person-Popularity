@@ -56,8 +56,6 @@ urlpatterns = [
     url(r'^support/$', support, name='support'),
 
     url(r'^user/', include('userManagementApp.urls')),
-    url(r'^rest_api/', include('rest_framework.urls', namespace='rest_framework')),
-
     url(r'^api/', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+
 ]
