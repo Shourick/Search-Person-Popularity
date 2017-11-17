@@ -1,11 +1,12 @@
 import django_tables2 as tables
+from .models import Persons
 
 
 class GeneralStatisticsTable(tables.Table):
-    # class Meta:
-    #     model = Persons
-    name = tables.Column(accessor='person_id.name')
-    rank = tables.Column()
+    class Meta:
+        model = Persons
+    # name = tables.Column(accessor='person_id.name')
+    # rank = tables.Column()
 
 
 class DailyStatisticsTable(tables.Table):
