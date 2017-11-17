@@ -15,16 +15,16 @@
             </select>
 
             <select size="1" id="politic_id" class="form-control">
-                 {% for politic in politics %}
-            <option value="{{politic.id}}">{{politic.name}}</option>
+                 {% for person in persons %}
+            <option value="{{politic.id}}">{{person.name}}</option>
                     {% endfor %}
             </select>
 
             <div class="date-from-to">
                 <p>Период с:
-                    <input type="date" class="form-control" id="date_from" name="date" placeholder="11.10.2015" required>
+                    <input type="date" class="form-control" id="date_from" name="date" placeholder="2015-11-10" required>
                      по
-                    <input type="date" class="form-control" id="date_to" name="date" placeholder="11.10.2017" required>
+                    <input type="date" class="form-control" id="date_to" name="date" placeholder="2017-11-10" required>
                 </p>
             </div>
             <!--<p><input type="submit" value="Отправить" class="btn btn-default btn-md" ></p></div>-->
