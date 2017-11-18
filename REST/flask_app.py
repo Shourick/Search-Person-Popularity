@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Api
-from REST.api_classes import Persons, Keywords, Sites, PersonPageRank, Users
+from api_classes import Persons, Keywords, Sites, PersonPageRank, Users
 
 
 app = Flask(__name__)

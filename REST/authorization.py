@@ -1,11 +1,12 @@
 from flask import request, abort
 from functools import wraps
-import REST.encrypt_password as encrypt
-import REST.settings as settings
+import encrypt_password as encrypt
+import settings as settings
 
 
 def check_auth(_request):
     auth = _request.authorization
+    print(auth)
     if auth:
         config = settings.config
         db = settings.db
