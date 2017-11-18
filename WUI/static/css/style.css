@@ -101,7 +101,7 @@ h2 {
     margin: 20pt auto;
     padding-top: 40pt;
 }
-.main_btn a.btn, button {
+.main_btn a.btn, button, .btn {
     background-color: #58B9E4;
     color: white;
     margin-left: 10pt;
@@ -123,6 +123,7 @@ input[type=date] {
     display: inline-block;
     width: 25%;
 }
+
 table {
     width: 90%;
 }
