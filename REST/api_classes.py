@@ -1,7 +1,7 @@
 from flask_restful import Resource, Api
-import REST.encrypt_password as encrypt
-import REST.settings as settings
-from REST.authorization import requires_auth, requires_roles
+import encrypt_password as encrypt
+import settings as settings
+from authorization import requires_auth, requires_roles
 
 
 class WorkResource(Resource):

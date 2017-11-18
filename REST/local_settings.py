@@ -2,7 +2,7 @@ import MySQLdb
 
 config = {
     'user': 'spp',
-    'password': 'spp',
+    'password': 'spp_rest',
     'database': 'spp',
     'host': 'localhost',
     'charset': 'utf8'
