@@ -14,6 +14,10 @@ a.header {
     background-position: 50% 25%;
     color: #012C4A;
 }
+header hr {
+    width: 70%;
+    margin:0 auto;
+}
 .white {
     color: white;
     float: left;
