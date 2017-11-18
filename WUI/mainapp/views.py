@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from .models import *
 from .tables import GeneralStatisticsTable, DailyStatisticsTable
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
 from .forms import ContactForm
+from django.contrib.auth.decorators import login_required
+import requests
 
 
 def index(request):
@@ -11,34 +12,34 @@ def index(request):
     return render(request, 'index.html', {'title': title})
 
 
+# @login_required
 def general(request):
     title = 'Общая статистика'
-    sites = Site.objects.all()
-    politics = Politic.objects.all()
-    person_page_rank = PersonPageRank.objects.all()
-    gs_table = GeneralStatisticsTable(person_page_rank)
-    return render(request, 'general.html', {'title': title, 'sites': sites, 'politics': politics, 'gs_table': gs_table})
+    sites = requests.get("http://94.130.27.143/sites").json()
+    persons = requests.get("http://94.130.27.143/persons")
+    gs_table = GeneralStatisticsTable(persons.json())
+    return render(request, 'general.html', {'title': title, 'sites': sites, 'persons': persons, 'gs_table': gs_table})
 
 
+# @login_required
 def daily(request):
     title = 'Ежедневная статистика'
-    sites = Site.objects.all()
-    politics = Politic.objects.all()
-    ds_table = DailyStatisticsTable(politics)
-    return render(request, 'daily.html', {'title': title, 'sites': sites, 'politics': politics, 'ds_table': ds_table})
+    sites = requests.get("http://94.130.27.143/sites").json()
+    persons = requests.get("http://94.130.27.143/persons").json()
+    ds_table = DailyStatisticsTable(persons)
+    return render(request, 'daily.html', {'title': title, 'sites': sites, 'persons': persons, 'ds_table': ds_table})
 
 
-def contacts(request):
+def support(request):
     title = 'Контакты'
     if request.method == 'POST':
         form = ContactForm(request.POST)
-        # Если форма заполнена корректно, сохраняем все введённые   пользователем значения
+        # Если форма заполнена корректно, сохраняем все введённые пользователем значения
         if form.is_valid():
             subject = form.cleaned_data['subject']
             sender = form.cleaned_data['sender']
             message = form.cleaned_data['message']
             copy = form.cleaned_data['copy']
-
             recipients = ['crowd.scoring@yandex.ru']
             # Если пользователь захотел получить копию себе, добавляем его в список получателей
             if copy:
@@ -53,4 +54,4 @@ def contacts(request):
         # Заполняем форму
         form = ContactForm()
         # Отправляем форму на страницу
-    return render(request, 'email/contacts.html', {'title': title, 'form': form})
+    return render(request, 'email/support.html', {'title': title, 'form': form})

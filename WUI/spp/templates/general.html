@@ -3,8 +3,8 @@
 {% load render_table from django_tables2 %}
 {% block content %}
 
-<!--TODO: form action-->
-<form class="well form-inline"  method="post" id="general_stat" action="">
+
+<form class="well form-inline stat"  method="post" id="general_stat" action="">
      {% csrf_token %}
     <div class="form-group">
         <legend>Общая статистика</legend>
@@ -21,7 +21,7 @@
     </div>
 </form>
 
-<div class="politics-table" id="politics-table">
+<div class="politics-table hidden" id="politics-table">
             {% if gs_table %}{% render_table gs_table %}{% else %}{% endif %}
             <!--{% if politics %}{% render_table politics %}{% else %}{% endif %}-->
 </div>
