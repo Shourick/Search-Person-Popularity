@@ -88,3 +88,21 @@ ENV/
 # Rope project settings
 .ropeproject
 
+# User's
+REST/.idea/
+REST/virtenv/
+.gitignore
+REST/Flask-retful/virtenv/
+REST/Flask-retful/.idea/
+REST/Flask-restful/virtenv/Include/abstract.h
+REST/Flask-restful/virtenv/
+REST/Flask-restful/.idea/
+REST/Flask_restful/.idea/
+REST/Flask_restful/__pycache__/
+REST/Flask_restful/virtenv/
+Job Status.xlsx
+REST/Flask_restful/~$Fake_data.xlsx
+REST/__pycache__/
+REST/Flask_restful/CRUD_test.py
+REST/local_settings.py
+REST/rest.wsgi
