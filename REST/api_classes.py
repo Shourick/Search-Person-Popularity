@@ -261,11 +261,11 @@ class Users(WorkResource):
         cursor = self.cursor
         table = self.table
         if _id is not None:
-            sql_str = "delete from `{}` where ID='{}'".format(table, _id)
+            sql_str = "delete from `{}` where ID='{}' and Login!='root'".format(table, _id)
         elif _login is not None:
-            sql_str = "delete from `{}` where Login='{}'".format(table, _login)
+            sql_str = "delete from `{}` where Login='{}' and Login!='root'".format(table, _login)
         elif _admin is not None:
-            sql_str = "delete from `{}` where Admin='{}'".format(table, _admin)
+            sql_str = "delete from `{}` where Admin='{}' and Login!='root'".format(table, _admin)
         else:
             sql_str = "delete from `{}` where Login!='root'".format(table)
         cursor.execute(sql_str)

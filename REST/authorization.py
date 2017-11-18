@@ -6,7 +6,6 @@ import settings as settings
 
 def check_auth(_request):
     auth = _request.authorization
-    print(auth)
     if auth:
         config = settings.config
         db = settings.db
