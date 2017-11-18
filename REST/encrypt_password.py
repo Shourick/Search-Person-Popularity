@@ -3,7 +3,7 @@ import hashlib
 
 
 def salt_generator(_length=16):
-    return ''.join(chr(random.randint(32, 123)) for _ in range(_length))
+    return ''.join(chr(random.randint(49, 123)) for _ in range(_length))
 
 
 def encrypt_password(_password, _salt=None):
