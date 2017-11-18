@@ -24,68 +24,68 @@ header hr {
     margin: 20pt;
 }
 .menu {
-  background-color: #012C4A;
-  left: -285px;
-  height: 100%;
-  position: fixed;
-  width: 280px;
+    background-color: #012C4A;
+    left: -285px;
+    height: 100%;
+    position: fixed;
+    width: 280px;
 }
 
 .background {
-  background-color: #012C4A;
-  height: 100%;
-  -webkit-background-size: cover;
-     -moz-background-size: cover;
-       -o-background-size: cover;
-          background-size: cover;
-
+    background-color: #012C4A;
+    height: 100%;
+    -webkit-background-size: cover;
+       -moz-background-size: cover;
+         -o-background-size: cover;
+            background-size: cover;
 }
 .menu a {
-    color:white;
+    color: white;
 }
 .menu ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .menu li {
-  border-bottom: 1px solid #555;
-  font-family: 'Open Sans', sans-serif;
-  line-height: 45px;
-  padding-bottom: 3px;
-  padding-left: 20px;
-  padding-top: 3px;
-  color: #fff;
+    border-bottom: 1px solid #555;
+    font-family: 'Open Sans', sans-serif;
+    line-height: 45px;
+    padding-bottom: 3px;
+    padding-left: 20px;
+    padding-top: 3px;
+    color: #fff;
 }
 
 .menu li:hover {
-  cursor: pointer;
-  background-color: #555;
+    cursor: pointer;
+    background-color: #555;
   }
 
 .icon-close {
-  cursor: pointer;
-  padding-left: 10px;
-  padding-top: 10px;
-  padding-bottom: 6px;
+    cursor: pointer;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 6px;
 }
 
 .icon-menu {
-  color: #fff;
-  cursor: pointer;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 20px;
-  padding-bottom: 25px;
-  padding-left: 25px;
-  padding-right: 25px;
-  padding-top: 25px;
-  text-decoration: none;
-  text-transform: uppercase;
+    color: #fff;
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    padding-bottom: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 25px;
+    text-decoration: none;
+    text-transform: uppercase;
+    width: 10%;
 }
 
 .icon-menu img {
-  margin-right: 5px;
+    margin-right: 5px;
 }
 h1 {
     margin: 60pt;
