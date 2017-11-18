@@ -1,6 +1,6 @@
 {% if not user.is_authenticated %}
-<li><a href="/user/registration/" class="text-center">Регистрация</a>
-
+<li><a href="/user/registration/" class="text-center">Регистрация</a></li>
+<li>Вход
         <form class="well form-inline login" method="post" action="/user/login/">
                 {% csrf_token %}
 
@@ -12,6 +12,7 @@
                 <p class="text-danger">Неправильный логин или пароль</p>
                 {% endif %}
         </form>
+
        {% else %}
         <div>
             <p class="white">{{ user.username }}</p>
