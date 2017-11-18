@@ -196,17 +196,24 @@ class Users(WorkResource):
         cursor = self.cursor
         table = self.table
         keys = ['id', 'login', 'name', 'admin']
-        sql_str = "select ID, Login, Name from `{}`{{}}".format(table)
+        sql_str = "select ID, Login, Name from `{}` where {{}}=%s".format(table)
 
         if _id is not None:
-            sql_str = sql_str.format(" where ID='{}'".format(_id))
+            sql_str = sql_str.format('ID')
+            parameter = _id
         elif _login is not None:
-            sql_str = sql_str.format(" where Login='{}'".format(_login))
+            sql_str = sql_str.format('Login')
+            parameter = _login
         elif _admin is not None:
-            sql_str = sql_str.format(" where Admin='{}'".format(_admin))
+            sql_str = sql_str.format('Admin')
+            parameter = _admin
         else:
-            sql_str = sql_str.format('')
-        cursor.execute(sql_str)
+            sql_str = "SELECT ID, Login, Name FROM `{}`".format(table)
+            parameter = None
+        if parameter is None:
+            cursor.execute(sql_str)
+        else:
+            cursor.execute(sql_str, (parameter, ))
         result = [dict(zip(keys, data)) for data in cursor.fetchall()]
         conn.close()
         return result
@@ -219,11 +226,8 @@ class Users(WorkResource):
         stored_password = encrypt.password_to_store(_password)
         sql_str = """
             insert into `{}` (Login, Name, Admin, Password)
-            values
-            ('{}', '{}', '{}', '{}')""".format(
-            table, _login, _name, _admin, stored_password
-        )
-        cursor.execute(sql_str)
+                values (%s, %s, %s, %s)""".format(table)
+        cursor.execute(sql_str, (_login, _name, _admin, stored_password))
         conn.commit()
         result = cursor.lastrowid
         conn.close()
@@ -237,21 +241,25 @@ class Users(WorkResource):
         sql_str = ''
         if _password is None:
             if _name is not None and _admin is not None:
-                sql_str = """update `{}` set Name='{}', Admin='{}'
-                    where ID='{}'""".format(table, _name, _admin, _id)
+                sql_str = """update `{}` set Name=%s, Admin=%s
+                    where ID=%s""".format(table)
+                parameters = (_name, _admin, _id)
             else:
                 if _name is not None:
-                    sql_str = """update `{}` set Name='{}'
-                        where ID='{}'""".format(table, _name, _id)
+                    sql_str = """update `{}` set Name=%s
+                        where ID=%s""".format(table)
+                    parameters = (_name, _id)
                 else:
-                    sql_str = """update `{}` set Admin='{}'
-                        where ID='{}'""".format(table, _admin, _id)
+                    sql_str = """update `{}` set Admin=%s
+                        where ID=%s""".format(table)
+                    parameters = (_admin, _id)
         else:
             stored_password = encrypt.password_to_store(_password)
-            sql_str = """update `{}` set Password='{}'
-                where ID={}""".format(table, stored_password, _id)
+            sql_str = """update `{}` set Password=%s
+                where ID=%s""".format(table)
+            parameters = (stored_password, _id)
         if sql_str != '':
-            cursor.execute(sql_str)
+            cursor.execute(sql_str, parameters)
         conn.commit()
         conn.close()
 
@@ -260,14 +268,22 @@ class Users(WorkResource):
         conn = self.conn
         cursor = self.cursor
         table = self.table
+        sql_str = """delete from `{}` where {{}}=%s and Login!='root'""".format(table)
         if _id is not None:
-            sql_str = "delete from `{}` where ID='{}' and Login!='root'".format(table, _id)
+            sql_str = sql_str.format('ID')
+            parameter = _id
         elif _login is not None:
-            sql_str = "delete from `{}` where Login='{}' and Login!='root'".format(table, _login)
+            sql_str = sql_str.format('Login')
+            parameter = _login
         elif _admin is not None:
-            sql_str = "delete from `{}` where Admin='{}' and Login!='root'".format(table, _admin)
+            sql_str = sql_str.format('Admin')
+            parameter = _admin
         else:
             sql_str = "delete from `{}` where Login!='root'".format(table)
-        cursor.execute(sql_str)
+            parameter = None
+        if parameter is None:
+            cursor.execute(sql_str)
+        else:
+            cursor.execute(sql_str, (parameter, ))
         conn.commit()
         conn.close()
