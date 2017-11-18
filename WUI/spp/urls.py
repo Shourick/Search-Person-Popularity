@@ -14,40 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-from django.contrib.auth.models import User
-from rest_framework import serializers, viewsets, routers
-
-from mainapp.models import *
 from mainapp.views import *
-
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ('url', 'username', 'email', 'is_staff')
-
-
-# ViewSets define the view behavior.
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
-class PersonpagerankSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Personpagerank
-        fields = ('ID', 'PersonID', 'PageID', 'Rank')
-
-
-class PersonpagerankViewSet(viewsets.ModelViewSet):
-    queryset = Personpagerank.objects.all()
-    serializer_class = PersonpagerankSerializer
+from rest_framework import routers
 
 
 # Routers provide a way of automatically determining the URL conf.
 router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
+router.register(r'keywords', KeywordsViewSet)
 router.register(r'personpageranks', PersonpagerankViewSet)
+router.register(r'users', UserViewSet)
 
 
 urlpatterns = [
@@ -55,8 +30,9 @@ urlpatterns = [
     url(r'^general/$', general, name='general'),
     url(r'^daily/$', daily, name='daily'),
     url(r'^support/$', support, name='support'),
+    url(r'^keywords/$', KeywordsViewSet, name='keywords'),
 
     url(r'^user/', include('userManagementApp.urls')),
-    url(r'^api/', include(router.urls)),
+    url(r'^api/', include(router.urls)),  # REST
 
 ]
