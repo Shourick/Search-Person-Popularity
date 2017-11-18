@@ -4,7 +4,9 @@ from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
 from .forms import ContactForm
 from django.contrib.auth.decorators import login_required
+from rest_framework import viewsets
 import requests
+from spp.models import *
 
 
 def index(request):
@@ -55,3 +57,19 @@ def support(request):
         form = ContactForm()
         # Отправляем форму на страницу
     return render(request, 'email/support.html', {'title': title, 'form': form})
+
+
+# ViewSets define the view behavior. REST
+class PersonpagerankViewSet(viewsets.ModelViewSet):
+    queryset = Personpagerank.objects.all()
+    serializer_class = PersonpagerankSerializer
+
+
+class KeywordsViewSet(viewsets.ModelViewSet):
+    queryset = Keywords.objects.all()
+    serializer_class = KeywordsSerializer
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
