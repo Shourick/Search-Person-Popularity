@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets
 import requests
 from spp.models import *
+from requests.auth import HTTPBasicAuth
 
 
 def index(request):
@@ -17,8 +18,8 @@ def index(request):
 # @login_required
 def general(request):
     title = 'Общая статистика'
-    sites = requests.get("http://94.130.27.143/sites").json()
-    persons = requests.get("http://94.130.27.143/persons")
+    sites = requests.get("http://94.130.27.143/sites", auth=HTTPBasicAuth('root', 'root_password')).json()
+    persons = requests.get("http://94.130.27.143/persons", auth=HTTPBasicAuth('root', 'root_password'))
     gs_table = GeneralStatisticsTable(persons.json())
     return render(request, 'general.html', {'title': title, 'sites': sites, 'persons': persons, 'gs_table': gs_table})
 
@@ -26,8 +27,8 @@ def general(request):
 # @login_required
 def daily(request):
     title = 'Ежедневная статистика'
-    sites = requests.get("http://94.130.27.143/sites").json()
-    persons = requests.get("http://94.130.27.143/persons").json()
+    sites = requests.get("http://94.130.27.143/sites", auth=HTTPBasicAuth('root', 'root_password')).json()
+    persons = requests.get("http://94.130.27.143/persons", auth=HTTPBasicAuth('root', 'root_password')).json()
     ds_table = DailyStatisticsTable(persons)
     return render(request, 'daily.html', {'title': title, 'sites': sites, 'persons': persons, 'ds_table': ds_table})
 
