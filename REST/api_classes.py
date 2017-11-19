@@ -156,33 +156,64 @@ class PersonPageRank(WorkResource):
         conn = self.conn
         cursor = self.cursor
         table = self.table
-        sql_str = """select t1.Rank from `{0}` t1
-                        join pages t2 on t1.PageID=t2.ID
-                        join persons t3 on t1.PersonID=t3.ID
-                        {{}}
-                        where t3.ID='{1}'{{}}""".format(table, person_id)
-        if site_id is not None:
-            sql_str = sql_str.format(
-                "join sites t4 on t2.SiteID=t4.ID",
-                " and t4.ID='{}'{{}}".format(site_id)
-            )
-            if start_date is not None:
-                if end_date is None:
-                    sql_str = sql_str.format(
-                        " and t2.FoundDateTime='{}'".format(start_date)
-                    )
-                    cursor.execute(sql_str)
+        keys = ['person_id', 'site_id', 'rank']
+        if person_id is not None:
+            sql_str = """select t3.ID, t2.SiteID, 
+                            floor(format(sum(t1.Rank), 0)) from `{0}` t1
+                            join pages t2 on t1.PageID=t2.ID
+                            join persons t3 on t1.PersonID=t3.ID
+                            {{}}
+                            where t3.ID='{1}'{{}} 
+                            group by t3.ID{{}}""".format(table, person_id)
+            if site_id is not None:
+                sql_str = sql_str.format(
+                    "join sites t4 on t2.SiteID=t4.ID",
+                    " and t4.ID='{}'{{}}".format(site_id),
+                    ", t2.SiteID"
+                )
+                if start_date is not None:
+                    if end_date is None:
+                        sql_str = sql_str.format(
+                            " and t2.FoundDateTime='{}'".format(start_date)
+                        )
+                        cursor.execute(sql_str)
+                    else:
+                        sql_str = sql_str.format(
+                            " and t2.FoundDateTime>='{}' and t2.FoundDateTime<='{}'"
+                            .format(start_date, end_date)
+                        )
+                        cursor.execute(sql_str)
                 else:
-                    sql_str = sql_str.format(
-                        " and t2.FoundDateTime>='{}' and t2.FoundDateTime<='{}'"
-                        .format(start_date, end_date)
-                    )
-                    cursor.execute(sql_str)
+                    cursor.execute(sql_str.format(''))
             else:
-                cursor.execute(sql_str.format(''))
+                if start_date is not None:
+                    if end_date is None:
+                        sql_str = sql_str.format(
+                            '',
+                            " and t2.FoundDateTime='{}'".format(start_date),
+                            ', t2.SiteID'
+                        )
+                        cursor.execute(sql_str)
+                    else:
+                        sql_str = sql_str.format(
+                            '',
+                            " and t2.FoundDateTime>='{}' and t2.FoundDateTime<='{}'"
+                            .format(start_date, end_date),
+                            ', t2.SiteID'
+                        )
+                        cursor.execute(sql_str)
+                else:
+                    cursor.execute(sql_str.format('', '', ', t2.SiteID'))
+                    # print(cursor.fetchall())
         else:
-            cursor.execute(sql_str.format('', ''))
-        result = sum(map(lambda x: x[0], cursor.fetchall()))
+            sql_str = """select t3.ID, t2.SiteID, 
+                            floor(format(sum(t1.Rank), 0)) from `{}` t1
+                            join pages t2 on t1.PageID=t2.ID
+                            join persons t3 on t1.PersonID=t3.ID 
+                            group by t3.ID, t2.SiteID""".format(table)
+            cursor.execute(sql_str)
+        result = [dict(zip(keys, data)) for data in cursor.fetchall()]
+        # result = sum(map(lambda x: x[0], cursor.fetchall()))
         conn.close()
         return result
 
