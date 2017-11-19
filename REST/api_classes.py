@@ -156,7 +156,7 @@ class PersonPageRank(WorkResource):
         conn = self.conn
         cursor = self.cursor
         table = self.table
-        keys = ['person_id', 'site_id', 'rank']
+        keys = ['person', 'site', 'rank']
         if person_id is not None:
             sql_str = """select t3.ID, t2.SiteID, 
                             floor(format(sum(t1.Rank), 0)) from `{0}` t1
