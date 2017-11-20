@@ -20,7 +20,7 @@ from mainapp.views import *
 urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'^general/$', general, name='general'),
-    url(r'^rank/(\d*)$', rank, name='rank'),
+    url(r'^rank/$', rank, name='rank'),
     url(r'^daily/$', daily, name='daily'),
     url(r'^rank/$', rank, name='rank'),
     url(r'^support/$', support, name='support'),

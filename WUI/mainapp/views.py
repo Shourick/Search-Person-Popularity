@@ -18,8 +18,8 @@ def index(request):
 @login_required
 def general(request):
     title = 'Общая статистика'
-    sites = requests.get("http://94.130.27.143/sites", auth=HTTPBasicAuth('root', 'root_password')).json()
-    return render(request, 'general.html', {'title': title, 'sites': sites})
+    persons = requests.get("http://94.130.27.143/persons", auth=HTTPBasicAuth('root', 'root_password')).json()
+    return render(request, 'general.html', {'title': title, 'persons': persons})
 
 
 @login_required
@@ -65,10 +65,11 @@ def support(request):
     return render(request, 'email/support.html', {'title': title, 'form': form})
 
 
-def rank(request, site_id):
-        print('r_is_ajax', request)
+def rank(request):
+        url = request.POST.get('url')
+        print(url)
         title = 'Общая статистика'
-        url = "http://94.130.27.143/rank" + str(site_id)
+        # url = "http://94.130.27.143/rank/" + str(person_id)
         sites = requests.get("http://94.130.27.143/sites", auth=HTTPBasicAuth('root', 'root_password')).json()
         rank = requests.get(url, auth=HTTPBasicAuth('root', 'root_password')).json()
         # rank = requests.get("http://94.130.27.143/rank", auth=HTTPBasicAuth('root', 'root_password')).json()

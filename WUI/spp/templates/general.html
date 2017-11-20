@@ -9,13 +9,13 @@
         <legend>Общая статистика</legend>
 
             <select size="1" id="id" class="form-control">
-        {% for site in sites %}
-            <option  value="{{site.id}}" name="{{site.id}}" id="site_id">{{site.name}}</option>
+        {% for person in persons %}
+            <option  value="{{person.id}}" name="{{person.id}}" id="person_id">{{person.name}}</option>
         {% endfor %}
             </select>
 
             <!--<p><input type="submit" value="Отправить" class="btn btn-default btn-md" ></p></div>-->
-            <button type="submit" id="submit_btn" class="btn" onclick="get_site_id()">Подтвердить</button>
+            <button type="submit" id="submit_btn" class="btn" onclick="get_rank_by_person_id()">Подтвердить</button>
 
     </div>
 </form>

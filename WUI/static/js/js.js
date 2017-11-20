@@ -1,6 +1,5 @@
 var api_host = 'http://94.130.27.143/'
 
-
 function get_rank_by_person_id() {
     var form = $('.stat');
     form.on('submit', function(e){
@@ -11,9 +10,10 @@ function get_rank_by_person_id() {
         console.log('person_id=' + person_id);
             $.ajax({
                 type: "POST",
-                url: '/rank/' + String(person_id),
+                url: '/rank/',
                 data: {csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-                        url: url},
+                        url: url,
+                        },
                 success: function(){
                     console.log('func ok');
                     },
