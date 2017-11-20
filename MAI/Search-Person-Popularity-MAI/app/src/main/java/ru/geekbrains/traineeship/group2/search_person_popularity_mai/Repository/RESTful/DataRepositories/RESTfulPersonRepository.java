@@ -11,6 +11,9 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.IRestAPI.IPersonRestAPI;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.API_URL_BASE;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.UPDATE_OK;
 
 /**
  * Created by skubatko on 13/11/17
@@ -29,13 +32,21 @@ public class RESTfulPersonRepository implements IPersonRepository {
     }
 
     @Override
-    public void addPerson( Person person ) throws IOException {
-        personRestAPI.addPerson( person.getName() ).execute();
+    public int addPerson( Person person ) throws IOException {
+        Response<Integer> response = personRestAPI.addPerson( person.getName() ).execute();
+        if ( response.isSuccessful() ) {
+            return response.body();
+        }
+        return EMPTY_ID;
     }
 
     @Override
     public Person getPersonById( int id ) throws IOException {
-        return new Person( id, personRestAPI.getPersonById( id ).execute().body() );
+        Response<String> response = personRestAPI.getPersonById( id ).execute();
+        if ( response.isSuccessful() ) {
+            return new Person( id, response.body() );
+        }
+        return new Person( EMPTY_ID, EMPTY_NAME );
     }
 
     @Override
@@ -45,7 +56,7 @@ public class RESTfulPersonRepository implements IPersonRepository {
 
             return new Person( response.body(), name );
         }
-        return null;
+        return new Person( EMPTY_ID, EMPTY_NAME );
     }
 
     @Override
@@ -59,13 +70,13 @@ public class RESTfulPersonRepository implements IPersonRepository {
         if ( response.isSuccessful() ) {
             return response.body().size();
         }
-        return 0;
+        return EMPTY_ID;
     }
 
     @Override
     public int updatePerson( Person person ) throws IOException {
         personRestAPI.updatePerson( person.getId(), person.getName() ).execute();
-        return 0;
+        return UPDATE_OK;
     }
 
     @Override

@@ -11,6 +11,7 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.User;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEY_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_USERS;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_USERS_FIELD_LOGIN;
@@ -30,16 +31,19 @@ public class SQLiteUserRepository implements IUserRepository {
     }
 
     @Override
-    public void addUser( User user ) {
+    public int addUser( User user ) {
         try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
+            if ( user.getId() != EMPTY_ID ) {
+                contentValues.put( KEY_ID, user.getId() );
+            }
             contentValues.put( TABLE_USERS_FIELD_NICKNAME, user.getNickName() );
             contentValues.put( TABLE_USERS_FIELD_LOGIN, user.getLogin() );
             contentValues.put( TABLE_USERS_FIELD_PASSWORD, user.getPassword() );
 
             db.insert( TABLE_USERS, null, contentValues );
         }
-
+        return user.getId();
     }
 
     @Override
@@ -53,7 +57,7 @@ public class SQLiteUserRepository implements IUserRepository {
                         TABLE_USERS_FIELD_NICKNAME,
                         TABLE_USERS_FIELD_LOGIN,
                         TABLE_USERS_FIELD_PASSWORD },     // columns
-                KEY_ID,                                   // columns WHERE
+                KEY_ID + " = ?",                                   // columns WHERE
                 new String[] { Integer.toString( id ) },  // values WHERE
                 null,                                     // group by
                 null,                                     // having

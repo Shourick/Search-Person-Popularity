@@ -9,41 +9,41 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Person;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Site;
 
 /**
- * Created by skubatko on 13/11/17
+ * Created by skubatko on 16/11/17
  */
 
-public interface IPersonRestAPI {
-
-    @PUT( "persons/{name}" )
-    Call<Integer> addPerson(
+public interface ISiteRestAPI {
+    
+    @PUT( "sites/{name}" )
+    Call<Integer> addSite(
             @Path( "name" ) String name );      // добавляем
 
-    @GET( "persons/{id}" )
-    Call<String> getPersonById(
+    @GET( "sites/{id}" )
+    Call<String> getSiteById(
             @Path( "id" ) int id
     );                                          // получаем по id
 
-    @GET( "persons/{name}" )
-    Call<Integer> getPersonByName(
+    @GET( "sites/{name}" )
+    Call<Integer> getSiteByName(
             @Path( "name" ) String name
     );                                          // получаем по Имени
 
-    @GET( "persons" )
-    Call<List<Person>> getAllPersons();         // получаем список всех
+    @GET( "sites" )
+    Call<List<Site>> getAllSites();         // получаем список всех
 
-    @POST( "persons/{id}/{name}" )
-    Call<ResponseBody> updatePerson(
+    @POST( "sites/{id}/{name}" )
+    Call<ResponseBody> updateSite(
             @Path( "id" ) int id, @Path( "name" ) String name
     );                                          // обновляем данные
 
-    @DELETE( "persons/{id}" )
-    Call<ResponseBody> deletePerson(
+    @DELETE( "sites/{id}" )
+    Call<ResponseBody> deleteSite(
             @Path( "id" ) int id );             // удаляем по id
 
-    @DELETE( "persons" )
-    Call<ResponseBody> deleteAllPersons();                    // удаляем все
+    @DELETE( "sites" )
+    Call<ResponseBody> deleteAllSites();                    // удаляем все
 
 }

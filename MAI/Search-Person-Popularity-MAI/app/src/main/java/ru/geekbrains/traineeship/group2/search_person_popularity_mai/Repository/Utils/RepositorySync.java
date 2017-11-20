@@ -1,19 +1,19 @@
-package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository;
+package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
 import java.io.IOException;
-import java.util.List;
 
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Person;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.DataRepositories.RESTfulPersonRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.RESTful.RESTfulRepository;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.DataRepositories.SQLitePersonRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Utils.Data.KeywordsSync;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Utils.Data.PersonsSync;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Utils.Data.SitesSync;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Utils.Players.AdminsSync;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Utils.Players.UsersSync;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.MESSAGE_SYNCRONIZING;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.SYNCHRONIZED_DATABASE_NAME;
 
@@ -25,8 +25,8 @@ public class RepositorySync extends AsyncTask<Void, Void, Void> {
 
     private ProgressDialog progress;
     private Context context;
-    SQLiteRepository synchronizedRepository;
-    RESTfulRepository apiRepository;
+    private SQLiteRepository synchronizedRepository;
+    private RESTfulRepository apiRepository;
 
     public RepositorySync( Context context ) {
         this.context = context;
@@ -46,23 +46,11 @@ public class RepositorySync extends AsyncTask<Void, Void, Void> {
 
         try {
 
-            // удалить после тестирования
-//            repository.getPersonRepository().deleteAllPersons();
-
-
-            SQLitePersonRepository personsMain = repository.getPersonRepository();
-            SQLitePersonRepository personsSynced = synchronizedRepository.getPersonRepository();
-            RESTfulPersonRepository personsApi = apiRepository.getPersonRepository();
-
-            List<Person> personListMain = repository.getPersonRepository().getAllPersons();
-            List<Person> personListSynced = synchronizedRepository.getPersonRepository().getAllPersons();
-            List<Person> personListApi = apiRepository.getPersonRepository().getAllPersons();
-
-            for ( Person pApi : personListApi ) {
-                if ( !personListMain.contains( pApi ) ) {
-                    personsMain.addPerson( pApi );
-                }
-            }
+            new PersonsSync( synchronizedRepository, apiRepository ).execute();
+            new KeywordsSync( synchronizedRepository, apiRepository ).execute();
+            new SitesSync( synchronizedRepository, apiRepository ).execute();
+            new UsersSync( synchronizedRepository,apiRepository ).execute();
+            new AdminsSync( synchronizedRepository,apiRepository ).execute();
 
         } catch ( IOException e ) {
             e.printStackTrace();
@@ -80,6 +68,7 @@ public class RepositorySync extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute( Void aVoid ) {
         progress.dismiss();
+        synchronizedRepository.close();
     }
 
 }

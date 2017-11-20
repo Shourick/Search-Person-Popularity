@@ -1,5 +1,6 @@
 package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.Data;
 
+import java.io.IOException;
 import java.util.List;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Site;
@@ -15,17 +16,17 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 
 public interface ISiteRepository {
 
-    public void addSite( Site site );         // добавляем Сайт
+    int addSite( Site site ) throws IOException;         // добавляем Сайт
 
-    Site getSite( int id );                   // получаем Сайт по его id
+    Site getSite( int id ) throws IOException;                   // получаем Сайт по его id
 
-    List getAllSites();                     // получаем список всех Сайтов
+    List getAllSites() throws IOException;                     // получаем список всех Сайтов
 
-    int getSitesCount();                    // получаем количество Сайтов в Репозитории
+    int getSitesCount() throws IOException;                    // получаем количество Сайтов в Репозитории
 
-    int updateSite( Site site );              // обновляем Сайт
+    int updateSite( Site site ) throws IOException;              // обновляем Сайт
 
-    void deleteSite( Site site );             // удаляем Сайт
+    void deleteSite( Site site ) throws IOException;             // удаляем Сайт
 
-    void deleteAllSites();                  // удаляем все Сайты
+    void deleteAllSites() throws IOException;                  // удаляем все Сайты
 }

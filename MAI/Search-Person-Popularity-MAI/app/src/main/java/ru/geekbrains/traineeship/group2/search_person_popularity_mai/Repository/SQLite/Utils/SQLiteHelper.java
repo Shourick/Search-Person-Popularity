@@ -9,6 +9,7 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Util
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEY_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_ADMINS;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_ADMINS_FIELD_LOGIN;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_ADMINS_FIELD_NICKNAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_ADMINS_FIELD_PASSWORD;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_KEYWORDS;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_KEYWORDS_FIELD_NAME;
@@ -151,6 +152,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
          */
         String CREATE_ADMINS_TABLE = "CREATE TABLE " + TABLE_ADMINS + " (" +
                 KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                TABLE_ADMINS_FIELD_NICKNAME + " TEXT NOT NULL, " +
                 TABLE_ADMINS_FIELD_LOGIN + " TEXT NOT NULL, " +
                 TABLE_ADMINS_FIELD_PASSWORD + " TEXT NOT NULL" +
                 ");";

@@ -1,5 +1,6 @@
 package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.Data;
 
+import java.io.IOException;
 import java.util.List;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Keyword;
@@ -15,19 +16,19 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 
 public interface IKeywordRepository {
 
-    public void addKeyword( Keyword keyword, int personId );  // добавляем Ключевое слово для Личности personId
+    int addKeyword( Keyword keyword, int personId ) throws IOException;  // добавляем Ключевое слово для Личности personId
 
-    Keyword getKeyword( int id );                             // получаем Ключевое слово по его id
+    Keyword getKeyword( int id ) throws IOException;                             // получаем Ключевое слово по его id
 
-    List getPersonKeywords( int personId );                   // получаем ключевые слова Личности personId
+    List getPersonKeywords( int personId ) throws IOException;                   // получаем ключевые слова Личности personId
 
-    List getAllKeywords();                                  // получаем список всех Ключевых слов
+    List getAllKeywords() throws IOException;                                  // получаем список всех Ключевых слов
 
-    int getKeywordsCount();                                 // получаем количество Ключевых слов в Репозитории
+    int getKeywordsCount() throws IOException;                                 // получаем количество Ключевых слов в Репозитории
 
-    int updateKeyword( Keyword keyword );                     // обновляем данные Ключеового слова
+    int updateKeyword( Keyword keyword ) throws IOException;                     // обновляем данные Ключеового слова
 
-    void deleteKeyword( Keyword keyword );                    // удаляем Ключевое слово
+    void deleteKeyword( Keyword keyword ) throws IOException;                    // удаляем Ключевое слово
 
-    void deleteAllKeywords();                               // удаляем все Ключевые слова
+    void deleteAllKeywords() throws IOException;                               // удаляем все Ключевые слова
 }

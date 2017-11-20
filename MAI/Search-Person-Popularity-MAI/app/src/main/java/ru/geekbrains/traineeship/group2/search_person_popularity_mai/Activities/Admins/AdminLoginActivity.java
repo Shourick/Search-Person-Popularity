@@ -11,9 +11,10 @@ import android.widget.Toast;
 import java.util.List;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.AdminAuthorization;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.Admin;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Utils.RepositorySync;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.AdminAuthorization;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.MAX_OF_ADMIN_AUTHORIZATION_TRIES;
@@ -37,6 +38,9 @@ public class AdminLoginActivity extends AppCompatActivity implements View.OnClic
         btnAdminLogin.setOnClickListener( this );
 
         numberOfAuthorizationTries = 0;
+
+        new RepositorySync( this ).execute();
+
     }
 
     @Override
@@ -52,7 +56,7 @@ public class AdminLoginActivity extends AppCompatActivity implements View.OnClic
                     finish();
                 } else {
                     if ( numberOfAuthorizationTries < MAX_OF_ADMIN_AUTHORIZATION_TRIES ) {
-                        Toast.makeText( v.getContext(), "Неверные данные автораизации !!!", Toast.LENGTH_SHORT ).show();
+                        Toast.makeText( v.getContext(), "Неверные данные авторизации !!!", Toast.LENGTH_SHORT ).show();
                     } else {
                         authorizationFails();
                     }

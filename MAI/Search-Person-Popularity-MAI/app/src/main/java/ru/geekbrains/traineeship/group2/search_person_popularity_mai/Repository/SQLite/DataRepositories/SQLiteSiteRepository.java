@@ -11,6 +11,8 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.Data.ISiteRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_NAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEY_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_SITES;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_SITES_FIELD_NAME;
@@ -28,26 +30,29 @@ public class SQLiteSiteRepository implements ISiteRepository {
     }
 
     @Override
-    public void addSite( Site site ) {
+    public int addSite( Site site ) {
         try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
+            if ( site.getId() != EMPTY_ID ) {
+                contentValues.put( KEY_ID, site.getId() );
+            }
             contentValues.put( TABLE_SITES_FIELD_NAME, site.getName() );
 
             db.insert( TABLE_SITES, null, contentValues );
         }
-
+        return site.getId();
     }
 
     @Override
     public Site getSite( int id ) {
-        Site site = new Site();
+        Site site = new Site( EMPTY_ID, EMPTY_NAME );
         SQLiteDatabase db = repository.getReadableDatabase();
 
         try ( Cursor cursorSites = db.query(
                 TABLE_SITES,                              // table
                 new String[] { KEY_ID,
                         TABLE_SITES_FIELD_NAME },     // columns
-                KEY_ID,                                     // columns WHERE
+                KEY_ID + " = ?",                                     // columns WHERE
                 new String[] { Integer.toString( id ) },         // values WHERE
                 null,                                       // group by
                 null,                                       // having

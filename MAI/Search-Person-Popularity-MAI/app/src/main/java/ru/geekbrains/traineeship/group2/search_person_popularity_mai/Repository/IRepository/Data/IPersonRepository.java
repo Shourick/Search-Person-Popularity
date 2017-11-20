@@ -16,7 +16,7 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 
 public interface IPersonRepository {
 
-    public void addPerson( Person person ) throws IOException;       // добавляем Личность
+    int addPerson( Person person ) throws IOException;       // добавляем Личность
 
     Person getPersonById( int id ) throws IOException;               // получаем Личность по id
 

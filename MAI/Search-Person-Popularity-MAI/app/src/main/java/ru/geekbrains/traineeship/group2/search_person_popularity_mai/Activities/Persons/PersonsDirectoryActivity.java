@@ -16,6 +16,7 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Person;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.ITEM_NOT_SELECTED;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.PERSON_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.PERSON_NAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.REQUEST_CODE_ADD_PERSON;
@@ -56,12 +57,11 @@ public class PersonsDirectoryActivity extends AppCompatActivity implements View.
         btnPersonEdit.setOnClickListener( this );
         btnPersonDelete.setOnClickListener( this );
 
-        repository.showRepositoryInfo();
-
         listAllPersons = repository.getPersonRepository().getAllPersons();
         listPersonAdapter = new ArrayAdapter<Person>( this, android.R.layout.simple_list_item_1, listAllPersons );
         lvPersonsList.setAdapter( listPersonAdapter );
-        selectedPersonId = -1;
+
+        selectedPersonId = ITEM_NOT_SELECTED;
 
         lvPersonsList.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
@@ -139,7 +139,7 @@ public class PersonsDirectoryActivity extends AppCompatActivity implements View.
     }
 
     private void initializeSelectedPerson() {
-        selectedPersonId = -1;
+        selectedPersonId = ITEM_NOT_SELECTED;
 
         tvPersonName.setText( "" );
 
@@ -149,7 +149,7 @@ public class PersonsDirectoryActivity extends AppCompatActivity implements View.
     }
 
     private boolean isPersonSelected() {
-        return selectedPersonId != -1;
+        return selectedPersonId != ITEM_NOT_SELECTED;
     }
 
 

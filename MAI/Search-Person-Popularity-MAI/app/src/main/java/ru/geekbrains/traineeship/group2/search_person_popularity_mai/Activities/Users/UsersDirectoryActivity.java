@@ -16,6 +16,7 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.User;
 
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.ITEM_NOT_SELECTED;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.REQUEST_CODE_ADD_USER;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.REQUEST_CODE_EDIT_USER;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.USER_ID;
@@ -60,12 +61,11 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
         btnUserEdit.setOnClickListener( this );
         btnUserDelete.setOnClickListener( this );
 
-        repository.showRepositoryInfo();
-
         listAllUsers = repository.getUserRepository().getAllUsers();
         listUserAdapter = new ArrayAdapter<User>( this, android.R.layout.simple_list_item_1, listAllUsers );
         lvUsersList.setAdapter( listUserAdapter );
-        selectedUserId = -1;
+
+        selectedUserId = ITEM_NOT_SELECTED;
 
         lvUsersList.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
@@ -149,7 +149,7 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
     }
 
     private void initializeSelectedUser() {
-        selectedUserId = -1;
+        selectedUserId = ITEM_NOT_SELECTED;
 
         tvNickname.setText( "" );
         tvLogin.setText( "" );
@@ -161,7 +161,7 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
     }
 
     private boolean isUserSelected() {
-        return selectedUserId != -1;
+        return selectedUserId != ITEM_NOT_SELECTED;
     }
 
 }

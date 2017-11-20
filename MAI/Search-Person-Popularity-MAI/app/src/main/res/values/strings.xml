@@ -39,4 +39,12 @@
     <string name="person_for_keywords_stitle">Личность:</string>
     <string name="add_keyword_title">Добавить ключевое слово</string>
     <string name="edit_keyword_title">Редактировать ключевое слово</string>
+    <string name="btn_sync">Sync</string>
+    <string name="admins_directory">Админы</string>
+    <string name="admins_header">Администраторы</string>
+    <string name="admins_login">login:</string>
+    <string name="admins_nickname">имя:</string>
+    <string name="admins_password">пароль:</string>
+    <string name="add_admin_title">Добавить администратора</string>
+    <string name="edit_admin_title">Редактировать администратора</string>
 </resources>
