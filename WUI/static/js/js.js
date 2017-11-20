@@ -1,17 +1,19 @@
-//var api_host = 'http://94.130.27.143/1/'
+var api_host = 'http://94.130.27.143/'
 
 
-function get_site_id() {
+function get_rank_by_person_id() {
     var form = $('.stat');
     form.on('submit', function(e){
         e.preventDefault();
         console.log('ok');
-        var site_id = $('#id').val();
-//        var url = api_host + site_id;
-        console.log('site_id=' + site_id);
+        var person_id = $('#id').val();
+        var url = api_host + person_id;
+        console.log('person_id=' + person_id);
             $.ajax({
-                type: "GET",
-                url: '/rank/ + String(site_id),
+                type: "POST",
+                url: '/rank/' + String(person_id),
+                data: {csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                        url: url},
                 success: function(){
                     console.log('func ok');
                     },
