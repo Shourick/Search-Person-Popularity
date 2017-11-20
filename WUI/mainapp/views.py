@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from .tables import GeneralStatisticsTable, DailyStatisticsTable
+from .tables import DailyStatisticsTable
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
 from .forms import ContactForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 import requests
 from requests.auth import HTTPBasicAuth
 
@@ -15,14 +15,14 @@ def index(request):
     return render(request, 'index.html', {'title': title, 'sites': sites, 'persons': persons})
 
 
-@login_required
+@user_passes_test(lambda u: u.is_superuser)
 def general(request):
     title = 'Общая статистика'
     persons = requests.get("http://94.130.27.143/persons", auth=HTTPBasicAuth('root', 'root_password')).json()
     return render(request, 'general.html', {'title': title, 'persons': persons})
 
 
-@login_required
+@user_passes_test(lambda u: u.is_superuser)
 def daily(request):
     title = 'Ежедневная статистика'
     sites = requests.get("http://94.130.27.143/sites", auth=HTTPBasicAuth('root', 'root_password')).json()
