@@ -3,7 +3,7 @@ from .tables import DailyStatisticsTable
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
 from .forms import ContactForm
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import user_passes_test, login_required
 import requests
 from requests.auth import HTTPBasicAuth
 
@@ -14,15 +14,14 @@ def index(request):
     persons = requests.get("http://94.130.27.143/persons", auth=HTTPBasicAuth('root', 'root_password')).json()
     return render(request, 'index.html', {'title': title, 'sites': sites, 'persons': persons})
 
-
-@user_passes_test(lambda u: u.is_superuser)
+@login_required
 def general(request):
     title = 'Общая статистика'
     persons = requests.get("http://94.130.27.143/persons", auth=HTTPBasicAuth('root', 'root_password')).json()
     return render(request, 'general.html', {'title': title, 'persons': persons})
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@login_required
 def daily(request):
     title = 'Ежедневная статистика'
     sites = requests.get("http://94.130.27.143/sites", auth=HTTPBasicAuth('root', 'root_password')).json()
@@ -65,6 +64,7 @@ def support(request):
     return render(request, 'email/support.html', {'title': title, 'form': form})
 
 
+@user_passes_test(lambda u: u.is_superuser)
 def rank(request):
         url = request.POST.get('url')
         print(url)
