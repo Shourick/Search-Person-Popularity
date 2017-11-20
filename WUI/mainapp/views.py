@@ -12,7 +12,6 @@ def index(request):
     title = 'Главная'
     sites = requests.get("http://94.130.27.143/sites", auth=HTTPBasicAuth('root', 'root_password')).json()
     persons = requests.get("http://94.130.27.143/persons", auth=HTTPBasicAuth('root', 'root_password')).json()
-
     return render(request, 'index.html', {'title': title, 'sites': sites, 'persons': persons})
 
 
@@ -30,11 +29,6 @@ def daily(request):
     persons = requests.get("http://94.130.27.143/persons", auth=HTTPBasicAuth('root', 'root_password')).json()
     ds_table = DailyStatisticsTable(persons)
     return render(request, 'daily.html', {'title': title, 'sites': sites, 'persons': persons, 'ds_table': ds_table})
-
-
-def rank(request, url):
-    ranks = requests.get("http://94.130.27.143/rank", auth=HTTPBasicAuth('root', 'root_password')).json()
-    return render(request, 'rank.html', {'ranks': ranks})
 
 
 def keywords(request):
@@ -71,10 +65,11 @@ def support(request):
     return render(request, 'email/support.html', {'title': title, 'form': form})
 
 
-def general_statistic(request, url):
-    if request.is_ajax():
-        print('r_is_ajax')
+def rank(request, site_id):
+        print('r_is_ajax', request)
         title = 'Общая статистика'
+        url = "http://94.130.27.143/rank" + str(site_id)
         sites = requests.get("http://94.130.27.143/sites", auth=HTTPBasicAuth('root', 'root_password')).json()
         rank = requests.get(url, auth=HTTPBasicAuth('root', 'root_password')).json()
-        return render(request, 'general_stat.html', {'title': title, 'sites': sites, 'ranks': rank})
+        # rank = requests.get("http://94.130.27.143/rank", auth=HTTPBasicAuth('root', 'root_password')).json()
+        return render(request, 'rank.html', {'title': title, 'sites': sites, 'ranks': rank})

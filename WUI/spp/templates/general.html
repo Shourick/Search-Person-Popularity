@@ -3,7 +3,7 @@
 {% block content %}
 
 
-<form class="well form-inline stat"  method="post" id="general_stat" >
+<form class="well form-inline stat"  method="post" id="rank" >
      {% csrf_token %}
     <div class="form-group">
         <legend>Общая статистика</legend>
@@ -15,7 +15,7 @@
             </select>
 
             <!--<p><input type="submit" value="Отправить" class="btn btn-default btn-md" ></p></div>-->
-            <button type="submit" id="submit_btn" class="btn">Подтвердить</button>
+            <button type="submit" id="submit_btn" class="btn" onclick="get_site_id()">Подтвердить</button>
 
     </div>
 </form>
