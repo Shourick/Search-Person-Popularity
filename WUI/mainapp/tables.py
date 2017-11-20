@@ -1,5 +1,5 @@
 import django_tables2 as tables
-from .models import Persons
+from spp.models import Persons
 
 
 class GeneralStatisticsTable(tables.Table):
