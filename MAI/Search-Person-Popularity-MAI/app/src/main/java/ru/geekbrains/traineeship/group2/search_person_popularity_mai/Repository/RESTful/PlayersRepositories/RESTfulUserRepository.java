@@ -33,7 +33,11 @@ public class RESTfulUserRepository implements IUserRepository {
 
     @Override
     public int addUser( User user ) throws IOException {
-        Response<Integer> response = userRestAPI.addUser(user.getLogin(), user.getNickName(),user.getPassword() ).execute();
+        Response<Integer> response = userRestAPI.addUser(
+                user.getLogin(),
+                user.getNickName(),
+                user.getPassword() )
+                .execute();
         if ( response.isSuccessful() ) {
             return response.body();
         }

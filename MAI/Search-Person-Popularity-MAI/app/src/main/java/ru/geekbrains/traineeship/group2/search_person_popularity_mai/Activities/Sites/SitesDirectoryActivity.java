@@ -57,8 +57,6 @@ public class SitesDirectoryActivity extends AppCompatActivity implements View.On
         btnSiteEdit.setOnClickListener( this );
         btnSiteDelete.setOnClickListener( this );
 
-        repository.showRepositoryInfo();
-
         listAllSites = repository.getSiteRepository().getAllSites();
         listSiteAdapter = new ArrayAdapter<Site>( this, android.R.layout.simple_list_item_1, listAllSites );
         lvSitesList.setAdapter( listSiteAdapter );

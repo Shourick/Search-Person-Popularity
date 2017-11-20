@@ -61,8 +61,6 @@ public class UsersDirectoryActivity extends AppCompatActivity implements View.On
         btnUserEdit.setOnClickListener( this );
         btnUserDelete.setOnClickListener( this );
 
-        repository.showRepositoryInfo();
-
         listAllUsers = repository.getUserRepository().getAllUsers();
         listUserAdapter = new ArrayAdapter<User>( this, android.R.layout.simple_list_item_1, listAllUsers );
         lvUsersList.setAdapter( listUserAdapter );

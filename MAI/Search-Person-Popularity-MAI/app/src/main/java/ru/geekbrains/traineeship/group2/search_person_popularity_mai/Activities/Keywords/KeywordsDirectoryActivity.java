@@ -67,8 +67,6 @@ public class KeywordsDirectoryActivity extends AppCompatActivity implements View
         btnKeywordEdit.setOnClickListener( this );
         btnKeywordDelete.setOnClickListener( this );
 
-        repository.showRepositoryInfo();
-
         listAllPersonsForKeywords = repository.getPersonRepository().getAllPersons();
         listPersonForKeywordsAdapter = new ArrayAdapter<Person>( this,
                 android.R.layout.simple_spinner_item,

@@ -34,8 +34,8 @@ public class RESTfulAdminRepository implements IAdminRepository {
     @Override
     public int addAdmin( Admin admin ) throws IOException {
         Response<Integer> response = adminRestAPI.addAdmin(
-                admin.getNickName(),
                 admin.getLogin(),
+                admin.getNickName(),
                 admin.getPassword() )
                 .execute();
         if ( response.isSuccessful() ) {

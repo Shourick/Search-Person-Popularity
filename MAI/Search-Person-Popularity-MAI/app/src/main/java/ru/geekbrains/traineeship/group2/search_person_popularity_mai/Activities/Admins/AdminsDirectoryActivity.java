@@ -61,8 +61,6 @@ public class AdminsDirectoryActivity extends AppCompatActivity implements View.O
         btnAdminEdit.setOnClickListener( this );
         btnAdminDelete.setOnClickListener( this );
 
-        repository.showRepositoryInfo();
-
         listAllAdmins = repository.getAdminRepository().getAllAdmins();
         listAdminAdapter = new ArrayAdapter<Admin>( this, android.R.layout.simple_list_item_1, listAllAdmins );
         lvAdminsList.setAdapter( listAdminAdapter );

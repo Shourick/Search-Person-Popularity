@@ -56,7 +56,7 @@ public class AdminLoginActivity extends AppCompatActivity implements View.OnClic
                     finish();
                 } else {
                     if ( numberOfAuthorizationTries < MAX_OF_ADMIN_AUTHORIZATION_TRIES ) {
-                        Toast.makeText( v.getContext(), "Неверные данные автораизации !!!", Toast.LENGTH_SHORT ).show();
+                        Toast.makeText( v.getContext(), "Неверные данные авторизации !!!", Toast.LENGTH_SHORT ).show();
                     } else {
                         authorizationFails();
                     }

@@ -57,8 +57,6 @@ public class PersonsDirectoryActivity extends AppCompatActivity implements View.
         btnPersonEdit.setOnClickListener( this );
         btnPersonDelete.setOnClickListener( this );
 
-        repository.showRepositoryInfo();
-
         listAllPersons = repository.getPersonRepository().getAllPersons();
         listPersonAdapter = new ArrayAdapter<Person>( this, android.R.layout.simple_list_item_1, listAllPersons );
         lvPersonsList.setAdapter( listPersonAdapter );
