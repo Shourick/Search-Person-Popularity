@@ -6,7 +6,6 @@ from userManagementApp.forms import MyRegistrationForm
 
 def login(request):
     if request.method == "POST":
-        print("POST data =", request.POST)
         username = request.POST.get('login')
         password = request.POST.get('password')
         user = auth.authenticate(username=username, password=password)

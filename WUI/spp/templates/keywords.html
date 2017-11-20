@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="txt">
+
+        <p>Для поиска упоминаний о политиках: <br> {% for person in persons %}
+             - {{ person.name}}  <br> {% endfor %}</p>
+
+<hr>
+    <div class="kwds col-md-12">
+        <p><strong>Мы используем следующие ключевые слова:</strong></p>
+    </div>
+    {% if keywords %}
+        {% regroup keywords by person_id as list %}
+            <ul>
+                {% for person_id in list %}
+                <li class="kwds col-md-3">
+<!--<li>{{person_id.grouper}}-->
+                    <ul><hr>
+                        {% for item in person_id.list %}
+                         <li>{{ item.name }}</li>
+                        {% endfor %}
+
+                    </ul><hr>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}Извините, список временно недоступен
+    {%endif %}
+    </div>
+</div>
+{% endblock %}

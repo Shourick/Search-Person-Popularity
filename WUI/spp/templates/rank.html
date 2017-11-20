@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+
+       {% for rank in ranks %}
+            <p>site_id = {{rank.site}}</p>
+        {% endfor %}
+
+{% endblock %}
+

@@ -4,33 +4,44 @@ from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
 from .forms import ContactForm
 from django.contrib.auth.decorators import login_required
-from rest_framework import viewsets
 import requests
-from spp.models import *
 from requests.auth import HTTPBasicAuth
 
 
 def index(request):
     title = 'Главная'
-    return render(request, 'index.html', {'title': title})
+    sites = requests.get("http://94.130.27.143/sites", auth=HTTPBasicAuth('root', 'root_password')).json()
+    persons = requests.get("http://94.130.27.143/persons", auth=HTTPBasicAuth('root', 'root_password')).json()
+
+    return render(request, 'index.html', {'title': title, 'sites': sites, 'persons': persons})
 
 
-# @login_required
+@login_required
 def general(request):
     title = 'Общая статистика'
     sites = requests.get("http://94.130.27.143/sites", auth=HTTPBasicAuth('root', 'root_password')).json()
-    persons = requests.get("http://94.130.27.143/persons", auth=HTTPBasicAuth('root', 'root_password'))
-    gs_table = GeneralStatisticsTable(persons.json())
-    return render(request, 'general.html', {'title': title, 'sites': sites, 'persons': persons, 'gs_table': gs_table})
+    return render(request, 'general.html', {'title': title, 'sites': sites})
 
 
-# @login_required
+@login_required
 def daily(request):
     title = 'Ежедневная статистика'
     sites = requests.get("http://94.130.27.143/sites", auth=HTTPBasicAuth('root', 'root_password')).json()
     persons = requests.get("http://94.130.27.143/persons", auth=HTTPBasicAuth('root', 'root_password')).json()
     ds_table = DailyStatisticsTable(persons)
     return render(request, 'daily.html', {'title': title, 'sites': sites, 'persons': persons, 'ds_table': ds_table})
+
+
+def rank(request, url):
+    ranks = requests.get("http://94.130.27.143/rank", auth=HTTPBasicAuth('root', 'root_password')).json()
+    return render(request, 'rank.html', {'ranks': ranks})
+
+
+def keywords(request):
+    title = 'Ключевые слова'
+    persons = requests.get("http://94.130.27.143/persons", auth=HTTPBasicAuth('root', 'root_password')).json()
+    keywords = requests.get("http://94.130.27.143/keywords", auth=HTTPBasicAuth('root', 'root_password')).json()
+    return render(request, 'keywords.html', {'title': title,  'persons': persons, 'keywords': keywords})
 
 
 def support(request):
@@ -60,17 +71,10 @@ def support(request):
     return render(request, 'email/support.html', {'title': title, 'form': form})
 
 
-# ViewSets define the view behavior. REST
-class PersonpagerankViewSet(viewsets.ModelViewSet):
-    queryset = Personpagerank.objects.all()
-    serializer_class = PersonpagerankSerializer
-
-
-class KeywordsViewSet(viewsets.ModelViewSet):
-    queryset = Keywords.objects.all()
-    serializer_class = KeywordsSerializer
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+def general_statistic(request, url):
+    if request.is_ajax():
+        print('r_is_ajax')
+        title = 'Общая статистика'
+        sites = requests.get("http://94.130.27.143/sites", auth=HTTPBasicAuth('root', 'root_password')).json()
+        rank = requests.get(url, auth=HTTPBasicAuth('root', 'root_password')).json()
+        return render(request, 'general_stat.html', {'title': title, 'sites': sites, 'ranks': rank})

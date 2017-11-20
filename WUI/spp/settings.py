@@ -134,7 +134,13 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+SECRET_KEY = '02li=igw&jbh&li)0)tw%z!v&&emijqrgz)-!w&(ze1m@#)2gl'
 
+EMAIL_USE_TLS = True
+EMAIL_POST = 993
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_HOST_USER = 'crowd.scoring@yandex.ru'
+EMAIL_HOST_PASSWORD = 'searchperson'
 
 try:
     from spp.local_settings import *

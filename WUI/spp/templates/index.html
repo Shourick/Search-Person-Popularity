@@ -1,19 +1,39 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block content %}
-<!--<h1>Search Person Popularity</h1>-->
 
 <div class="main_txt">
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-    ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-    fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-    anim id est laborum.</p><br>
-    <p><strong>Посмотреть как это работает:</strong></p>
+    <p>Сервис КРАУДСКОРИНГ от разработчиков CODE_FARM представляет собой инструмент, позволяющий Вам узнать насколько часто СМИ публикуют статьи о ком-либо.
+        О ком - Вы выбираете сами.</p><p> Наше приложение находит любую личность по ключевым словам на тех сайтах, которые Вас интересуют!
+    </p><br>
+    <div class="col-lg-3">
+        <ul class="index_list list">
+        <li><a href="" id="persons">Посмотреть список личностей</a></li>
+            <p class="persons hidden">
+                {% if persons %}
+                   {% for person in persons %} {{ person.name }} <br> {% endfor %}
+                {% else %}Извините, список временно недоступен {%endif %}
+            </p>
+<hr>
+        <li><a href="" id="sites">Посмотреть список сайтов</a></li>
+            <p class="sites hidden">
+                {% if sites %}
+                    {% for site in sites %} {{ site.name }} <br> {% endfor %}
+                {% else %}Извините, список временно недоступен {%endif %}
+            </p>
 
-    <div class="main_btn">
-        <a type="button" class="btn btn-lg" href="/general/">Общая статистика</a>
-        <a type="button" class="btn btn-lg" href="/daily/">Ежедневная статистика</a>
+<hr>
+        <li><a href="/keywords/">Посмотреть ключевые слова</a></li>
+
+    </ul>
     </div>
+    <div class="col-lg-9">
+    <div class="" style="color:rgb(1, 44, 74);"><strong>Посмотреть как это работает на примере:</strong></div>
+
+        <video width="660" height="371" controls="controls">
+            <source src="{% static 'video/example.mp4' %}">
+        </video>
+    </div>
+
 </div>
 {% endblock %}

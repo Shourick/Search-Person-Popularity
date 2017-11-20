@@ -40,6 +40,9 @@ class Personpagerank(models.Model):
     Rank = models.PositiveIntegerField(verbose_name='Количество упоминаний', default=0)
 
 
+
+
+
 class PersonpagerankSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Personpagerank

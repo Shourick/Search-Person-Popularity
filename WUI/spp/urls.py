@@ -15,24 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from mainapp.views import *
-from rest_framework import routers
-
-
-# Routers provide a way of automatically determining the URL conf.
-router = routers.DefaultRouter()
-router.register(r'keywords', KeywordsViewSet)
-router.register(r'personpageranks', PersonpagerankViewSet)
-router.register(r'users', UserViewSet)
 
 
 urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'^general/$', general, name='general'),
     url(r'^daily/$', daily, name='daily'),
+    url(r'^rank/$', rank, name='rank'),
     url(r'^support/$', support, name='support'),
-    url(r'^keywords/$', KeywordsViewSet, name='keywords'),
+    url(r'^keywords/$', keywords, name='keywords'),
 
     url(r'^user/', include('userManagementApp.urls')),
-    url(r'^api/', include(router.urls)),  # REST
-
 ]
