@@ -6,13 +6,14 @@ function get_rank_by_person_id() {
         e.preventDefault();
         console.log('ok');
         var person_id = $('#id').val();
-        var url = api_host + person_id;
+        var url = api_host + 'rank';
         console.log('person_id=' + person_id);
             $.ajax({
                 type: "POST",
                 url: '/rank/',
                 data: {csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
                         url: url,
+                        person_id: person_id,
                         },
                 success: function(){
                     console.log('func ok');

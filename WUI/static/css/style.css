@@ -73,7 +73,7 @@ header hr {
     color: #fff;
     cursor: pointer;
     font-family: 'Open Sans', sans-serif;
-    font-size: 25px;
+    font-size: 20px;
     padding-bottom: 25px;
     padding-left: 25px;
     padding-right: 25px;
@@ -87,6 +87,8 @@ header hr {
     margin-right: 5px;
 }
 .index_list {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
     margin-top: 50pt;
 }
 h1 {
@@ -97,7 +99,7 @@ h2 {
 }
 .txt, .main_txt {
     font-family: 'Open Sans', sans-serif;
-    font-size: 20px;
+    font-size: 18px;
     margin: 20pt auto;
     padding-top: 40pt;
 }

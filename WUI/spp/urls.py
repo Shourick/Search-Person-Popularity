@@ -22,7 +22,6 @@ urlpatterns = [
     url(r'^general/$', general, name='general'),
     url(r'^rank/$', rank, name='rank'),
     url(r'^daily/$', daily, name='daily'),
-    url(r'^rank/$', rank, name='rank'),
     url(r'^support/$', support, name='support'),
     url(r'^keywords/$', keywords, name='keywords'),
 
