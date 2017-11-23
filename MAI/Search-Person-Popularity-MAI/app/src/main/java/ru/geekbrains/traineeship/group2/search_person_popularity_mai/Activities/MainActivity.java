@@ -25,20 +25,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * при доступности Веб-сервиса поменять на класс, имплементирующий работу с Веб-сервисом
      */
     public static SQLiteRepository repository;
-    public static SQLiteRepository synchronizedRepository;
 
-    private Button btnPersonsDirectory,
-            btnKeywordsDirectory,
-            btnSitesDirectory,
-            btnUsersDirectory,
-            btnAdminsDirectory,
-            btnSync,
-            btnAdminLogout;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
+
+        Button btnPersonsDirectory,
+                btnKeywordsDirectory,
+                btnSitesDirectory,
+                btnUsersDirectory,
+                btnAdminsDirectory,
+                btnSync,
+                btnAdminLogout;
 
         btnPersonsDirectory = (Button) findViewById( R.id.btnPersonsDirectory );
         btnKeywordsDirectory = (Button) findViewById( R.id.btnKeywordsDirectory );
