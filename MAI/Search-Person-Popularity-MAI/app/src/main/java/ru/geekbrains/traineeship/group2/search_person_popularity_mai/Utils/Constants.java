@@ -6,8 +6,8 @@ package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils;
 
 public class Constants {
 
-    public static final String API_URL_BASE = "http://94.130.27.143/";
-//    public static final String API_URL_BASE = "http://shourick.pythonanywhere.com/";
+//    public static final String API_URL_BASE = "http://94.130.27.143/";
+    public static final String API_URL_BASE = "http://shourick.pythonanywhere.com/";
 
     // Имя файла базы данных
     public static final String MAIN_DATABASE_NAME = "searchPersonPopularity.db";
