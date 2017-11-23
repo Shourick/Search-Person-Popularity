@@ -20,6 +20,7 @@
     <!------------------- JS ------------------>
     {% block js %}
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://use.fontawesome.com/ec32966a69.js"></script>
     <script src="{% static 'js/menu.js' %}"></script>
     <script src="{% static 'js/js.js' %}"></script>
     <script src="{% static 'js/scripts.js' %}"></script>
@@ -54,8 +55,16 @@
         <!----------------- Footer ----------------->
             {% block footer %}
 
-        <footer style="margin-top: 80px;"></footer>
+        <footer style="margin-top: 80px;">
+
+             <div class="col-xs-12 text-center">
+                  <a href="https://github.com/Shourick/Search-Person-Popularity"><i class="fa fa-github fa-2x" aria-hidden="true"> </i></a>
+                  <a href="mailto:crowd.scoring@yandex.ru"><i class="fa fa-envelope fa-2x" aria-hidden="true"> </i></a>
+                  <br>
+                  <strong> {% now "Y" as current_year %} Copyright  &copy; CodeFarm,   {{ current_year }}</strong>
+             </div>
+        </footer>
             {% endblock %}
 </body>
-</html>
         <!---------------------------- END BODY ---------------------------->
+</html>
