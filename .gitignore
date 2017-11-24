@@ -4,3 +4,5 @@ REST/.idea/
 REST/__pycache__/
 REST/Flask_restful/CRUD_test.py
 REST/virtenv/
+.idea/
+venvs/
