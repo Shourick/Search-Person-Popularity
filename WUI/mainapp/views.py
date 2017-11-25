@@ -1,24 +1,20 @@
 from django.shortcuts import render
-from .tables import DailyStatisticsTable
 from django.core.mail import send_mail, BadHeaderError
-from django.http import HttpResponse
-from .forms import ContactForm
+from django.http import HttpResponse,  HttpResponseRedirect
 from django.contrib.auth.decorators import user_passes_test, login_required
-import requests
 from requests.auth import HTTPBasicAuth
+import requests
+from .forms import ContactForm, GetDataForDailyStat
+from .tables import DailyStatisticsTable
+
 
 
 def index(request):
     title = 'Главная'
-    sites = requests.get("http://94.130.27.143/sites", auth=HTTPBasicAuth('root', 'root_password')).json()
-    persons = requests.get("http://94.130.27.143/persons", auth=HTTPBasicAuth('root', 'root_password')).json()
+    sites = requests.get("http://94.130.27.143/sites/", auth=HTTPBasicAuth('root', 'root_password')).json()
+    persons = requests.get("http://94.130.27.143/persons/", auth=HTTPBasicAuth('root', 'root_password')).json()
     return render(request, 'index.html', {'title': title, 'sites': sites, 'persons': persons})
 
-@login_required
-def general(request):
-    title = 'Общая статистика'
-    persons = requests.get("http://94.130.27.143/persons", auth=HTTPBasicAuth('root', 'root_password')).json()
-    return render(request, 'general.html', {'title': title, 'persons': persons})
 
 
 @login_required
@@ -27,7 +23,8 @@ def daily(request):
     sites = requests.get("http://94.130.27.143/sites", auth=HTTPBasicAuth('root', 'root_password')).json()
     persons = requests.get("http://94.130.27.143/persons", auth=HTTPBasicAuth('root', 'root_password')).json()
     ds_table = DailyStatisticsTable(persons)
-    return render(request, 'daily.html', {'title': title, 'sites': sites, 'persons': persons, 'ds_table': ds_table})
+    return render(request, 'daily.html', {'title': title, 'sites': sites, 'persons': persons,
+                                          'ds_table': ds_table})
 
 
 def keywords(request):
@@ -64,13 +61,19 @@ def support(request):
     return render(request, 'email/support.html', {'title': title, 'form': form})
 
 
-@user_passes_test(lambda u: u.is_superuser)
+# @user_passes_test(lambda u: u.is_superuser)
+# @login_required
+def general(request):
+    title = 'Общая статистика'
+    persons = requests.get("http://94.130.27.143/persons/", auth=HTTPBasicAuth('root', 'root_password')).json()
+    if request.method == 'POST':
+        person_id = request.POST.get('person_id')
+        url = "http://94.130.27.143/rank/" + str(person_id)
+        ranks = requests.get(url, auth=HTTPBasicAuth('root', 'root_password')).json()
+        return render(request, 'rank.html', {'title': title, 'ranks': ranks, 'persons': persons})
+    else:
+        return render(request, 'general.html', {'title': title, 'persons': persons})
+
+
 def rank(request):
-        url = request.POST.get('url')
-        print(url)
-        title = 'Общая статистика'
-        # url = "http://94.130.27.143/rank/" + str(person_id)
-        sites = requests.get("http://94.130.27.143/sites", auth=HTTPBasicAuth('root', 'root_password')).json()
-        rank = requests.get(url, auth=HTTPBasicAuth('root', 'root_password')).json()
-        # rank = requests.get("http://94.130.27.143/rank", auth=HTTPBasicAuth('root', 'root_password')).json()
-        return render(request, 'rank.html', {'title': title, 'sites': sites, 'ranks': rank})
+    return render(request, 'rank.html')

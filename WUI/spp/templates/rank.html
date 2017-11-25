@@ -2,28 +2,27 @@
 {% load staticfiles %}
 {% block content %}
 <div class="txt">
-
-
     <div class="kwds col-md-12">
         <p><strong>Рейтинги:</strong></p>
     </div>
-    {% if ranrs %}
-        {% regroup ranks by person_id as list %}
+
+    <div class="col-md-12">
+    {% if ranks %}
+        {% regroup ranks by person as list %}
             <ul>
-                {% for person_id in list %}
-                <li class="kwds col-md-3">
-<li>{{person_id.grouper}}
+                {% for person in list %}
+                <li>{{person_id.grouper}}
                     <ul><hr>
-                        {% for item in person_id.list %}
-                         <li>{{ item.name }}</li>
-                        {% endfor %}
+                        {% for item in person.list %}
+                         <li>{{ item.rank }}</li>
+                             {% endfor %}
 
                     </ul><hr>
                 </li>
                 {% endfor %}
             </ul>
-        {% else %}Извините, список временно недоступен
-    {%endif %}
+    {% endif %}
     </div>
+</div>
 
 {% endblock %}

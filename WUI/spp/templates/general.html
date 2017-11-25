@@ -3,24 +3,28 @@
 {% block content %}
 
 
-<form class="well form-inline stat"  method="post" id="rank" >
+<form class="well form-inline stat"  method="post" id="rank">
      {% csrf_token %}
     <div class="form-group">
         <legend>Общая статистика</legend>
 
-            <select size="1" id="id" class="form-control">
+            <select size="1" name="person_id" class="form-control">
         {% for person in persons %}
-            <option  value="{{person.id}}" name="{{person.id}}" id="person_id">{{person.name}}</option>
+            <option  value="{{person.id}}">{{person.name}}</option>
         {% endfor %}
             </select>
 
             <!--<p><input type="submit" value="Отправить" class="btn btn-default btn-md" ></p></div>-->
-            <button type="submit" id="submit_btn" class="btn" onclick="get_rank_by_person_id()">Подтвердить</button>
+            <button type="submit" id="submit_btn" class="btn">Подтвердить</button>
 
     </div>
 </form>
-
-
-
+      {% if ranks %}
+<div class="kwds col-md-12">
+        <p><strong>Рейтинги:</strong></p>
+    </div>
+   {{ ranks }}
+{% endif %}
 
 {% endblock %}
+
