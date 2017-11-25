@@ -9,8 +9,9 @@ import android.widget.EditText;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.User;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.MAIN_DATABASE_NAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.USER_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.USER_LOGIN;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.USER_NICKNAME;
@@ -18,9 +19,10 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Util
 
 public class UsersDirectoryEditUserActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText etEditUserNickname, etEditUserLogin, etEditUserPassword;
-    Button btnEditUserOK, btnEditUserCancel;
-    int editedUserId;
+    private EditText etEditUserNickname, etEditUserLogin, etEditUserPassword;
+
+    private SQLiteRepository mMainRepository;
+    private int mEditedUserId;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -31,18 +33,19 @@ public class UsersDirectoryEditUserActivity extends AppCompatActivity implements
         etEditUserLogin = (EditText) findViewById( R.id.etEditUserLogin );
         etEditUserPassword = (EditText) findViewById( R.id.etEditUserPassword );
 
-        btnEditUserOK = (Button) findViewById( R.id.btnEditUserOK );
-        btnEditUserCancel = (Button) findViewById( R.id.btnEditUserCancel );
+        Button btnEditUserOK = (Button) findViewById( R.id.btnEditUserOK );
+        Button btnEditUserCancel = (Button) findViewById( R.id.btnEditUserCancel );
 
-//        убрать при реализации обновления в API
         etEditUserLogin.setEnabled( false );
 
         btnEditUserOK.setOnClickListener( this );
         btnEditUserCancel.setOnClickListener( this );
 
+        mMainRepository = new SQLiteRepository( this, MAIN_DATABASE_NAME );
+
         Bundle extras = getIntent().getExtras();
         if ( extras != null ) {
-            editedUserId = extras.getInt( USER_ID );
+            mEditedUserId = extras.getInt( USER_ID );
             etEditUserNickname.setText( extras.getString( USER_NICKNAME ) );
             etEditUserLogin.setText( extras.getString( USER_LOGIN ) );
             etEditUserPassword.setText( extras.getString( USER_PASSWORD ) );
@@ -58,9 +61,9 @@ public class UsersDirectoryEditUserActivity extends AppCompatActivity implements
                 User editedUser = new User( etEditUserNickname.getText().toString(),
                         etEditUserLogin.getText().toString(),
                         etEditUserPassword.getText().toString() );
-                editedUser.setId( editedUserId );
+                editedUser.setId( mEditedUserId );
 
-                repository.getUserRepository().updateUser( editedUser );
+                mMainRepository.getUserRepository().updateUser( editedUser );
 
                 intent = new Intent();
                 setResult( RESULT_OK, intent );
@@ -71,6 +74,9 @@ public class UsersDirectoryEditUserActivity extends AppCompatActivity implements
                 intent = new Intent();
                 setResult( RESULT_CANCELED, intent );
                 finish();
+                break;
+
+            default:
                 break;
         }
     }

@@ -22,19 +22,19 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Util
 
 public class RESTfulKeywordRepository implements IKeywordRepository {
 
-    private IKeywordRestAPI keywordRestAPI;
+    private IKeywordRestAPI mKeywordRestAPI;
 
     public RESTfulKeywordRepository() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl( API_URL_BASE )
                 .addConverterFactory( GsonConverterFactory.create() )
                 .build();
-        keywordRestAPI = retrofit.create( IKeywordRestAPI.class );
+        mKeywordRestAPI = retrofit.create( IKeywordRestAPI.class );
     }
 
     @Override
     public Keyword getKeyword( int id ) throws IOException {
-        Response<Keyword> response = keywordRestAPI.getKeyword( id ).execute();
+        Response<Keyword> response = mKeywordRestAPI.getKeyword( id ).execute();
         if ( response.isSuccessful() ) {
             return response.body();
         }
@@ -43,16 +43,16 @@ public class RESTfulKeywordRepository implements IKeywordRepository {
 
     @Override
     public List<Keyword> getPersonKeywords( int keywordId ) throws IOException {
-        Response<List<Keyword>> response = keywordRestAPI.getPersonKeywords( keywordId ).execute();
+        Response<List<Keyword>> response = mKeywordRestAPI.getPersonKeywords( keywordId ).execute();
         if ( response.isSuccessful() ) {
             return response.body();
         }
-        return new ArrayList<Keyword>();
+        return new ArrayList<>();
     }
 
     @Override
     public int addKeyword( Keyword keyword, int keywordId ) throws IOException {
-        Response<Integer> response = keywordRestAPI.addKeyword( keywordId, keyword.getName() ).execute();
+        Response<Integer> response = mKeywordRestAPI.addKeyword( keywordId, keyword.getName() ).execute();
         if ( response.isSuccessful() ) {
             return response.body();
         }
@@ -61,12 +61,12 @@ public class RESTfulKeywordRepository implements IKeywordRepository {
 
     @Override
     public List<Keyword> getAllKeywords() throws IOException {
-        return keywordRestAPI.getAllKeywords().execute().body();
+        return mKeywordRestAPI.getAllKeywords().execute().body();
     }
 
     @Override
     public int getKeywordsCount() throws IOException {
-        Response<List<Keyword>> response = keywordRestAPI.getAllKeywords().execute();
+        Response<List<Keyword>> response = mKeywordRestAPI.getAllKeywords().execute();
         if ( response.isSuccessful() ) {
             return response.body().size();
         }
@@ -75,17 +75,17 @@ public class RESTfulKeywordRepository implements IKeywordRepository {
 
     @Override
     public int updateKeyword( Keyword keyword ) throws IOException {
-        keywordRestAPI.updateKeyword( keyword.getId(), keyword.getPersonId(), keyword.getName() ).execute();
+        mKeywordRestAPI.updateKeyword( keyword.getId(), keyword.getPersonId(), keyword.getName() ).execute();
         return UPDATE_OK;
     }
 
     @Override
     public void deleteKeyword( Keyword keyword ) throws IOException {
-        keywordRestAPI.deleteKeyword( keyword.getId() ).execute();
+        mKeywordRestAPI.deleteKeyword( keyword.getId() ).execute();
     }
 
     @Override
     public void deleteAllKeywords() throws IOException {
-        keywordRestAPI.deleteAllKeywords().execute();
+        mKeywordRestAPI.deleteAllKeywords().execute();
     }
 }

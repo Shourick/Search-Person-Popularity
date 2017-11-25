@@ -9,18 +9,20 @@ import android.widget.EditText;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.Admin;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.ADMIN_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.ADMIN_LOGIN;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.ADMIN_NICKNAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.ADMIN_PASSWORD;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.MAIN_DATABASE_NAME;
 
 public class AdminsDirectoryEditAdminActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText etEditAdminNickname, etEditAdminLogin, etEditAdminPassword;
-    Button btnEditAdminOK, btnEditAdminCancel;
-    int editedAdminId;
+    private EditText etEditAdminNickname, etEditAdminLogin, etEditAdminPassword;
+
+    int mEditedAdminId;
+    private SQLiteRepository mMainRepository;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -31,18 +33,19 @@ public class AdminsDirectoryEditAdminActivity extends AppCompatActivity implemen
         etEditAdminLogin = (EditText) findViewById( R.id.etEditAdminLogin );
         etEditAdminPassword = (EditText) findViewById( R.id.etEditAdminPassword );
 
-        btnEditAdminOK = (Button) findViewById( R.id.btnEditAdminOK );
-        btnEditAdminCancel = (Button) findViewById( R.id.btnEditAdminCancel );
+        Button btnEditAdminOK = (Button) findViewById( R.id.btnEditAdminOK );
+        Button btnEditAdminCancel = (Button) findViewById( R.id.btnEditAdminCancel );
 
-//        убрать при реализации обновления в API
         etEditAdminLogin.setEnabled( false );
 
         btnEditAdminOK.setOnClickListener( this );
         btnEditAdminCancel.setOnClickListener( this );
 
+        mMainRepository = new SQLiteRepository( this, MAIN_DATABASE_NAME );
+
         Bundle extras = getIntent().getExtras();
         if ( extras != null ) {
-            editedAdminId = extras.getInt( ADMIN_ID );
+            mEditedAdminId = extras.getInt( ADMIN_ID );
             etEditAdminNickname.setText( extras.getString( ADMIN_NICKNAME ) );
             etEditAdminLogin.setText( extras.getString( ADMIN_LOGIN ) );
             etEditAdminPassword.setText( extras.getString( ADMIN_PASSWORD ) );
@@ -58,9 +61,9 @@ public class AdminsDirectoryEditAdminActivity extends AppCompatActivity implemen
                 Admin editedAdmin = new Admin( etEditAdminNickname.getText().toString(),
                         etEditAdminLogin.getText().toString(),
                         etEditAdminPassword.getText().toString() );
-                editedAdmin.setId( editedAdminId );
+                editedAdmin.setId( mEditedAdminId );
 
-                repository.getAdminRepository().updateAdmin( editedAdmin );
+                mMainRepository.getAdminRepository().updateAdmin( editedAdmin );
 
                 intent = new Intent();
                 setResult( RESULT_OK, intent );
@@ -71,6 +74,9 @@ public class AdminsDirectoryEditAdminActivity extends AppCompatActivity implemen
                 intent = new Intent();
                 setResult( RESULT_CANCELED, intent );
                 finish();
+                break;
+
+            default:
                 break;
         }
     }

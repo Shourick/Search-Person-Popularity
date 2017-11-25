@@ -13,10 +13,11 @@ import java.util.List;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.Admin;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Utils.RepositorySync;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.AdminAuthorization;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.MAIN_DATABASE_NAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.MAX_OF_ADMIN_AUTHORIZATION_TRIES;
 
 public class AdminLoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -24,7 +25,8 @@ public class AdminLoginActivity extends AppCompatActivity implements View.OnClic
     private EditText etAdminLogin, etAdminPassword;
     private Button btnAdminLogin;
 
-    private int numberOfAuthorizationTries;
+    private int mNumberOfAuthorizationTries;
+    private SQLiteRepository mMainRepository;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -37,7 +39,9 @@ public class AdminLoginActivity extends AppCompatActivity implements View.OnClic
 
         btnAdminLogin.setOnClickListener( this );
 
-        numberOfAuthorizationTries = 0;
+        mMainRepository = new SQLiteRepository( this, MAIN_DATABASE_NAME );
+
+        mNumberOfAuthorizationTries = 0;
 
         new RepositorySync( this ).execute();
 
@@ -45,8 +49,7 @@ public class AdminLoginActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick( View v ) {
-        numberOfAuthorizationTries++;
-
+        mNumberOfAuthorizationTries++;
         switch ( v.getId() ) {
             case R.id.btnAdminLogin:
                 if ( isAuthorizationDataValid() ) {
@@ -55,20 +58,21 @@ public class AdminLoginActivity extends AppCompatActivity implements View.OnClic
                     startActivity( main );
                     finish();
                 } else {
-                    if ( numberOfAuthorizationTries < MAX_OF_ADMIN_AUTHORIZATION_TRIES ) {
+                    if ( mNumberOfAuthorizationTries < MAX_OF_ADMIN_AUTHORIZATION_TRIES ) {
                         Toast.makeText( v.getContext(), "Неверные данные авторизации !!!", Toast.LENGTH_SHORT ).show();
                     } else {
                         authorizationFails();
                     }
                 }
+                break;
 
+            default:
                 break;
         }
-
     }
 
     private boolean isAuthorizationDataValid() {
-        List<Admin> adminList = repository.getAdminRepository().getAllAdmins();
+        List<Admin> adminList = mMainRepository.getAdminRepository().getAllAdmins();
         for ( Admin o : adminList ) {
             if ( o.getLogin().equals( etAdminLogin.getText().toString() ) &&
                     o.getPassword().equals( etAdminPassword.getText().toString() ) ) {

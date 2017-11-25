@@ -9,14 +9,15 @@ import android.widget.EditText;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.Admin;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.MAIN_DATABASE_NAME;
 
 public class AdminsDirectoryAddAdminActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private EditText etAddAdminNickname, etAddAdminLogin, etAddAdminPassword;
 
-    EditText etAddAdminNickname, etAddAdminLogin, etAddAdminPassword;
-    Button btnAddAdminOK, btnAddAdminCancel;
+    private SQLiteRepository mMainRepository;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -27,11 +28,13 @@ public class AdminsDirectoryAddAdminActivity extends AppCompatActivity implement
         etAddAdminLogin = (EditText) findViewById( R.id.etAddAdminLogin );
         etAddAdminPassword = (EditText) findViewById( R.id.etAddAdminPassword );
 
-        btnAddAdminOK = (Button) findViewById( R.id.btnAddAdminOK );
-        btnAddAdminCancel = (Button) findViewById( R.id.btnAddAdminCancel );
+        Button btnAddAdminOK = (Button) findViewById( R.id.btnAddAdminOK );
+        Button btnAddAdminCancel = (Button) findViewById( R.id.btnAddAdminCancel );
 
         btnAddAdminOK.setOnClickListener( this );
         btnAddAdminCancel.setOnClickListener( this );
+
+        mMainRepository = new SQLiteRepository( this, MAIN_DATABASE_NAME );
     }
 
     @Override
@@ -41,7 +44,7 @@ public class AdminsDirectoryAddAdminActivity extends AppCompatActivity implement
         switch ( v.getId() ) {
 
             case R.id.btnAddAdminOK:
-                repository.getAdminRepository().addAdmin(
+                mMainRepository.getAdminRepository().addAdmin(
                         new Admin( etAddAdminNickname.getText().toString(),
                                 etAddAdminLogin.getText().toString(),
                                 etAddAdminPassword.getText().toString() ) );
@@ -54,6 +57,9 @@ public class AdminsDirectoryAddAdminActivity extends AppCompatActivity implement
                 intent = new Intent();
                 setResult( RESULT_CANCELED, intent );
                 finish();
+                break;
+
+            default:
                 break;
         }
     }

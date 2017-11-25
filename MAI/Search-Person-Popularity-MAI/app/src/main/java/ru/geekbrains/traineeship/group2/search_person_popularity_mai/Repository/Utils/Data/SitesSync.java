@@ -9,7 +9,6 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.DataRepositories.SQLiteSiteRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_ID;
 
 /**
@@ -18,79 +17,79 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Util
 
 public class SitesSync {
 
-    private SQLiteSiteRepository sitesMain;
-    private SQLiteSiteRepository sitesSynced;
-    private RESTfulSiteRepository sitesApi;
+    private SQLiteSiteRepository mSitesMain;
+    private SQLiteSiteRepository mSitesSynced;
+    private RESTfulSiteRepository mSitesApi;
 
-    private List<Site> siteListMain;
-    private List<Site> siteListSynced;
-    private List<Site> siteListApi;
+    private List<Site> mSiteListMain;
+    private List<Site> mSiteListSynced;
+    private List<Site> mSiteListApi;
 
-    public SitesSync( SQLiteRepository synchronizedRepository, RESTfulRepository apiRepository ) throws IOException {
-        sitesMain = repository.getSiteRepository();
-        sitesSynced = synchronizedRepository.getSiteRepository();
-        sitesApi = apiRepository.getSiteRepository();
+    public SitesSync( SQLiteRepository mainRepository, SQLiteRepository synchronizedRepository, RESTfulRepository apiRepository ) throws IOException {
+        mSitesMain = mainRepository.getSiteRepository();
+        mSitesSynced = synchronizedRepository.getSiteRepository();
+        mSitesApi = apiRepository.getSiteRepository();
 
-        siteListMain = repository.getSiteRepository().getAllSites();
-        siteListSynced = synchronizedRepository.getSiteRepository().getAllSites();
-        siteListApi = apiRepository.getSiteRepository().getAllSites();
+        mSiteListMain = mainRepository.getSiteRepository().getAllSites();
+        mSiteListSynced = synchronizedRepository.getSiteRepository().getAllSites();
+        mSiteListApi = apiRepository.getSiteRepository().getAllSites();
     }
 
     public void execute() throws IOException {
 
         // добавляем в Synced и Main данные, добавленные и измененные в Api
-        for ( Site sApi : siteListApi ) {
-            if ( !siteListSynced.contains( sApi ) ) {
+        for ( Site sApi : mSiteListApi ) {
+            if ( !( mSiteListSynced.contains( sApi ) ) ) {
                 // проверка на обновление данных в pApi
-                int foundSyncedSiteId = sitesSynced.getSite( sApi.getId() ).getId();
+                int foundSyncedSiteId = mSitesSynced.getSite( sApi.getId() ).getId();
                 if ( foundSyncedSiteId == EMPTY_ID ) {
                     // была добавлена запись
-                    sitesSynced.addSite( sApi );
-                    sitesMain.addSite( sApi );
+                    mSitesSynced.addSite( sApi );
+                    mSitesMain.addSite( sApi );
                 } else {
                     // данные были обновлены
-                    sitesSynced.updateSite( sApi );
-                    sitesMain.updateSite( sApi );
+                    mSitesSynced.updateSite( sApi );
+                    mSitesMain.updateSite( sApi );
                 }
             }
         }
 
         // добавляем в Synced и Api данные, добавленные и измененные в Приложении
-        for ( Site sMain : siteListMain ) {
-            if ( !siteListSynced.contains( sMain ) ) {
+        for ( Site sMain : mSiteListMain ) {
+            if ( !( mSiteListSynced.contains( sMain ) ) ) {
                 // проверка на обновление данных в Приложении
-                int foundSyncedSite = sitesSynced.getSite( sMain.getId() ).getId();
+                int foundSyncedSite = mSitesSynced.getSite( sMain.getId() ).getId();
                 if ( foundSyncedSite == EMPTY_ID ) {
                     // была добавлена запись
-                    int sitesApiId = sitesApi.addSite( sMain );
+                    int sitesApiId = mSitesApi.addSite( sMain );
                     Site siteApi = new Site( sitesApiId, sMain.getName() );
 
-                    sitesSynced.addSite( siteApi );
+                    mSitesSynced.addSite( siteApi );
 
-                    sitesMain.deleteSite( sMain );
-                    sitesMain.addSite( siteApi );
+                    mSitesMain.deleteSite( sMain );
+                    mSitesMain.addSite( siteApi );
 
                 } else {
                     // данные были обновлены
-                    sitesSynced.updateSite( sMain );
-                    sitesApi.updateSite( sMain );
+                    mSitesSynced.updateSite( sMain );
+                    mSitesApi.updateSite( sMain );
                 }
             }
         }
 
         // проверяем удаленные и измененные записи
-        for ( Site sSynced : siteListSynced ) {
+        for ( Site sSynced : mSiteListSynced ) {
 
             // в Api
-            if ( !( siteListApi.contains( sSynced ) ) ) {
-                sitesSynced.deleteSite( sSynced );
-                sitesMain.deleteSite( sSynced );
+            if ( !( mSiteListApi.contains( sSynced ) ) ) {
+                mSitesSynced.deleteSite( sSynced );
+                mSitesMain.deleteSite( sSynced );
             }
 
             // в Main
-            if ( !( siteListMain.contains( sSynced ) ) ) {
-                sitesSynced.deleteSite( sSynced );
-                sitesApi.deleteSite( sSynced );
+            if ( !( mSiteListMain.contains( sSynced ) ) ) {
+                mSitesSynced.deleteSite( sSynced );
+                mSitesApi.deleteSite( sSynced );
             }
         }
     }

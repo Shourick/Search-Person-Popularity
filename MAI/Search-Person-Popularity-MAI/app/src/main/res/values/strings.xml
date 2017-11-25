@@ -38,7 +38,7 @@
     <string name="keyword_name">Ключевое слово:</string>
     <string name="person_for_keywords_stitle">Личность:</string>
     <string name="add_keyword_title">Добавить ключевое слово</string>
-    <string name="edit_keyword_title">Редактировать ключевое слово</string>
+    <string name="edit_keyword_title">Редактировать ключевое слово для Личности:</string>
     <string name="btn_sync">Sync</string>
     <string name="admins_directory">Админы</string>
     <string name="admins_header">Администраторы</string>

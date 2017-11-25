@@ -14,54 +14,51 @@ import java.util.List;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Person;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_NAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.ITEM_NOT_SELECTED;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.MAIN_DATABASE_NAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.PERSON_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.PERSON_NAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.REQUEST_CODE_ADD_PERSON;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.REQUEST_CODE_EDIT_PERSON;
 
 public class PersonsDirectoryActivity extends AppCompatActivity implements View.OnClickListener {
-    /**
-     * databaseHandler применяем глобально во всех Activities для обмена данными с БД
-     * при доступности Веб-сервиса поменять на класс, имплементирующий работу с Веб-сервисом
-     */
-    Button btnBackPersonsDirectory, btnPersonAdd, btnPersonEdit, btnPersonDelete;
-    TextView tvPersonName;
 
-    ListView lvPersonsList;
-    List<Person> listAllPersons;
-    ArrayAdapter<Person> listPersonAdapter;
+    private TextView tvPersonName;
 
-    int selectedPersonId;
+    private List<Person> mListAllPersons;
+    private ArrayAdapter<Person> mListPersonAdapter;
+    private SQLiteRepository mMainRepository;
+    private int mSelectedPersonId;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_persons_directory );
 
-        btnBackPersonsDirectory = (Button) findViewById( R.id.btnBackPersonsDirectory );
-        btnBackPersonsDirectory.setOnClickListener( this );
+        Button btnPersonAdd = (Button) findViewById( R.id.btnPersonAdd );
+        Button btnPersonEdit = (Button) findViewById( R.id.btnPersonEdit );
+        Button btnPersonDelete = (Button) findViewById( R.id.btnPersonDelete );
+        Button btnBackPersonsDirectory = (Button) findViewById( R.id.btnBackPersonsDirectory );
 
-        btnPersonAdd = (Button) findViewById( R.id.btnPersonAdd );
-        btnPersonEdit = (Button) findViewById( R.id.btnPersonEdit );
-        btnPersonDelete = (Button) findViewById( R.id.btnPersonDelete );
-
-        tvPersonName = (TextView) findViewById( R.id.tvPersonName );
-
-        lvPersonsList = (ListView) findViewById( R.id.lvPersonsList );
-
-        btnBackPersonsDirectory.setOnClickListener( this );
         btnPersonAdd.setOnClickListener( this );
         btnPersonEdit.setOnClickListener( this );
         btnPersonDelete.setOnClickListener( this );
+        btnBackPersonsDirectory.setOnClickListener( this );
 
-        listAllPersons = repository.getPersonRepository().getAllPersons();
-        listPersonAdapter = new ArrayAdapter<Person>( this, android.R.layout.simple_list_item_1, listAllPersons );
-        lvPersonsList.setAdapter( listPersonAdapter );
+        tvPersonName = (TextView) findViewById( R.id.tvPersonName );
 
-        selectedPersonId = ITEM_NOT_SELECTED;
+        ListView lvPersonsList = (ListView) findViewById( R.id.lvPersonsList );
+        mMainRepository = new SQLiteRepository( this, MAIN_DATABASE_NAME );
+        mListAllPersons = mMainRepository.getPersonRepository().getAllPersons();
+        mListPersonAdapter = new ArrayAdapter<>( this,
+                android.R.layout.simple_list_item_1,
+                mListAllPersons );
+        lvPersonsList.setAdapter( mListPersonAdapter );
+
+        mSelectedPersonId = ITEM_NOT_SELECTED;
 
         lvPersonsList.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
@@ -75,7 +72,7 @@ public class PersonsDirectoryActivity extends AppCompatActivity implements View.
             @Override
             public void onItemSelected( AdapterView<?> adapterView, View itemSelected, int position, long id ) {
                 Person selectedPerson = (Person) adapterView.getSelectedItem();
-                selectedPersonId = selectedPerson.getId();
+                mSelectedPersonId = selectedPerson.getId();
                 tvPersonName.setText( selectedPerson.getName() );
             }
 
@@ -98,7 +95,7 @@ public class PersonsDirectoryActivity extends AppCompatActivity implements View.
             case R.id.btnPersonEdit:
                 if ( isPersonSelected() ) {
                     intent = new Intent( this, PersonsDirectoryEditPersonActivity.class );
-                    intent.putExtra( PERSON_ID, selectedPersonId );
+                    intent.putExtra( PERSON_ID, mSelectedPersonId );
                     intent.putExtra( PERSON_NAME, tvPersonName.getText().toString() );
                     startActivityForResult( intent, REQUEST_CODE_EDIT_PERSON );
                 }
@@ -106,8 +103,8 @@ public class PersonsDirectoryActivity extends AppCompatActivity implements View.
 
             case R.id.btnPersonDelete:
                 if ( isPersonSelected() ) {
-                    repository.getPersonRepository().deletePerson(
-                            new Person( selectedPersonId, tvPersonName.getText().toString() ) );
+                    mMainRepository.getPersonRepository().deletePerson(
+                            new Person( mSelectedPersonId, tvPersonName.getText().toString() ) );
                 }
                 initializeSelectedPerson();
                 break;
@@ -116,6 +113,9 @@ public class PersonsDirectoryActivity extends AppCompatActivity implements View.
                 intent = new Intent();
                 setResult( RESULT_OK, intent );
                 finish();
+                break;
+
+            default:
                 break;
         }
     }
@@ -135,22 +135,24 @@ public class PersonsDirectoryActivity extends AppCompatActivity implements View.
                     initializeSelectedPerson();
                 }
                 break;
+
+            default:
+                break;
         }
     }
 
     private void initializeSelectedPerson() {
-        selectedPersonId = ITEM_NOT_SELECTED;
+        mSelectedPersonId = ITEM_NOT_SELECTED;
 
-        tvPersonName.setText( "" );
+        tvPersonName.setText( EMPTY_NAME );
 
-        listAllPersons.clear();
-        listAllPersons.addAll( repository.getPersonRepository().getAllPersons() );
-        listPersonAdapter.notifyDataSetChanged();
+        mListAllPersons.clear();
+        mListAllPersons.addAll( mMainRepository.getPersonRepository().getAllPersons() );
+        mListPersonAdapter.notifyDataSetChanged();
     }
 
     private boolean isPersonSelected() {
-        return selectedPersonId != ITEM_NOT_SELECTED;
+        return mSelectedPersonId != ITEM_NOT_SELECTED;
     }
-
 
 }

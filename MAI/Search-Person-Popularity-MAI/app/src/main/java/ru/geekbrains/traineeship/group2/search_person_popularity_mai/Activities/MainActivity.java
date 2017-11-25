@@ -13,19 +13,10 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Sites.SitesDirectoryActivity;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.Users.UsersDirectoryActivity;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
-import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Utils.RepositorySync;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.AdminAuthorization;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.MAIN_DATABASE_NAME;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    /**
-     * repository применяем глобально во всех Activities для обмена данными с БД
-     * при доступности Веб-сервиса поменять на класс, имплементирующий работу с Веб-сервисом
-     */
-    public static SQLiteRepository repository;
-
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -56,12 +47,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSync.setOnClickListener( this );
         btnAdminLogout.setOnClickListener( this );
 
-        repository = new SQLiteRepository( this, MAIN_DATABASE_NAME );
-
         if ( AdminAuthorization.isNotAuthorized( this ) ) {
             onLogout();
         }
-
     }
 
     @Override
@@ -101,8 +89,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 AdminAuthorization.setNotAuthorized( this );
                 onLogout();
                 break;
-        }
 
+            default:
+                break;
+        }
     }
 
     private void onLogout() {
@@ -127,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
-        repository.close();
         AdminAuthorization.setNotAuthorized( this );
     }
 

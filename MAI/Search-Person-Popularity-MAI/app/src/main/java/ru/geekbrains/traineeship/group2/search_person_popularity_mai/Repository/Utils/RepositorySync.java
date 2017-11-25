@@ -3,6 +3,7 @@ package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -14,61 +15,69 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Utils.Players.AdminsSync;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Utils.Players.UsersSync;
 
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.MAIN_DATABASE_NAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.MESSAGE_SYNCRONIZING;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.SYNCHRONIZED_DATABASE_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.SYNC_FAILED_MSG;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.SYNC_OK_MSG;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.SYNC_RESULT_FALSE;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.SYNC_RESULT_OK;
 
 /**
  * Created by skubatko on 15/11/17
  */
 
-public class RepositorySync extends AsyncTask<Void, Void, Void> {
+public class RepositorySync extends AsyncTask<Void, Void, Boolean> {
 
-    private ProgressDialog progress;
-    private Context context;
-    private SQLiteRepository synchronizedRepository;
-    private RESTfulRepository apiRepository;
+    private ProgressDialog mProgress;
+    private Context mSyncContext;
+    private SQLiteRepository mMainRepository;
+    private SQLiteRepository mSynchronizedRepository;
+    private RESTfulRepository mApiRepository;
 
     public RepositorySync( Context context ) {
-        this.context = context;
-        synchronizedRepository = new SQLiteRepository( context, SYNCHRONIZED_DATABASE_NAME );
-        apiRepository = new RESTfulRepository();
+        this.mSyncContext = context;
+        mMainRepository = new SQLiteRepository( context, MAIN_DATABASE_NAME );
+        mSynchronizedRepository = new SQLiteRepository( context, SYNCHRONIZED_DATABASE_NAME );
+        mApiRepository = new RESTfulRepository();
     }
 
     @Override
     protected void onPreExecute() {
-        progress = new ProgressDialog( context );
-        progress.setMessage( MESSAGE_SYNCRONIZING );
-        progress.show();
+        mProgress = new ProgressDialog( mSyncContext );
+        mProgress.setMessage( MESSAGE_SYNCRONIZING );
+        mProgress.show();
     }
 
     @Override
-    protected Void doInBackground( Void... params ) {
+    protected Boolean doInBackground( Void... params ) {
 
         try {
 
-            new PersonsSync( synchronizedRepository, apiRepository ).execute();
-            new KeywordsSync( synchronizedRepository, apiRepository ).execute();
-            new SitesSync( synchronizedRepository, apiRepository ).execute();
-            new UsersSync( synchronizedRepository,apiRepository ).execute();
-            new AdminsSync( synchronizedRepository,apiRepository ).execute();
+            new PersonsSync( mMainRepository, mSynchronizedRepository, mApiRepository ).execute();
+            new KeywordsSync( mMainRepository, mSynchronizedRepository, mApiRepository ).execute();
+            new SitesSync( mMainRepository, mSynchronizedRepository, mApiRepository ).execute();
+            new UsersSync( mMainRepository, mSynchronizedRepository, mApiRepository ).execute();
+            new AdminsSync( mMainRepository, mSynchronizedRepository, mApiRepository ).execute();
 
         } catch ( IOException e ) {
             e.printStackTrace();
+            return SYNC_RESULT_FALSE;
         }
 
-        try {
-            Thread.sleep( 1000 );
-        } catch ( InterruptedException e ) {
-            e.printStackTrace();
-        }
-
-        return null;
+        return SYNC_RESULT_OK;
     }
 
     @Override
-    protected void onPostExecute( Void aVoid ) {
-        progress.dismiss();
-        synchronizedRepository.close();
+    protected void onPostExecute( Boolean result ) {
+        mProgress.dismiss();
+        mMainRepository.close();
+        mSynchronizedRepository.close();
+        if ( result == SYNC_RESULT_OK ) {
+            Toast.makeText( mSyncContext, SYNC_OK_MSG, Toast.LENGTH_SHORT ).show();
+        } else {
+            Toast.makeText( mSyncContext, SYNC_FAILED_MSG, Toast.LENGTH_SHORT ).show();
+        }
     }
 
 }

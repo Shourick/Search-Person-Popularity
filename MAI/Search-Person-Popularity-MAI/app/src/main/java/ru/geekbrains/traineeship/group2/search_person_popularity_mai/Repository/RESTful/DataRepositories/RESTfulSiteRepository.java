@@ -24,19 +24,19 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Util
 
 public class RESTfulSiteRepository implements ISiteRepository {
 
-    private ISiteRestAPI siteRestAPI;
+    private ISiteRestAPI mSiteRestAPI;
 
     public RESTfulSiteRepository() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl( API_URL_BASE )
                 .addConverterFactory( GsonConverterFactory.create() )
                 .build();
-        siteRestAPI = retrofit.create( ISiteRestAPI.class );
+        mSiteRestAPI = retrofit.create( ISiteRestAPI.class );
     }
 
     @Override
     public int addSite( Site site ) throws IOException {
-        Response<Integer> response = siteRestAPI.addSite( site.getName() ).execute();
+        Response<Integer> response = mSiteRestAPI.addSite( site.getName() ).execute();
         if ( response.isSuccessful() ) {
             return response.body();
         }
@@ -45,7 +45,7 @@ public class RESTfulSiteRepository implements ISiteRepository {
 
     @Override
     public Site getSite( int id ) throws IOException {
-        Response<String> response = siteRestAPI.getSiteById( id ).execute();
+        Response<String> response = mSiteRestAPI.getSiteById( id ).execute();
         if ( response.isSuccessful() ) {
             return new Site( id, response.body() );
         }
@@ -54,12 +54,12 @@ public class RESTfulSiteRepository implements ISiteRepository {
 
     @Override
     public List<Site> getAllSites() throws IOException {
-        return siteRestAPI.getAllSites().execute().body();
+        return mSiteRestAPI.getAllSites().execute().body();
     }
 
     @Override
     public int getSitesCount() throws IOException {
-        Response<List<Site>> response = siteRestAPI.getAllSites().execute();
+        Response<List<Site>> response = mSiteRestAPI.getAllSites().execute();
         if ( response.isSuccessful() ) {
             return response.body().size();
         }
@@ -68,17 +68,17 @@ public class RESTfulSiteRepository implements ISiteRepository {
 
     @Override
     public int updateSite( Site site ) throws IOException {
-        siteRestAPI.updateSite( site.getId(), site.getName() ).execute();
+        mSiteRestAPI.updateSite( site.getId(), site.getName() ).execute();
         return UPDATE_OK;
     }
 
     @Override
     public void deleteSite( Site site ) throws IOException {
-        siteRestAPI.deleteSite( site.getId() ).execute();
+        mSiteRestAPI.deleteSite( site.getId() ).execute();
     }
 
     @Override
     public void deleteAllSites() throws IOException {
-        siteRestAPI.deleteAllSites().execute();
+        mSiteRestAPI.deleteAllSites().execute();
     }
 }
