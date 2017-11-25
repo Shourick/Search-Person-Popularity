@@ -70,10 +70,9 @@ def daily(request):
         site_id = request.POST.get('site_id')
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
-        url = "http://94.130.27.143/rank/" + str(person_id) + '/' + str(site_id) + '/' + str(start_date) + '&' + str(end_date)
-        print(url)
+        url = "http://94.130.27.143/rank/" + str(person_id) + '/' + str(site_id) + '/' + \
+                                            str(start_date) + '&' + str(end_date)
         ranks = requests.get(url, auth=HTTPBasicAuth('root', 'root_password')).json()
-        print(ranks)
         return render(request, 'rank_daily.html', {'title': title, 'ranks': ranks})
     else:
         sites = requests.get("http://94.130.27.143/sites", auth=HTTPBasicAuth('root', 'root_password')).json()
