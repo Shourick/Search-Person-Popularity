@@ -65,13 +65,14 @@ def support(request):
 # @login_required
 def general(request):
     title = 'Общая статистика'
-    persons = requests.get("http://94.130.27.143/persons/", auth=HTTPBasicAuth('root', 'root_password')).json()
     if request.method == 'POST':
         person_id = request.POST.get('person_id')
         url = "http://94.130.27.143/rank/" + str(person_id)
         ranks = requests.get(url, auth=HTTPBasicAuth('root', 'root_password')).json()
-        return render(request, 'rank.html', {'title': title, 'ranks': ranks, 'persons': persons})
+        sites = requests.get("http://94.130.27.143/sites/", auth=HTTPBasicAuth('root', 'root_password')).json()
+        return render(request, 'rank.html', {'title': title, 'ranks': ranks, 'sites': sites})
     else:
+        persons = requests.get("http://94.130.27.143/persons/", auth=HTTPBasicAuth('root', 'root_password')).json()
         return render(request, 'general.html', {'title': title, 'persons': persons})
 
 
