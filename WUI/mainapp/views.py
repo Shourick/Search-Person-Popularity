@@ -62,7 +62,7 @@ def support(request):
 
 
 # @user_passes_test(lambda u: u.is_superuser)
-# @login_required
+@login_required
 def general(request):
     title = 'Общая статистика'
     if request.method == 'POST':
