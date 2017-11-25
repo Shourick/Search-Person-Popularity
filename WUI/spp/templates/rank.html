@@ -5,22 +5,21 @@
     <div class="kwds col-md-12">
         <p><strong>Рейтинги:</strong></p>
     </div>
-
-    <div class="col-md-12">
+    <hr>
+    <div class="col-md-6 text-right">
+    {% if sites %}
+        <ul>{% for site in sites %}
+            <li>{{ site.name }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    </div>
+        <div class="col-md-6 text-left">
     {% if ranks %}
-        {% regroup ranks by person as list %}
-            <ul>
-                {% for person in list %}
-                <li>{{person_id.grouper}}
-                    <ul><hr>
-                        {% for item in person.list %}
-                         <li>{{ item.rank }}</li>
-                             {% endfor %}
-
-                    </ul><hr>
-                </li>
-                {% endfor %}
-            </ul>
+        <ul>{% for rank in ranks %}
+            <li>{{rank.rank}}</li>
+            {% endfor %}
+        </ul>
     {% endif %}
     </div>
 </div>
