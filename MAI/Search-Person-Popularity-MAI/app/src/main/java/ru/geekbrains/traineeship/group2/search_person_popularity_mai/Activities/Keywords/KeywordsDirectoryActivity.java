@@ -16,70 +16,61 @@ import java.util.List;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Keyword;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Person;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_NAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.ITEM_NOT_SELECTED;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEYWORD_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEYWORD_NAME;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.MAIN_DATABASE_NAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.PERSON_FOR_KEYWORD_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.REQUEST_CODE_ADD_KEYWORD;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.REQUEST_CODE_EDIT_KEYWORD;
 
 public class KeywordsDirectoryActivity extends AppCompatActivity implements View.OnClickListener {
-    /**
-     * repository применяем глобально во всех Activities для обмена данными с БД
-     * при доступности Веб-сервиса поменять на класс, имплементирующий работу с Веб-сервисом
-     */
-    Button btnBackKeywordsDirectory, btnKeywordAdd, btnKeywordEdit, btnKeywordDelete;
-    TextView tvKeywordName;
 
-    Spinner spPersonForKeywords;
-    List<Person> listAllPersonsForKeywords;
-    ArrayAdapter<Person> listPersonForKeywordsAdapter;
+    private TextView tvKeywordName;
 
-    ListView lvKeywordsByPersonList;
-    List<Keyword> listKeywordsByPerson;
-    ArrayAdapter<Keyword> listKeywordsByPersonAdapter;
-
-    int selectedPersonForKeywordsId;
-    int selectedKeywordId;
+    private List<Keyword> mListKeywordsByPerson;
+    private ArrayAdapter<Keyword> mListKeywordsByPersonAdapter;
+    private int mSelectedPersonForKeywordsId;
+    private int mSelectedKeywordId;
+    private SQLiteRepository mMainRepository;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_keywords_directory );
 
-        btnBackKeywordsDirectory = (Button) findViewById( R.id.btnBackKeywordsDirectory );
-        btnBackKeywordsDirectory.setOnClickListener( this );
+        Button btnKeywordAdd = (Button) findViewById( R.id.btnKeywordAdd );
+        Button btnKeywordEdit = (Button) findViewById( R.id.btnKeywordEdit );
+        Button btnKeywordDelete = (Button) findViewById( R.id.btnKeywordDelete );
+        Button btnBackKeywordsDirectory = (Button) findViewById( R.id.btnBackKeywordsDirectory );
 
-        btnKeywordAdd = (Button) findViewById( R.id.btnKeywordAdd );
-        btnKeywordEdit = (Button) findViewById( R.id.btnKeywordEdit );
-        btnKeywordDelete = (Button) findViewById( R.id.btnKeywordDelete );
-
-        tvKeywordName = (TextView) findViewById( R.id.tvKeywordName );
-
-        spPersonForKeywords = (Spinner) findViewById( R.id.spPersonForKeywords );
-
-        lvKeywordsByPersonList = (ListView) findViewById( R.id.lvKeywordsByPersonList );
-
-        btnBackKeywordsDirectory.setOnClickListener( this );
         btnKeywordAdd.setOnClickListener( this );
         btnKeywordEdit.setOnClickListener( this );
         btnKeywordDelete.setOnClickListener( this );
+        btnBackKeywordsDirectory.setOnClickListener( this );
 
-        listAllPersonsForKeywords = repository.getPersonRepository().getAllPersons();
-        listPersonForKeywordsAdapter = new ArrayAdapter<Person>( this,
+        mMainRepository = new SQLiteRepository( this, MAIN_DATABASE_NAME );
+
+        tvKeywordName = (TextView) findViewById( R.id.tvKeywordName );
+        Spinner spPersonForKeywords = (Spinner) findViewById( R.id.spPersonForKeywords );
+        ListView lvKeywordsByPersonList = (ListView) findViewById( R.id.lvKeywordsByPersonList );
+
+        List<Person> listAllPersonsForKeywords = mMainRepository.getPersonRepository().getAllPersons();
+        ArrayAdapter<Person> listPersonForKeywordsAdapter = new ArrayAdapter<>( this,
                 android.R.layout.simple_spinner_item,
                 listAllPersonsForKeywords );
         listPersonForKeywordsAdapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
         spPersonForKeywords.setAdapter( listPersonForKeywordsAdapter );
-        selectedPersonForKeywordsId = listAllPersonsForKeywords.get( 0 ).getId();
+        mSelectedPersonForKeywordsId = listAllPersonsForKeywords.get( 0 ).getId();
 
         spPersonForKeywords.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected( AdapterView<?> adapterView, View view, int position, long id ) {
                 Person selectedPerson = (Person) adapterView.getSelectedItem();
-                selectedPersonForKeywordsId = selectedPerson.getId();
+                mSelectedPersonForKeywordsId = selectedPerson.getId();
                 initializeSelectedKeyword();
             }
 
@@ -88,13 +79,15 @@ public class KeywordsDirectoryActivity extends AppCompatActivity implements View
             }
         } );
 
-        listKeywordsByPerson = repository.getKeywordRepository().getPersonKeywords( selectedPersonForKeywordsId );
-        listKeywordsByPersonAdapter = new ArrayAdapter<Keyword>( this,
+        mListKeywordsByPerson = mMainRepository
+                .getKeywordRepository()
+                .getPersonKeywords( mSelectedPersonForKeywordsId );
+        mListKeywordsByPersonAdapter = new ArrayAdapter<Keyword>( this,
                 android.R.layout.simple_list_item_1,
-                listKeywordsByPerson );
-        lvKeywordsByPersonList.setAdapter( listKeywordsByPersonAdapter );
+                mListKeywordsByPerson );
+        lvKeywordsByPersonList.setAdapter( mListKeywordsByPersonAdapter );
 
-        selectedKeywordId = ITEM_NOT_SELECTED;
+        mSelectedKeywordId = ITEM_NOT_SELECTED;
 
         lvKeywordsByPersonList.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
@@ -108,7 +101,7 @@ public class KeywordsDirectoryActivity extends AppCompatActivity implements View
             @Override
             public void onItemSelected( AdapterView<?> adapterView, View itemSelected, int position, long id ) {
                 Keyword selectedKeyword = (Keyword) adapterView.getSelectedItem();
-                selectedKeywordId = selectedKeyword.getId();
+                mSelectedKeywordId = selectedKeyword.getId();
                 tvKeywordName.setText( selectedKeyword.getName() );
             }
 
@@ -125,24 +118,26 @@ public class KeywordsDirectoryActivity extends AppCompatActivity implements View
         switch ( v.getId() ) {
             case R.id.btnKeywordAdd:
                 intent = new Intent( this, KeywordsDirectoryAddKeywordActivity.class );
-                intent.putExtra( PERSON_FOR_KEYWORD_ID, selectedPersonForKeywordsId );
+                intent.putExtra( PERSON_FOR_KEYWORD_ID, mSelectedPersonForKeywordsId );
                 startActivityForResult( intent, REQUEST_CODE_ADD_KEYWORD );
                 break;
 
             case R.id.btnKeywordEdit:
                 if ( isKeywordSelected() ) {
                     intent = new Intent( this, KeywordsDirectoryEditKeywordActivity.class );
-                    intent.putExtra( KEYWORD_ID, selectedKeywordId );
+                    intent.putExtra( KEYWORD_ID, mSelectedKeywordId );
                     intent.putExtra( KEYWORD_NAME, tvKeywordName.getText().toString() );
-                    intent.putExtra( PERSON_FOR_KEYWORD_ID, selectedPersonForKeywordsId );
+                    intent.putExtra( PERSON_FOR_KEYWORD_ID, mSelectedPersonForKeywordsId );
                     startActivityForResult( intent, REQUEST_CODE_EDIT_KEYWORD );
                 }
                 break;
 
             case R.id.btnKeywordDelete:
                 if ( isKeywordSelected() ) {
-                    repository.getKeywordRepository().deleteKeyword(
-                            new Keyword( selectedKeywordId, tvKeywordName.getText().toString(), selectedPersonForKeywordsId ) );
+                    mMainRepository.getKeywordRepository().deleteKeyword(
+                            new Keyword( mSelectedKeywordId,
+                                    tvKeywordName.getText().toString(),
+                                    mSelectedPersonForKeywordsId ) );
                 }
                 initializeSelectedKeyword();
                 break;
@@ -151,6 +146,9 @@ public class KeywordsDirectoryActivity extends AppCompatActivity implements View
                 intent = new Intent();
                 setResult( RESULT_OK, intent );
                 finish();
+                break;
+
+            default:
                 break;
         }
     }
@@ -170,22 +168,26 @@ public class KeywordsDirectoryActivity extends AppCompatActivity implements View
                     initializeSelectedKeyword();
                 }
                 break;
+
+            default:
+                break;
         }
     }
 
     private void initializeSelectedKeyword() {
-        selectedKeywordId = ITEM_NOT_SELECTED;
+        mSelectedKeywordId = ITEM_NOT_SELECTED;
 
-        tvKeywordName.setText( "" );
+        tvKeywordName.setText( EMPTY_NAME );
 
-        listKeywordsByPerson.clear();
-        listKeywordsByPerson.addAll( repository.getKeywordRepository().getPersonKeywords( selectedPersonForKeywordsId ) );
-        listKeywordsByPersonAdapter.notifyDataSetChanged();
+        mListKeywordsByPerson.clear();
+        mListKeywordsByPerson.addAll( mMainRepository
+                .getKeywordRepository()
+                .getPersonKeywords( mSelectedPersonForKeywordsId ) );
+        mListKeywordsByPersonAdapter.notifyDataSetChanged();
     }
 
     private boolean isKeywordSelected() {
-        return selectedKeywordId != ITEM_NOT_SELECTED;
+        return mSelectedKeywordId != ITEM_NOT_SELECTED;
     }
-
 
 }

@@ -24,15 +24,15 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Util
 
 public class SQLiteAdminRepository implements IAdminRepository {
 
-    private SQLiteRepository repository;
+    private SQLiteRepository mRepository;
 
-    public SQLiteAdminRepository( SQLiteRepository repository ) {
-        this.repository = repository;
+    public SQLiteAdminRepository( SQLiteRepository mRepository ) {
+        this.mRepository = mRepository;
     }
 
     @Override
     public int addAdmin( Admin admin ) {
-        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
+        try ( SQLiteDatabase db = mRepository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
             if ( admin.getId() != EMPTY_ID ) {
                 contentValues.put( KEY_ID, admin.getId() );
@@ -49,7 +49,7 @@ public class SQLiteAdminRepository implements IAdminRepository {
     @Override
     public Admin getAdmin( int id ) {
         Admin admin = new Admin();
-        SQLiteDatabase db = repository.getReadableDatabase();
+        SQLiteDatabase db = mRepository.getReadableDatabase();
 
         try ( Cursor cursorSites = db.query(
                 TABLE_ADMINS,                              // table
@@ -57,11 +57,11 @@ public class SQLiteAdminRepository implements IAdminRepository {
                         TABLE_ADMINS_FIELD_NICKNAME,
                         TABLE_ADMINS_FIELD_LOGIN,
                         TABLE_ADMINS_FIELD_PASSWORD },     // columns
-                KEY_ID + " = ?",                                     // columns WHERE
-                new String[] { Integer.toString( id ) },         // values WHERE
-                null,                                       // group by
-                null,                                       // having
-                null ) )                                     // order by
+                KEY_ID + " = ?",                  // columns WHERE
+                new String[] { Integer.toString( id ) },   // values WHERE
+                null,                             // group by
+                null,                              // having
+                null ) )                          // order by
         {
             if ( cursorSites.moveToFirst() ) {
                 admin.setId( Integer.parseInt( cursorSites.getString( 0 ) ) );
@@ -77,7 +77,7 @@ public class SQLiteAdminRepository implements IAdminRepository {
     public List<Admin> getAllAdmins() {
         List<Admin> adminList = new ArrayList<>();
         String adminListQuery = "SELECT * FROM " + TABLE_ADMINS;
-        SQLiteDatabase db = repository.getReadableDatabase();
+        SQLiteDatabase db = mRepository.getReadableDatabase();
 
         try ( Cursor cursorAdmins = db.rawQuery( adminListQuery, null ) ) {
             if ( cursorAdmins.moveToFirst() ) {
@@ -99,7 +99,7 @@ public class SQLiteAdminRepository implements IAdminRepository {
     public int getAdminsCount() {
         int count = 0;
         String countQuery = "SELECT * FROM " + TABLE_ADMINS;
-        SQLiteDatabase db = repository.getReadableDatabase();
+        SQLiteDatabase db = mRepository.getReadableDatabase();
 
         try ( Cursor cursorAdmins = db.rawQuery( countQuery, null ) ) {
             count = cursorAdmins.getCount();
@@ -110,7 +110,7 @@ public class SQLiteAdminRepository implements IAdminRepository {
     @Override
     public int updateAdmin( Admin admin ) {
         int result = 0;
-        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
+        try ( SQLiteDatabase db = mRepository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
             if ( admin.getId() != EMPTY_ID ) {
                 contentValues.put( KEY_ID, admin.getId() );
@@ -129,7 +129,7 @@ public class SQLiteAdminRepository implements IAdminRepository {
 
     @Override
     public void deleteAdmin( Admin admin ) {
-        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
+        try ( SQLiteDatabase db = mRepository.getWritableDatabase() ) {
             db.delete( TABLE_ADMINS,
                     KEY_ID + " = ?",
                     new String[] { String.valueOf( admin.getId() ) } );
@@ -138,7 +138,7 @@ public class SQLiteAdminRepository implements IAdminRepository {
 
     @Override
     public void deleteAllAdmins() {
-        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
+        try ( SQLiteDatabase db = mRepository.getWritableDatabase() ) {
             db.delete( TABLE_ADMINS, null, null );
         }
     }

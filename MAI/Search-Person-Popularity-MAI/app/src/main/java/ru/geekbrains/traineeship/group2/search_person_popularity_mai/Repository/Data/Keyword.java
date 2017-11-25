@@ -76,7 +76,7 @@ public class Keyword {
     public String toString() {
         return name;
     }
- 
+
     @Override
     public boolean equals( Object o ) {
         if ( o == null ) return false;
@@ -91,7 +91,6 @@ public class Keyword {
 
     @Override
     public int hashCode() {
-        return (int) id *
-                name.hashCode();
+        return id * name.hashCode();
     }
 }

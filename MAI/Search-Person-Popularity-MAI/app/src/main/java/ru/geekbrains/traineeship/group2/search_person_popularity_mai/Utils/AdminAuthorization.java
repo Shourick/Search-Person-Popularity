@@ -9,7 +9,7 @@ import android.content.Context;
 public class AdminAuthorization {
 
     /**
-     * This method makes AdminModel authorized
+     * This method makes Admin authorized
      *
      * @param context current context
      */

@@ -9,7 +9,6 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.DataRepositories.SQLiteKeywordRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_ID;
 
 /**
@@ -18,80 +17,80 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Util
 
 public class KeywordsSync {
 
-    private SQLiteKeywordRepository keywordsMain;
-    private SQLiteKeywordRepository keywordsSynced;
-    private RESTfulKeywordRepository keywordsApi;
+    private SQLiteKeywordRepository mKeywordsMain;
+    private SQLiteKeywordRepository mKeywordsSynced;
+    private RESTfulKeywordRepository mKeywordsApi;
 
-    private List<Keyword> keywordListMain;
-    private List<Keyword> keywordListSynced;
-    private List<Keyword> keywordListApi;
+    private List<Keyword> mKeywordListMain;
+    private List<Keyword> mKeywordListSynced;
+    private List<Keyword> mKeywordListApi;
 
-    public KeywordsSync( SQLiteRepository synchronizedRepository, RESTfulRepository apiRepository ) throws IOException {
+    public KeywordsSync( SQLiteRepository mainRepository, SQLiteRepository synchronizedRepository, RESTfulRepository apiRepository ) throws IOException {
 
-        keywordsMain = repository.getKeywordRepository();
-        keywordsSynced = synchronizedRepository.getKeywordRepository();
-        keywordsApi = apiRepository.getKeywordRepository();
+        mKeywordsMain = mainRepository.getKeywordRepository();
+        mKeywordsSynced = synchronizedRepository.getKeywordRepository();
+        mKeywordsApi = apiRepository.getKeywordRepository();
 
-        keywordListMain = repository.getKeywordRepository().getAllKeywords();
-        keywordListSynced = synchronizedRepository.getKeywordRepository().getAllKeywords();
-        keywordListApi = apiRepository.getKeywordRepository().getAllKeywords();
+        mKeywordListMain = mainRepository.getKeywordRepository().getAllKeywords();
+        mKeywordListSynced = synchronizedRepository.getKeywordRepository().getAllKeywords();
+        mKeywordListApi = apiRepository.getKeywordRepository().getAllKeywords();
     }
 
     public void execute() throws IOException {
 
         // добавляем в Synced и Main данные, добавленные и измененные в Api
-        for ( Keyword kApi : keywordListApi ) {
-            if ( !keywordListSynced.contains( kApi ) ) {
+        for ( Keyword kApi : mKeywordListApi ) {
+            if ( !( mKeywordListSynced.contains( kApi ) ) ) {
                 // проверка на обновление данных в pApi
-                int foundSyncedKeywordId = keywordsSynced.getKeyword( kApi.getId() ).getId();
+                int foundSyncedKeywordId = mKeywordsSynced.getKeyword( kApi.getId() ).getId();
                 if ( foundSyncedKeywordId == EMPTY_ID ) {
                     // была добавлена запись
-                    keywordsSynced.addKeyword( kApi, kApi.getPersonId() );
-                    keywordsMain.addKeyword( kApi, kApi.getPersonId() );
+                    mKeywordsSynced.addKeyword( kApi, kApi.getPersonId() );
+                    mKeywordsMain.addKeyword( kApi, kApi.getPersonId() );
                 } else {
                     // данные были обновлены
-                    keywordsSynced.updateKeyword( kApi );
-                    keywordsMain.updateKeyword( kApi );
+                    mKeywordsSynced.updateKeyword( kApi );
+                    mKeywordsMain.updateKeyword( kApi );
                 }
             }
         }
 
         // добавляем в Synced и Api данные, добавленные и измененные в Приложении
-        for ( Keyword kMain : keywordListMain ) {
-            if ( !keywordListSynced.contains( kMain ) ) {
+        for ( Keyword kMain : mKeywordListMain ) {
+            if ( !mKeywordListSynced.contains( kMain ) ) {
                 // проверка на обновление данных в Приложении
-                int foundSyncedKeyword = keywordsSynced.getKeyword( kMain.getId() ).getId();
+                int foundSyncedKeyword = mKeywordsSynced.getKeyword( kMain.getId() ).getId();
                 if ( foundSyncedKeyword == EMPTY_ID ) {
                     // была добавлена запись
-                    int keywordsApiId = keywordsApi.addKeyword( kMain, kMain.getPersonId() );
+                    int keywordsApiId = mKeywordsApi.addKeyword( kMain, kMain.getPersonId() );
                     Keyword keywordApi = new Keyword( keywordsApiId, kMain.getName(), kMain.getPersonId() );
 
-                    keywordsSynced.addKeyword( keywordApi, keywordApi.getPersonId() );
+                    mKeywordsSynced.addKeyword( keywordApi, keywordApi.getPersonId() );
 
-                    keywordsMain.deleteKeyword( kMain );
-                    keywordsMain.addKeyword( keywordApi, keywordApi.getPersonId() );
+                    mKeywordsMain.deleteKeyword( kMain );
+                    mKeywordsMain.addKeyword( keywordApi, keywordApi.getPersonId() );
 
                 } else {
                     // данные были обновлены
-                    keywordsSynced.updateKeyword( kMain );
-                    keywordsApi.updateKeyword( kMain );
+                    mKeywordsSynced.updateKeyword( kMain );
+                    mKeywordsApi.updateKeyword( kMain );
                 }
             }
         }
 
         // проверяем удаленные и измененные записи
-        for ( Keyword sSynced : keywordListSynced ) {
+        for ( Keyword sSynced : mKeywordListSynced ) {
 
             // в Api
-            if ( !( keywordListApi.contains( sSynced ) ) ) {
-                keywordsSynced.deleteKeyword( sSynced );
-                keywordsMain.deleteKeyword( sSynced );
+            if ( !( mKeywordListApi.contains( sSynced ) ) ) {
+                mKeywordsSynced.deleteKeyword( sSynced );
+                mKeywordsMain.deleteKeyword( sSynced );
             }
 
             // в Main
-            if ( !( keywordListMain.contains( sSynced ) ) ) {
-                keywordsSynced.deleteKeyword( sSynced );
-                keywordsApi.deleteKeyword( sSynced );
+            if ( !( mKeywordListMain.contains( sSynced ) ) ) {
+                mKeywordsSynced.deleteKeyword( sSynced );
+                mKeywordsApi.deleteKeyword( sSynced );
             }
         }
     }

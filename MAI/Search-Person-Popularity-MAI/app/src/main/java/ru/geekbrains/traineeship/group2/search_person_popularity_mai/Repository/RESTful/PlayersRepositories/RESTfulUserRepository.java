@@ -21,19 +21,19 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Util
 
 public class RESTfulUserRepository implements IUserRepository {
 
-    private IUserRestAPI userRestAPI;
+    private IUserRestAPI mUserRestAPI;
 
     public RESTfulUserRepository() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl( API_URL_BASE )
                 .addConverterFactory( GsonConverterFactory.create() )
                 .build();
-        userRestAPI = retrofit.create( IUserRestAPI.class );
+        mUserRestAPI = retrofit.create( IUserRestAPI.class );
     }
 
     @Override
     public int addUser( User user ) throws IOException {
-        Response<Integer> response = userRestAPI.addUser(
+        Response<Integer> response = mUserRestAPI.addUser(
                 user.getLogin(),
                 user.getNickName(),
                 user.getPassword() )
@@ -46,7 +46,7 @@ public class RESTfulUserRepository implements IUserRepository {
 
     @Override
     public User getUser( int id ) throws IOException {
-        Response<User> response = userRestAPI.getUserById( id ).execute();
+        Response<User> response = mUserRestAPI.getUserById( id ).execute();
         if ( response.isSuccessful() ) {
             return response.body();
         }
@@ -55,12 +55,12 @@ public class RESTfulUserRepository implements IUserRepository {
 
     @Override
     public List<User> getAllUsers() throws IOException {
-        return userRestAPI.getAllUsers().execute().body();
+        return mUserRestAPI.getAllUsers().execute().body();
     }
 
     @Override
     public int getUsersCount() throws IOException {
-        Response<List<User>> response = userRestAPI.getAllUsers().execute();
+        Response<List<User>> response = mUserRestAPI.getAllUsers().execute();
         if ( response.isSuccessful() ) {
             return response.body().size();
         }
@@ -69,18 +69,18 @@ public class RESTfulUserRepository implements IUserRepository {
 
     @Override
     public int updateUser( User user ) throws IOException {
-        userRestAPI.updateUser( user.getId(), user.getNickName() ).execute();
-        userRestAPI.updateUserPassword( user.getId(), user.getPassword() ).execute();
+        mUserRestAPI.updateUser( user.getId(), user.getNickName() ).execute();
+        mUserRestAPI.updateUserPassword( user.getId(), user.getPassword() ).execute();
         return UPDATE_OK;
     }
 
     @Override
     public void deleteUser( User user ) throws IOException {
-        userRestAPI.deleteUser( user.getId() ).execute();
+        mUserRestAPI.deleteUser( user.getId() ).execute();
     }
 
     @Override
     public void deleteAllUsers() throws IOException {
-        userRestAPI.deleteAllUsers().execute();
+        mUserRestAPI.deleteAllUsers().execute();
     }
 }

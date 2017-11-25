@@ -70,7 +70,6 @@ public class Site {
 
     @Override
     public int hashCode() {
-        return (int) id *
-                name.hashCode();
+        return id * name.hashCode();
     }
 }

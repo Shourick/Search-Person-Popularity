@@ -21,19 +21,19 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Util
 
 public class RESTfulAdminRepository implements IAdminRepository {
 
-    private IAdminRestAPI adminRestAPI;
+    private IAdminRestAPI mAdminRestAPI;
 
     public RESTfulAdminRepository() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl( API_URL_BASE )
                 .addConverterFactory( GsonConverterFactory.create() )
                 .build();
-        adminRestAPI = retrofit.create( IAdminRestAPI.class );
+        mAdminRestAPI = retrofit.create( IAdminRestAPI.class );
     }
 
     @Override
     public int addAdmin( Admin admin ) throws IOException {
-        Response<Integer> response = adminRestAPI.addAdmin(
+        Response<Integer> response = mAdminRestAPI.addAdmin(
                 admin.getLogin(),
                 admin.getNickName(),
                 admin.getPassword() )
@@ -46,7 +46,7 @@ public class RESTfulAdminRepository implements IAdminRepository {
 
     @Override
     public Admin getAdmin( int id ) throws IOException {
-        Response<Admin> response = adminRestAPI.getAdminById( id ).execute();
+        Response<Admin> response = mAdminRestAPI.getAdminById( id ).execute();
         if ( response.isSuccessful() ) {
             return response.body();
         }
@@ -55,12 +55,12 @@ public class RESTfulAdminRepository implements IAdminRepository {
 
     @Override
     public List<Admin> getAllAdmins() throws IOException {
-        return adminRestAPI.getAllAdmins().execute().body();
+        return mAdminRestAPI.getAllAdmins().execute().body();
     }
 
     @Override
     public int getAdminsCount() throws IOException {
-        Response<List<Admin>> response = adminRestAPI.getAllAdmins().execute();
+        Response<List<Admin>> response = mAdminRestAPI.getAllAdmins().execute();
         if ( response.isSuccessful() ) {
             return response.body().size();
         }
@@ -69,18 +69,18 @@ public class RESTfulAdminRepository implements IAdminRepository {
 
     @Override
     public int updateAdmin( Admin admin ) throws IOException {
-        adminRestAPI.updateAdmin( admin.getId(), admin.getNickName() ).execute();
-        adminRestAPI.updateAdminPassword( admin.getId(), admin.getPassword() ).execute();
+        mAdminRestAPI.updateAdmin( admin.getId(), admin.getNickName() ).execute();
+        mAdminRestAPI.updateAdminPassword( admin.getId(), admin.getPassword() ).execute();
         return UPDATE_OK;
     }
 
     @Override
     public void deleteAdmin( Admin admin ) throws IOException {
-        adminRestAPI.deleteAdmin( admin.getId() ).execute();
+        mAdminRestAPI.deleteAdmin( admin.getId() ).execute();
     }
 
     @Override
     public void deleteAllAdmins() throws IOException {
-        adminRestAPI.deleteAllAdmins().execute();
+        mAdminRestAPI.deleteAllAdmins().execute();
     }
 }

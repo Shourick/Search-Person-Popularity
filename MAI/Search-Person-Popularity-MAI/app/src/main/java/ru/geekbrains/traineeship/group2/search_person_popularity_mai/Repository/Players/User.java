@@ -115,7 +115,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return (int) id *
+        return id *
                 nickName.hashCode() *
                 login.hashCode();
     }

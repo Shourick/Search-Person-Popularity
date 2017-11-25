@@ -22,42 +22,42 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
  */
 
 public class RESTfulRepository implements IRepository {
-    private RESTfulPersonRepository persons;
-    private RESTfulKeywordRepository keywords;
-    private RESTfulSiteRepository sites;
-    private RESTfulUserRepository users;
-    private RESTfulAdminRepository admins;
+    private RESTfulPersonRepository mPersons;
+    private RESTfulKeywordRepository mKeywords;
+    private RESTfulSiteRepository mSites;
+    private RESTfulUserRepository mUsers;
+    private RESTfulAdminRepository mAdmins;
 
     public RESTfulRepository(  ) {
-        this.persons = new RESTfulPersonRepository();
-        this.keywords = new RESTfulKeywordRepository();
-        this.sites = new RESTfulSiteRepository();
-        this.users = new RESTfulUserRepository();
-        this.admins = new RESTfulAdminRepository();
+        this.mPersons = new RESTfulPersonRepository();
+        this.mKeywords = new RESTfulKeywordRepository();
+        this.mSites = new RESTfulSiteRepository();
+        this.mUsers = new RESTfulUserRepository();
+        this.mAdmins = new RESTfulAdminRepository();
     }
 
     @Override
     public RESTfulPersonRepository getPersonRepository() {
-        return persons;
+        return mPersons;
     }
 
     @Override
     public RESTfulKeywordRepository getKeywordRepository() {
-        return keywords;
+        return mKeywords;
     }
 
     @Override
     public RESTfulSiteRepository getSiteRepository() {
-        return sites;
+        return mSites;
     }
 
     @Override
     public RESTfulUserRepository getUserRepository() {
-        return users;
+        return mUsers;
     }
 
     @Override
     public RESTfulAdminRepository getAdminRepository() {
-        return admins;
+        return mAdmins;
     }
 }

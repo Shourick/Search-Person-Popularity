@@ -9,13 +9,15 @@ import android.widget.EditText;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.User;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.MAIN_DATABASE_NAME;
 
 public class UsersDirectoryAddUserActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText etAddUserNickname, etAddUserLogin, etAddUserPassword;
-    Button btnAddUserOK, btnAddUserCancel;
+    private EditText etAddUserNickname, etAddUserLogin, etAddUserPassword;
+
+    private SQLiteRepository mMainRepository;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -26,11 +28,13 @@ public class UsersDirectoryAddUserActivity extends AppCompatActivity implements 
         etAddUserLogin = (EditText) findViewById( R.id.etAddUserLogin );
         etAddUserPassword = (EditText) findViewById( R.id.etAddUserPassword );
 
-        btnAddUserOK = (Button) findViewById( R.id.btnAddUserOK );
-        btnAddUserCancel = (Button) findViewById( R.id.btnAddUserCancel );
+        Button btnAddUserOK = (Button) findViewById( R.id.btnAddUserOK );
+        Button btnAddUserCancel = (Button) findViewById( R.id.btnAddUserCancel );
 
         btnAddUserOK.setOnClickListener( this );
         btnAddUserCancel.setOnClickListener( this );
+
+        mMainRepository = new SQLiteRepository( this, MAIN_DATABASE_NAME );
     }
 
     @Override
@@ -40,7 +44,7 @@ public class UsersDirectoryAddUserActivity extends AppCompatActivity implements 
         switch ( v.getId() ) {
 
             case R.id.btnAddUserOK:
-                repository.getUserRepository().addUser(
+                mMainRepository.getUserRepository().addUser(
                         new User( etAddUserNickname.getText().toString(),
                                 etAddUserLogin.getText().toString(),
                                 etAddUserPassword.getText().toString() ) );
@@ -53,6 +57,9 @@ public class UsersDirectoryAddUserActivity extends AppCompatActivity implements 
                 intent = new Intent();
                 setResult( RESULT_CANCELED, intent );
                 finish();
+                break;
+
+            default:
                 break;
         }
     }

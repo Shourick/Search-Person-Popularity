@@ -21,19 +21,19 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Util
 
 public class RESTfulPersonRepository implements IPersonRepository {
 
-    private IPersonRestAPI personRestAPI;
+    private IPersonRestAPI mPersonRestAPI;
 
     public RESTfulPersonRepository() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl( API_URL_BASE )
                 .addConverterFactory( GsonConverterFactory.create() )
                 .build();
-        personRestAPI = retrofit.create( IPersonRestAPI.class );
+        mPersonRestAPI = retrofit.create( IPersonRestAPI.class );
     }
 
     @Override
     public int addPerson( Person person ) throws IOException {
-        Response<Integer> response = personRestAPI.addPerson( person.getName() ).execute();
+        Response<Integer> response = mPersonRestAPI.addPerson( person.getName() ).execute();
         if ( response.isSuccessful() ) {
             return response.body();
         }
@@ -42,7 +42,7 @@ public class RESTfulPersonRepository implements IPersonRepository {
 
     @Override
     public Person getPersonById( int id ) throws IOException {
-        Response<String> response = personRestAPI.getPersonById( id ).execute();
+        Response<String> response = mPersonRestAPI.getPersonById( id ).execute();
         if ( response.isSuccessful() ) {
             return new Person( id, response.body() );
         }
@@ -51,7 +51,7 @@ public class RESTfulPersonRepository implements IPersonRepository {
 
     @Override
     public Person getPersonByName( String name ) throws IOException {
-        Response<Integer> response = personRestAPI.getPersonByName( name ).execute();
+        Response<Integer> response = mPersonRestAPI.getPersonByName( name ).execute();
         if ( response.isSuccessful() ) {
 
             return new Person( response.body(), name );
@@ -61,12 +61,12 @@ public class RESTfulPersonRepository implements IPersonRepository {
 
     @Override
     public List<Person> getAllPersons() throws IOException {
-        return personRestAPI.getAllPersons().execute().body();
+        return mPersonRestAPI.getAllPersons().execute().body();
     }
 
     @Override
     public int getPersonsCount() throws IOException {
-        Response<List<Person>> response = personRestAPI.getAllPersons().execute();
+        Response<List<Person>> response = mPersonRestAPI.getAllPersons().execute();
         if ( response.isSuccessful() ) {
             return response.body().size();
         }
@@ -75,17 +75,17 @@ public class RESTfulPersonRepository implements IPersonRepository {
 
     @Override
     public int updatePerson( Person person ) throws IOException {
-        personRestAPI.updatePerson( person.getId(), person.getName() ).execute();
+        mPersonRestAPI.updatePerson( person.getId(), person.getName() ).execute();
         return UPDATE_OK;
     }
 
     @Override
     public void deletePerson( Person person ) throws IOException {
-        personRestAPI.deletePerson( person.getId() ).execute();
+        mPersonRestAPI.deletePerson( person.getId() ).execute();
     }
 
     @Override
     public void deleteAllPersons() throws IOException {
-        personRestAPI.deleteAllPersons().execute();
+        mPersonRestAPI.deleteAllPersons().execute();
     }
 }

@@ -6,7 +6,7 @@ package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils;
 
 public class Constants {
 
-//    public static final String API_URL_BASE = "http://94.130.27.143/";
+    // TODO: when available change to "http://94.130.27.143/";
     public static final String API_URL_BASE = "http://shourick.pythonanywhere.com/";
 
     // Имя файла базы данных
@@ -85,6 +85,12 @@ public class Constants {
     public static final int EMPTY_ID = -1;
 
     public static final int UPDATE_OK = 0;
+    public static final boolean SYNC_RESULT_OK = true;
+    public static final boolean SYNC_RESULT_FALSE = false;
 
     public static final int ITEM_NOT_SELECTED = -1;
+
+    public static final String SYNC_FAILED_MSG = "Синхронизация не удалась !!";
+    public static final String SYNC_OK_MSG = "Синхронизировано";
+
 }

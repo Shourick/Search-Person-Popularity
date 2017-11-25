@@ -9,7 +9,6 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.PlayerRepositories.SQLiteAdminRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_ID;
 
 /**
@@ -18,79 +17,79 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Util
 
 public class AdminsSync {
 
-    private SQLiteAdminRepository adminsMain;
-    private SQLiteAdminRepository adminsSynced;
-    private RESTfulAdminRepository adminsApi;
+    private SQLiteAdminRepository mAdminsMain;
+    private SQLiteAdminRepository mAdminsSynced;
+    private RESTfulAdminRepository mAdminsApi;
 
-    private List<Admin> adminListMain;
-    private List<Admin> adminListSynced;
-    private List<Admin> adminListApi;
+    private List<Admin> mAdminListMain;
+    private List<Admin> mAdminListSynced;
+    private List<Admin> mAdminListApi;
 
-    public AdminsSync( SQLiteRepository synchronizedRepository, RESTfulRepository apiRepository ) throws IOException {
-        adminsMain = repository.getAdminRepository();
-        adminsSynced = synchronizedRepository.getAdminRepository();
-        adminsApi = apiRepository.getAdminRepository();
+    public AdminsSync( SQLiteRepository mainRepository, SQLiteRepository synchronizedRepository, RESTfulRepository apiRepository ) throws IOException {
+        mAdminsMain = mainRepository.getAdminRepository();
+        mAdminsSynced = synchronizedRepository.getAdminRepository();
+        mAdminsApi = apiRepository.getAdminRepository();
 
-        adminListMain = repository.getAdminRepository().getAllAdmins();
-        adminListSynced = synchronizedRepository.getAdminRepository().getAllAdmins();
-        adminListApi = apiRepository.getAdminRepository().getAllAdmins();
+        mAdminListMain = mainRepository.getAdminRepository().getAllAdmins();
+        mAdminListSynced = synchronizedRepository.getAdminRepository().getAllAdmins();
+        mAdminListApi = apiRepository.getAdminRepository().getAllAdmins();
     }
 
     public void execute() throws IOException {
 
         // добавляем в Synced и Main данные, добавленные и измененные в Api
-        for ( Admin aApi : adminListApi ) {
-            if ( !adminListSynced.contains( aApi ) ) {
+        for ( Admin aApi : mAdminListApi ) {
+            if ( !( mAdminListSynced.contains( aApi ) ) ) {
                 // проверка на обновление данных в pApi
-                int foundSyncedAdminId = adminsSynced.getAdmin( aApi.getId() ).getId();
+                int foundSyncedAdminId = mAdminsSynced.getAdmin( aApi.getId() ).getId();
                 if ( foundSyncedAdminId == EMPTY_ID ) {
                     // была добавлена запись
-                    adminsSynced.addAdmin( aApi );
-                    adminsMain.addAdmin( aApi );
+                    mAdminsSynced.addAdmin( aApi );
+                    mAdminsMain.addAdmin( aApi );
                 } else {
                     // данные были обновлены
-                    adminsSynced.updateAdmin( aApi );
-                    adminsMain.updateAdmin( aApi );
+                    mAdminsSynced.updateAdmin( aApi );
+                    mAdminsMain.updateAdmin( aApi );
                 }
             }
         }
 
         // добавляем в Synced и Api данные, добавленные и измененные в Приложении
-        for ( Admin aMain : adminListMain ) {
-            if ( !adminListSynced.contains( aMain ) ) {
+        for ( Admin aMain : mAdminListMain ) {
+            if ( !( mAdminListSynced.contains( aMain ) ) ) {
                 // проверка на обновление данных в Приложении
-                int foundSyncedAdmin = adminsSynced.getAdmin( aMain.getId() ).getId();
+                int foundSyncedAdmin = mAdminsSynced.getAdmin( aMain.getId() ).getId();
                 if ( foundSyncedAdmin == EMPTY_ID ) {
                     // была добавлена запись
-                    int adminsApiId = adminsApi.addAdmin( aMain );
+                    int adminsApiId = mAdminsApi.addAdmin( aMain );
                     Admin adminApi = new Admin( adminsApiId, aMain.getNickName(), aMain.getLogin(), aMain.getPassword() );
 
-                    adminsSynced.addAdmin( adminApi );
+                    mAdminsSynced.addAdmin( adminApi );
 
-                    adminsMain.deleteAdmin( aMain );
-                    adminsMain.addAdmin( adminApi );
+                    mAdminsMain.deleteAdmin( aMain );
+                    mAdminsMain.addAdmin( adminApi );
 
                 } else {
                     // данные были обновлены
-                    adminsSynced.updateAdmin( aMain );
-                    adminsApi.updateAdmin( aMain );
+                    mAdminsSynced.updateAdmin( aMain );
+                    mAdminsApi.updateAdmin( aMain );
                 }
             }
         }
 
         // проверяем удаленные и измененные записи
-        for ( Admin sSynced : adminListSynced ) {
+        for ( Admin sSynced : mAdminListSynced ) {
 
             // в Api
-            if ( !( adminListApi.contains( sSynced ) ) ) {
-                adminsSynced.deleteAdmin( sSynced );
-                adminsMain.deleteAdmin( sSynced );
+            if ( !( mAdminListApi.contains( sSynced ) ) ) {
+                mAdminsSynced.deleteAdmin( sSynced );
+                mAdminsMain.deleteAdmin( sSynced );
             }
 
             // в Main
-            if ( !( adminListMain.contains( sSynced ) ) ) {
-                adminsSynced.deleteAdmin( sSynced );
-                adminsApi.deleteAdmin( sSynced );
+            if ( !( mAdminListMain.contains( sSynced ) ) ) {
+                mAdminsSynced.deleteAdmin( sSynced );
+                mAdminsApi.deleteAdmin( sSynced );
             }
         }
     }

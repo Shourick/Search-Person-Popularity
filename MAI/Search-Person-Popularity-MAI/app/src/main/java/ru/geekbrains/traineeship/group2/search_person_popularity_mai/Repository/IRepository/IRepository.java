@@ -12,14 +12,14 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 
 public interface IRepository {
 
-    public IPersonRepository getPersonRepository();
+    IPersonRepository getPersonRepository();
 
-    public IKeywordRepository getKeywordRepository();
+    IKeywordRepository getKeywordRepository();
 
-    public ISiteRepository getSiteRepository();
+    ISiteRepository getSiteRepository();
 
-    public IUserRepository getUserRepository();
+    IUserRepository getUserRepository();
 
-    public IAdminRepository getAdminRepository();
+    IAdminRepository getAdminRepository();
 
 }

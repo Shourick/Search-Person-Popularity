@@ -32,11 +32,6 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Util
  */
 public class SQLiteHelper extends SQLiteOpenHelper {
 
-    /**
-     * Конструктор {@link SQLiteHelper}
-     *
-     * @param context Контекст приложения
-     */
     public SQLiteHelper( Context context, String dbName ) {
         super( context, dbName, null, DATABASE_VERSION );
     }

@@ -14,58 +14,55 @@ import java.util.List;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.Admin;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.ADMIN_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.ADMIN_LOGIN;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.ADMIN_NICKNAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.ADMIN_PASSWORD;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_NAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.ITEM_NOT_SELECTED;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.MAIN_DATABASE_NAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.REQUEST_CODE_ADD_ADMIN;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.REQUEST_CODE_EDIT_ADMIN;
 
 public class AdminsDirectoryActivity extends AppCompatActivity implements View.OnClickListener {
 
-    /**
-     * repository применяем глобально во всех Activities для обмена данными с БД
-     * при доступности Веб-сервиса поменять на класс, имплементирующий работу с Веб-сервисом
-     */
+    private TextView tvNickname, tvLogin, tvPassword;
 
-    Button btnBackAdminsDirectory, btnAdminAdd, btnAdminEdit, btnAdminDelete;
-    TextView tvNickname, tvLogin, tvPassword;
-
-    ListView lvAdminsList;
-    List<Admin> listAllAdmins;
-    ArrayAdapter<Admin> listAdminAdapter;
-
-    int selectedAdminId;
+    private List<Admin> mListAllAdmins;
+    private ArrayAdapter<Admin> mListAdminAdapter;
+    private int mSelectedAdminId;
+    private SQLiteRepository mMainRepository;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_admins_directory );
 
-        btnBackAdminsDirectory = (Button) findViewById( R.id.btnBackAdminsDirectory );
-        btnAdminAdd = (Button) findViewById( R.id.btnAdminAdd );
-        btnAdminEdit = (Button) findViewById( R.id.btnAdminEdit );
-        btnAdminDelete = (Button) findViewById( R.id.btnAdminDelete );
+        Button btnBackAdminsDirectory = (Button) findViewById( R.id.btnBackAdminsDirectory );
+        Button btnAdminAdd = (Button) findViewById( R.id.btnAdminAdd );
+        Button btnAdminEdit = (Button) findViewById( R.id.btnAdminEdit );
+        Button btnAdminDelete = (Button) findViewById( R.id.btnAdminDelete );
 
         tvNickname = (TextView) findViewById( R.id.tvNickname );
         tvLogin = (TextView) findViewById( R.id.tvLogin );
         tvPassword = (TextView) findViewById( R.id.tvPassword );
 
-        lvAdminsList = (ListView) findViewById( R.id.lvAdminsList );
+        ListView lvAdminsList = (ListView) findViewById( R.id.lvAdminsList );
 
         btnBackAdminsDirectory.setOnClickListener( this );
         btnAdminAdd.setOnClickListener( this );
         btnAdminEdit.setOnClickListener( this );
         btnAdminDelete.setOnClickListener( this );
 
-        listAllAdmins = repository.getAdminRepository().getAllAdmins();
-        listAdminAdapter = new ArrayAdapter<Admin>( this, android.R.layout.simple_list_item_1, listAllAdmins );
-        lvAdminsList.setAdapter( listAdminAdapter );
+        mMainRepository = new SQLiteRepository( this, MAIN_DATABASE_NAME );
 
-        selectedAdminId = ITEM_NOT_SELECTED;
+        mListAllAdmins = mMainRepository.getAdminRepository().getAllAdmins();
+        mListAdminAdapter = new ArrayAdapter<>( this, android.R.layout.simple_list_item_1, mListAllAdmins );
+        lvAdminsList.setAdapter( mListAdminAdapter );
+
+        mSelectedAdminId = ITEM_NOT_SELECTED;
 
         lvAdminsList.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
@@ -79,7 +76,7 @@ public class AdminsDirectoryActivity extends AppCompatActivity implements View.O
             @Override
             public void onItemSelected( AdapterView<?> adapterView, View itemSelected, int position, long id ) {
                 Admin selectedAdmin = (Admin) adapterView.getSelectedItem();
-                selectedAdminId = selectedAdmin.getId();
+                mSelectedAdminId = selectedAdmin.getId();
                 tvNickname.setText( selectedAdmin.getNickName() );
                 tvLogin.setText( selectedAdmin.getLogin() );
                 tvPassword.setText( selectedAdmin.getPassword() );
@@ -104,7 +101,7 @@ public class AdminsDirectoryActivity extends AppCompatActivity implements View.O
             case R.id.btnAdminEdit:
                 if ( isAdminSelected() ) {
                     intent = new Intent( this, AdminsDirectoryEditAdminActivity.class );
-                    intent.putExtra( ADMIN_ID, selectedAdminId );
+                    intent.putExtra( ADMIN_ID, mSelectedAdminId );
                     intent.putExtra( ADMIN_NICKNAME, tvNickname.getText().toString() );
                     intent.putExtra( ADMIN_LOGIN, tvLogin.getText().toString() );
                     intent.putExtra( ADMIN_PASSWORD, tvPassword.getText().toString() );
@@ -114,7 +111,7 @@ public class AdminsDirectoryActivity extends AppCompatActivity implements View.O
 
             case R.id.btnAdminDelete:
                 if ( isAdminSelected() ) {
-                    repository.getAdminRepository().deleteAdmin( new Admin( selectedAdminId,
+                    mMainRepository.getAdminRepository().deleteAdmin( new Admin( mSelectedAdminId,
                             tvNickname.getText().toString(),
                             tvLogin.getText().toString(),
                             tvPassword.getText().toString() ) );
@@ -126,6 +123,9 @@ public class AdminsDirectoryActivity extends AppCompatActivity implements View.O
                 intent = new Intent();
                 setResult( RESULT_OK, intent );
                 finish();
+                break;
+
+            default:
                 break;
         }
     }
@@ -145,22 +145,25 @@ public class AdminsDirectoryActivity extends AppCompatActivity implements View.O
                     initializeSelectedAdmin();
                 }
                 break;
+
+            default:
+                break;
         }
     }
 
     private void initializeSelectedAdmin() {
-        selectedAdminId = ITEM_NOT_SELECTED;
+        mSelectedAdminId = ITEM_NOT_SELECTED;
 
-        tvNickname.setText( "" );
-        tvLogin.setText( "" );
-        tvPassword.setText( "" );
+        tvNickname.setText( EMPTY_NAME );
+        tvLogin.setText( EMPTY_NAME );
+        tvPassword.setText( EMPTY_NAME );
 
-        listAllAdmins.clear();
-        listAllAdmins.addAll( repository.getAdminRepository().getAllAdmins() );
-        listAdminAdapter.notifyDataSetChanged();
+        mListAllAdmins.clear();
+        mListAllAdmins.addAll( mMainRepository.getAdminRepository().getAllAdmins() );
+        mListAdminAdapter.notifyDataSetChanged();
     }
 
     private boolean isAdminSelected() {
-        return selectedAdminId != ITEM_NOT_SELECTED;
+        return mSelectedAdminId != ITEM_NOT_SELECTED;
     }
 }
