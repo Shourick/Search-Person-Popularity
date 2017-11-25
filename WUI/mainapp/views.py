@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 from requests.auth import HTTPBasicAuth
 import requests
 from .forms import ContactForm
-from .tables import DailyStatisticsTable
 
 
 def index(request):
@@ -13,16 +12,6 @@ def index(request):
     sites = requests.get("http://94.130.27.143/sites/", auth=HTTPBasicAuth('root', 'root_password')).json()
     persons = requests.get("http://94.130.27.143/persons/", auth=HTTPBasicAuth('root', 'root_password')).json()
     return render(request, 'index.html', {'title': title, 'sites': sites, 'persons': persons})
-
-
-@login_required
-def daily(request):
-    title = 'Ежедневная статистика'
-    sites = requests.get("http://94.130.27.143/sites", auth=HTTPBasicAuth('root', 'root_password')).json()
-    persons = requests.get("http://94.130.27.143/persons", auth=HTTPBasicAuth('root', 'root_password')).json()
-    ds_table = DailyStatisticsTable(persons)
-    return render(request, 'daily.html', {'title': title, 'sites': sites, 'persons': persons,
-                                          'ds_table': ds_table})
 
 
 def keywords(request):
@@ -71,3 +60,22 @@ def general(request):
 
 def rank(request):
     return render(request, 'rank.html')
+
+
+@login_required
+def daily(request):
+    title = 'Ежедневная статистика'
+    if request.method == 'POST':
+        person_id = request.POST.get('person_id')
+        site_id = request.POST.get('site_id')
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        url = "http://94.130.27.143/rank/" + str(person_id) + '/' + str(site_id) + '/' + str(start_date) + '&' + str(end_date)
+        print(url)
+        ranks = requests.get(url, auth=HTTPBasicAuth('root', 'root_password')).json()
+        print(ranks)
+        return render(request, 'rank_daily.html', {'title': title, 'ranks': ranks})
+    else:
+        sites = requests.get("http://94.130.27.143/sites", auth=HTTPBasicAuth('root', 'root_password')).json()
+        persons = requests.get("http://94.130.27.143/persons", auth=HTTPBasicAuth('root', 'root_password')).json()
+        return render(request, 'daily.html', {'title': title, 'sites': sites, 'persons': persons})
