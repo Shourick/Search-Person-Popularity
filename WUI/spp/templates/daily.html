@@ -3,7 +3,7 @@
 {% block content %}
 
 
-<form class="well form-inline stat"  method="post" id="daily_stat" action="">
+<form class="well form-inline stat"  method="post" id="daily_stat" >
      {% csrf_token %}
     <div class="form-group">
         <legend>Псмотреть количество новых страниц с упоминанием личности:</legend>
@@ -13,17 +13,17 @@
                     {% endfor %}
             </select>
 
-            <select size="1" name="person_id" class="form-control">
+            <select size="1" id="person_id" name="person_id" class="form-control">
                  {% for person in persons %}
                 <option value="{{person.id}}">{{person.name}}</option>
                     {% endfor %}
             </select>
 
             <div class="date-from-to">
-                <p>Период с:
-                    <input type="date" class="form-control" name="start_date" placeholder="2015-11-10" required>
+                <p>Период:
+                    <input type="date" class="form-control date" id="start_date" name="start_date" required>
                      по
-                    <input type="date" class="form-control" name="end_date" placeholder="2017-11-10" required>
+                    <input type="date" class="form-control date" id="end_date" name="end_date" required>
                 </p>
             </div>
             <button type="submit" id="submit_btn" class="btn">Подтвердить</button>

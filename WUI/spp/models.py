@@ -1,5 +1,4 @@
 from django.db import models
-# from django.db import connection
 from django.contrib.auth.models import User
 
 """ 
@@ -37,8 +36,3 @@ class Personpagerank(models.Model):
     PersonID = models.ForeignKey('Persons', verbose_name='Идентификатор личности', on_delete=models.CASCADE)
     PageID = models.ForeignKey('Pages', on_delete=models.CASCADE)
     Rank = models.PositiveIntegerField(verbose_name='Количество упоминаний', default=0)
-
-
-
-
-

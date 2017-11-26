@@ -8,12 +8,7 @@
     <hr>
 
         <div class="col-md-12">
-    {% if ranks %}
-        <ul>{% for rank in ranks %}
-            <li>{{rank.rank}}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    {% if ranks %} <p> {{ rank.rank }} </p> {% else %} Новых страниц нет {% endif %}
     </div>
 </div>
 
