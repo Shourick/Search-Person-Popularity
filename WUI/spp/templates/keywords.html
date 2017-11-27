@@ -15,13 +15,12 @@
             <ul>
                 {% for person_id in list %}
                 <li class="kwds col-md-3">
-<!--<li>{{person_id.grouper}}-->
-                    <ul><hr>
-                        {% for item in person_id.list %}
-                         <li>{{ item.name }}</li>
-                        {% endfor %}
+                        <ul><hr>
+                            {% for item in person_id.list %}
+                             <li>{{ item.name }}</li>
+                            {% endfor %}
 
-                    </ul><hr>
+                        </ul><hr>
                 </li>
                 {% endfor %}
             </ul>

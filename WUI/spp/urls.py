@@ -16,9 +16,8 @@ Including another URLconf
 from django.conf.urls import url, include
 from mainapp.views import *
 
-
 urlpatterns = [
-    url(r'^$', index, name='index'),
+    url(r'^/$', index, name='index'),
     url(r'^general/', general, name='general'),
     url(r'^rank/', rank, name='rank'),
     url(r'^daily/$', daily, name='daily'),

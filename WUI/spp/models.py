@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 
 """ 
 Классы, написаные с REST/Drop_and_Create_tables.sql
