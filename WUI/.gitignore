@@ -4,3 +4,4 @@ spp/local_settings.py
 __pycache__
 db.sqlite3
 functional_tests/geckodriver.log
+migrations
