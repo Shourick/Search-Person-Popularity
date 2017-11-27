@@ -24,14 +24,15 @@ def logout(request):
 
 
 def registration(request):
+    title = 'Регистрация'
     if request.method == "POST":
         form = MyRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect("/user/success_reg")
-        context = {'form': form}
+        context = {'form': form, 'title':title}
         return render(request, 'registration.html', context)
-    context = {'form': MyRegistrationForm()}
+    context = {'form': MyRegistrationForm(),'title':title}
     return render(request, 'registration.html', context)
 
 
