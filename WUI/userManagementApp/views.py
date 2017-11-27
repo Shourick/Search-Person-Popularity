@@ -1,7 +1,7 @@
 from django.contrib import auth
 from django.shortcuts import render, HttpResponseRedirect
 from django.http import Http404
-from userManagementApp.forms import MyRegistrationForm
+from .forms import MyRegistrationForm
 
 
 def login(request):
