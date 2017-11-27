@@ -1,7 +1,7 @@
 from django import forms
 
 
-class ContactForm(forms.Form):
+class ContactSupportForm(forms.Form):
     """ Техподдержка
     """
     subject = forms.CharField(max_length=100, label='Тема')

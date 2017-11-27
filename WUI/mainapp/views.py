@@ -4,13 +4,13 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from requests.auth import HTTPBasicAuth
 import requests
-from .forms import ContactForm
+from .forms import ContactSupportForm
 
 
 def index(request):
     title = 'Главная'
-    sites = requests.get("http://94.130.27.143/sites/", auth=HTTPBasicAuth('root', 'root_password')).json()
-    persons = requests.get("http://94.130.27.143/persons/", auth=HTTPBasicAuth('root', 'root_password')).json()
+    sites = requests.get("http://94.130.27.143/sites", auth=HTTPBasicAuth('root', 'root_password')).json()
+    persons = requests.get("http://94.130.27.143/persons", auth=HTTPBasicAuth('root', 'root_password')).json()
     return render(request, 'index.html', {'title': title, 'sites': sites, 'persons': persons})
 
 
@@ -24,7 +24,7 @@ def keywords(request):
 def support(request):
     title = 'Контакты'
     if request.method == 'POST':
-        form = ContactForm(request.POST)
+        form = ContactSupportForm(request.POST)
         if form.is_valid():
             subject = form.cleaned_data['subject']
             sender = form.cleaned_data['sender']
@@ -40,7 +40,7 @@ def support(request):
                 return HttpResponse('Invalid header found')
             return render(request, 'email/thanks.html', {'title': 'Спасибо'})
     else:
-        form = ContactForm()
+        form = ContactSupportForm()
     return render(request, 'email/support.html', {'title': title, 'form': form})
 
 
