@@ -3,3 +3,4 @@ spp/local_settings.py
 .idea
 __pycache__
 db.sqlite3
+functional_tests/geckodriver.log
