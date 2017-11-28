@@ -11,6 +11,8 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.Data.IPersonRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_NAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEY_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_PERSONS;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_PERSONS_FIELD_NAME;
@@ -21,39 +23,40 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Util
 
 public class SQLitePersonRepository implements IPersonRepository {
 
-    private SQLiteRepository repository;
+    private SQLiteRepository mRepository;
 
-    public SQLitePersonRepository( SQLiteRepository repository ) {
-        this.repository = repository;
+    public SQLitePersonRepository( SQLiteRepository mRepository ) {
+        this.mRepository = mRepository;
     }
 
     @Override
-    public void addPerson( Person person ) {
-        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
+    public int addPerson( Person person ) {
+        try ( SQLiteDatabase db = mRepository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
-            if ( person.getId() != 0 ) {
+            if ( person.getId() != EMPTY_ID ) {
                 contentValues.put( KEY_ID, person.getId() );
             }
             contentValues.put( TABLE_PERSONS_FIELD_NAME, person.getName() );
 
             db.insert( TABLE_PERSONS, null, contentValues );
         }
+        return person.getId();
     }
 
     @Override
     public Person getPersonById( int id ) {
-        Person person = new Person();
-        SQLiteDatabase db = repository.getReadableDatabase();
+        Person person = new Person( EMPTY_ID, EMPTY_NAME );
+        SQLiteDatabase db = mRepository.getReadableDatabase();
 
         try ( Cursor cursorPersons = db.query(
                 TABLE_PERSONS,                              // table
                 new String[] { KEY_ID,
-                        TABLE_PERSONS_FIELD_NAME },          // columns
-                KEY_ID + " = ?",                            // columns WHERE
-                new String[] { Integer.toString( id ) },         // values WHERE
-                null,                                       // group by
-                null,                                       // having
-                null ) )                                     // order by
+                        TABLE_PERSONS_FIELD_NAME },         // columns
+                KEY_ID + " = ?",                   // columns WHERE
+                new String[] { Integer.toString( id ) },    // values WHERE
+                null,                              // group by
+                null,                               // having
+                null ) )                           // order by
         {
             if ( cursorPersons.moveToFirst() ) {
                 person.setId( Integer.parseInt( cursorPersons.getString( 0 ) ) );
@@ -65,18 +68,18 @@ public class SQLitePersonRepository implements IPersonRepository {
 
     @Override
     public Person getPersonByName( String name ) {
-        Person person = new Person();
-        SQLiteDatabase db = repository.getReadableDatabase();
+        Person person = new Person( EMPTY_ID, EMPTY_NAME );
+        SQLiteDatabase db = mRepository.getReadableDatabase();
 
         try ( Cursor cursorPersons = db.query(
-                TABLE_PERSONS,                              // table
+                TABLE_PERSONS,                                  // table
                 new String[] { KEY_ID,
-                        TABLE_PERSONS_FIELD_NAME },          // columns
-                TABLE_PERSONS_FIELD_NAME + " = ?",          // columns WHERE
-                new String[] { name },                         // values WHERE
-                null,                                       // group by
-                null,                                       // having
-                null ) )                                     // order by
+                        TABLE_PERSONS_FIELD_NAME },             // columns
+                TABLE_PERSONS_FIELD_NAME + " = ?",     // columns WHERE
+                new String[] { name },                          // values WHERE
+                null,                                  // group by
+                null,                                   // having
+                null ) )                               // order by
         {
             if ( cursorPersons.moveToFirst() ) {
                 person.setId( Integer.parseInt( cursorPersons.getString( 0 ) ) );
@@ -90,7 +93,7 @@ public class SQLitePersonRepository implements IPersonRepository {
     public List<Person> getAllPersons() {
         List<Person> personList = new ArrayList<>();
         String personListQuery = "SELECT * FROM " + TABLE_PERSONS;
-        SQLiteDatabase db = repository.getReadableDatabase();
+        SQLiteDatabase db = mRepository.getReadableDatabase();
 
         try ( Cursor cursorPersons = db.rawQuery( personListQuery, null ) ) {
             if ( cursorPersons.moveToFirst() ) {
@@ -110,7 +113,7 @@ public class SQLitePersonRepository implements IPersonRepository {
     public int getPersonsCount() {
         int count = 0;
         String countQuery = "SELECT * FROM " + TABLE_PERSONS;
-        SQLiteDatabase db = repository.getReadableDatabase();
+        SQLiteDatabase db = mRepository.getReadableDatabase();
 
         try ( Cursor cursorPersons = db.rawQuery( countQuery, null ) ) {
             count = cursorPersons.getCount();
@@ -121,7 +124,7 @@ public class SQLitePersonRepository implements IPersonRepository {
     @Override
     public int updatePerson( Person person ) {
         int result = 0;
-        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
+        try ( SQLiteDatabase db = mRepository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
             contentValues.put( TABLE_PERSONS_FIELD_NAME, person.getName() );
 
@@ -135,7 +138,7 @@ public class SQLitePersonRepository implements IPersonRepository {
 
     @Override
     public void deletePerson( Person person ) {
-        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
+        try ( SQLiteDatabase db = mRepository.getWritableDatabase() ) {
             db.delete( TABLE_PERSONS,
                     KEY_ID + " = ?",
                     new String[] { String.valueOf( person.getId() ) } );
@@ -144,7 +147,7 @@ public class SQLitePersonRepository implements IPersonRepository {
 
     @Override
     public void deleteAllPersons() {
-        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
+        try ( SQLiteDatabase db = mRepository.getWritableDatabase() ) {
             db.delete( TABLE_PERSONS, null, null );
         }
     }

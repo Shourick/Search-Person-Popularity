@@ -3,25 +3,30 @@ package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_NAME;
+
 /**
  * Created by skubatko on 28/10/17.
  */
 
 public class Person {
 
-    @SerializedName("id")
+    @SerializedName( "id" )
     @Expose
     private Integer id;
 
-    @SerializedName("name")
+    @SerializedName( "name" )
     @Expose
     private String name;
 
     public Person() {
+        this.id = EMPTY_ID;
+        this.name = EMPTY_NAME;
     }
 
     public Person( String name ) {
-        this.id = 0;
+        this.id = EMPTY_ID;
         this.name = name;
     }
 
@@ -49,5 +54,22 @@ public class Person {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public boolean equals( Object o ) {
+        if ( o == null ) return false;
+        if ( !( o instanceof Person ) ) return false;
+
+        Person other = (Person) o;
+        if ( this.getId() != other.getId() ) return false;
+        if ( !( this.getName().equals( other.getName() ) ) ) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return id * name.hashCode();
     }
 }

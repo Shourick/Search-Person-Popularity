@@ -11,6 +11,8 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.Data.ISiteRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_ID;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_NAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEY_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_SITES;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_SITES_FIELD_NAME;
@@ -21,37 +23,40 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Util
 
 public class SQLiteSiteRepository implements ISiteRepository {
 
-    private SQLiteRepository repository;
+    private SQLiteRepository mRepository;
 
-    public SQLiteSiteRepository( SQLiteRepository repository ) {
-        this.repository = repository;
+    public SQLiteSiteRepository( SQLiteRepository mRepository ) {
+        this.mRepository = mRepository;
     }
 
     @Override
-    public void addSite( Site site ) {
-        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
+    public int addSite( Site site ) {
+        try ( SQLiteDatabase db = mRepository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
+            if ( site.getId() != EMPTY_ID ) {
+                contentValues.put( KEY_ID, site.getId() );
+            }
             contentValues.put( TABLE_SITES_FIELD_NAME, site.getName() );
 
             db.insert( TABLE_SITES, null, contentValues );
         }
-
+        return site.getId();
     }
 
     @Override
     public Site getSite( int id ) {
-        Site site = new Site();
-        SQLiteDatabase db = repository.getReadableDatabase();
+        Site site = new Site( EMPTY_ID, EMPTY_NAME );
+        SQLiteDatabase db = mRepository.getReadableDatabase();
 
         try ( Cursor cursorSites = db.query(
-                TABLE_SITES,                              // table
+                TABLE_SITES,                                // table
                 new String[] { KEY_ID,
-                        TABLE_SITES_FIELD_NAME },     // columns
-                KEY_ID,                                     // columns WHERE
-                new String[] { Integer.toString( id ) },         // values WHERE
-                null,                                       // group by
-                null,                                       // having
-                null ) )                                     // order by
+                        TABLE_SITES_FIELD_NAME },           // columns
+                KEY_ID + " = ?",                   // columns WHERE
+                new String[] { Integer.toString( id ) },    // values WHERE
+                null,                              // group by
+                null,                               // having
+                null ) )                           // order by
         {
             if ( cursorSites.moveToFirst() ) {
                 site.setId( Integer.parseInt( cursorSites.getString( 0 ) ) );
@@ -65,7 +70,7 @@ public class SQLiteSiteRepository implements ISiteRepository {
     public List<Site> getAllSites() {
         List<Site> siteList = new ArrayList<>();
         String siteListQuery = "SELECT * FROM " + TABLE_SITES;
-        SQLiteDatabase db = repository.getReadableDatabase();
+        SQLiteDatabase db = mRepository.getReadableDatabase();
 
         try ( Cursor cursorSites = db.rawQuery( siteListQuery, null ) ) {
             if ( cursorSites.moveToFirst() ) {
@@ -85,7 +90,7 @@ public class SQLiteSiteRepository implements ISiteRepository {
     public int getSitesCount() {
         int count = 0;
         String countQuery = "SELECT * FROM " + TABLE_SITES;
-        SQLiteDatabase db = repository.getReadableDatabase();
+        SQLiteDatabase db = mRepository.getReadableDatabase();
 
         try ( Cursor cursorSites = db.rawQuery( countQuery, null ) ) {
             count = cursorSites.getCount();
@@ -96,7 +101,7 @@ public class SQLiteSiteRepository implements ISiteRepository {
     @Override
     public int updateSite( Site site ) {
         int result = 0;
-        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
+        try ( SQLiteDatabase db = mRepository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
             contentValues.put( TABLE_SITES_FIELD_NAME, site.getName() );
 
@@ -110,7 +115,7 @@ public class SQLiteSiteRepository implements ISiteRepository {
 
     @Override
     public void deleteSite( Site site ) {
-        try ( SQLiteDatabase dbWritable = repository.getWritableDatabase() ) {
+        try ( SQLiteDatabase dbWritable = mRepository.getWritableDatabase() ) {
             dbWritable.delete( TABLE_SITES,
                     KEY_ID + " = ?",
                     new String[] { String.valueOf( site.getId() ) }
@@ -120,7 +125,7 @@ public class SQLiteSiteRepository implements ISiteRepository {
 
     @Override
     public void deleteAllSites() {
-        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
+        try ( SQLiteDatabase db = mRepository.getWritableDatabase() ) {
             db.delete( TABLE_SITES, null, null );
         }
     }

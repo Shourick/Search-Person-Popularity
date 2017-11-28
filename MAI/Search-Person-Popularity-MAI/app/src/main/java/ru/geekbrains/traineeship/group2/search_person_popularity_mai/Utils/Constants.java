@@ -6,6 +6,7 @@ package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils;
 
 public class Constants {
 
+    // TODO: when available change to "http://94.130.27.143/";
     public static final String API_URL_BASE = "http://shourick.pythonanywhere.com/";
 
     // Имя файла базы данных
@@ -13,7 +14,7 @@ public class Constants {
     public static final String SYNCHRONIZED_DATABASE_NAME = "searchPPSynced.db";
 
     // Версия базы данных. При изменении схемы увеличить на единицу
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
 
     public static final String TABLE_PERSONS = "persons";
     public static final String TABLE_KEYWORDS = "keywords";
@@ -30,10 +31,11 @@ public class Constants {
 
     public static final String TABLE_SITES_FIELD_NAME = "name";
 
-    public static final String TABLE_USERS_FIELD_NICKNAME = "nickname";
+    public static final String TABLE_USERS_FIELD_NICKNAME = "user_nickname";
     public static final String TABLE_USERS_FIELD_LOGIN = "login";
     public static final String TABLE_USERS_FIELD_PASSWORD = "password";
 
+    public static final String TABLE_ADMINS_FIELD_NICKNAME = "admin_nickname";
     public static final String TABLE_ADMINS_FIELD_LOGIN = "login";
     public static final String TABLE_ADMINS_FIELD_PASSWORD = "password";
 
@@ -48,6 +50,9 @@ public class Constants {
 
     public static final int REQUEST_CODE_ADD_USER = 1;
     public static final int REQUEST_CODE_EDIT_USER = 2;
+
+    public static final int REQUEST_CODE_ADD_ADMIN = 1;
+    public static final int REQUEST_CODE_EDIT_ADMIN = 2;
 
     public static final String PERSON_ID = "site_id";
     public static final String PERSON_NAME = "site_name";
@@ -64,10 +69,28 @@ public class Constants {
     public static final String USER_LOGIN = "user_login";
     public static final String USER_PASSWORD = "user_password";
 
+    public static final String ADMIN_ID = "admin_id";
+    public static final String ADMIN_NICKNAME = "admin_nickname";
+    public static final String ADMIN_LOGIN = "admin_login";
+    public static final String ADMIN_PASSWORD = "admin_password";
+
     public static final String LOGIN_PREFERENCES = "login_data";
     public static final String PREFERENCES_AUTHORIZED_KEY = "isAuthorized";
 
     public static final int MAX_OF_ADMIN_AUTHORIZATION_TRIES = 3;
 
     public static final String MESSAGE_SYNCRONIZING = "Идет синхронизация ...";
+
+    public static final String EMPTY_NAME = "";
+    public static final int EMPTY_ID = -1;
+
+    public static final int UPDATE_OK = 0;
+    public static final boolean SYNC_RESULT_OK = true;
+    public static final boolean SYNC_RESULT_FALSE = false;
+
+    public static final int ITEM_NOT_SELECTED = -1;
+
+    public static final String SYNC_FAILED_MSG = "Синхронизация не удалась !!";
+    public static final String SYNC_OK_MSG = "Синхронизировано";
+
 }

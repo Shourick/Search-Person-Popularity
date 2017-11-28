@@ -1,5 +1,6 @@
 package ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.Players;
 
+import java.io.IOException;
 import java.util.List;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Players.User;
@@ -15,17 +16,17 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 
 public interface IUserRepository {
 
-    public void addUser( User user );         // добавляем Поьзователя
+    int addUser( User user ) throws IOException;         // добавляем Поьзователя
 
-    User getUser( int id );                   // получаем Поьзователя по его id
+    User getUser( int id ) throws IOException;                   // получаем Поьзователя по его id
 
-    List getAllUsers();                     // получаем список всех Поьзователей
+    List getAllUsers() throws IOException;                     // получаем список всех Поьзователей
 
-    int getUsersCount();                    // получаем количество Поьзователей в Репозитории
+    int getUsersCount() throws IOException;                    // получаем количество Поьзователей в Репозитории
 
-    int updateUser( User user );              // обновляем Поьзователя
+    int updateUser( User user ) throws IOException;              // обновляем Поьзователя
 
-    void deleteUser( User user );             // удаляем Поьзователя
+    void deleteUser( User user ) throws IOException;             // удаляем Поьзователя
 
-    void deleteAllUsers();                  // удаляем всех Пользователей
+    void deleteAllUsers() throws IOException;                  // удаляем всех Пользователей
 }

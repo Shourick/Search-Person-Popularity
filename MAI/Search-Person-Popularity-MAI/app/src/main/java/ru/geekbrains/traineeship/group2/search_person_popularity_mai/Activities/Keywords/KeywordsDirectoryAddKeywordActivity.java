@@ -9,33 +9,36 @@ import android.widget.EditText;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Keyword;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.MAIN_DATABASE_NAME;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.PERSON_FOR_KEYWORD_ID;
 
 public class KeywordsDirectoryAddKeywordActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText etAddKeywordName;
-    Button btnAddKeywordOK, btnAddKeywordCancel;
+    private EditText etAddKeywordName;
 
-    int selectedPersonIdForKeywords;
+    private int mSelectedPersonIdForKeywords;
+    private SQLiteRepository mMainRepository;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_keywords_directory_add_keyword );
 
-        etAddKeywordName = (EditText) findViewById( R.id.etAddKeywordName );
-
-        btnAddKeywordOK = (Button) findViewById( R.id.btnAddKeywordOK );
-        btnAddKeywordCancel = (Button) findViewById( R.id.btnAddKeywordCancel );
+        Button btnAddKeywordOK = (Button) findViewById( R.id.btnAddKeywordOK );
+        Button btnAddKeywordCancel = (Button) findViewById( R.id.btnAddKeywordCancel );
 
         btnAddKeywordOK.setOnClickListener( this );
         btnAddKeywordCancel.setOnClickListener( this );
-        Bundle extras = getIntent().getExtras();
 
+        etAddKeywordName = (EditText) findViewById( R.id.etAddKeywordName );
+
+        mMainRepository = new SQLiteRepository( this, MAIN_DATABASE_NAME );
+
+        Bundle extras = getIntent().getExtras();
         if ( extras != null ) {
-            selectedPersonIdForKeywords = extras.getInt( PERSON_FOR_KEYWORD_ID );
+            mSelectedPersonIdForKeywords = extras.getInt( PERSON_FOR_KEYWORD_ID );
         }
     }
 
@@ -46,9 +49,9 @@ public class KeywordsDirectoryAddKeywordActivity extends AppCompatActivity imple
         switch ( v.getId() ) {
 
             case R.id.btnAddKeywordOK:
-                repository.getKeywordRepository().addKeyword(
+                mMainRepository.getKeywordRepository().addKeyword(
                         new Keyword( etAddKeywordName.getText().toString() ),
-                        selectedPersonIdForKeywords );
+                        mSelectedPersonIdForKeywords );
                 intent = new Intent();
                 setResult( RESULT_OK, intent );
                 finish();
@@ -58,6 +61,9 @@ public class KeywordsDirectoryAddKeywordActivity extends AppCompatActivity imple
                 intent = new Intent();
                 setResult( RESULT_CANCELED, intent );
                 finish();
+                break;
+
+            default:
                 break;
         }
     }

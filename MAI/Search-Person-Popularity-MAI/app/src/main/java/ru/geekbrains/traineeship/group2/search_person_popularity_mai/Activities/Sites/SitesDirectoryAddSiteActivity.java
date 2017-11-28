@@ -9,13 +9,15 @@ import android.widget.EditText;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Site;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.MAIN_DATABASE_NAME;
 
 public class SitesDirectoryAddSiteActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText etAddSiteName;
-    Button btnAddSiteOK, btnAddSiteCancel;
+    private EditText etAddSiteName;
+
+    private SQLiteRepository mMainRepository;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -24,11 +26,13 @@ public class SitesDirectoryAddSiteActivity extends AppCompatActivity implements 
 
         etAddSiteName = (EditText) findViewById( R.id.etAddSiteName );
 
-        btnAddSiteOK = (Button) findViewById( R.id.btnAddSiteOK );
-        btnAddSiteCancel = (Button) findViewById( R.id.btnAddSiteCancel );
+        Button btnAddSiteOK = (Button) findViewById( R.id.btnAddSiteOK );
+        Button btnAddSiteCancel = (Button) findViewById( R.id.btnAddSiteCancel );
 
         btnAddSiteOK.setOnClickListener( this );
         btnAddSiteCancel.setOnClickListener( this );
+
+        mMainRepository = new SQLiteRepository( this, MAIN_DATABASE_NAME );
     }
 
     @Override
@@ -38,7 +42,7 @@ public class SitesDirectoryAddSiteActivity extends AppCompatActivity implements 
         switch ( v.getId() ) {
 
             case R.id.btnAddSiteOK:
-                repository.getSiteRepository().addSite( new Site( etAddSiteName.getText().toString() ) );
+                mMainRepository.getSiteRepository().addSite( new Site( etAddSiteName.getText().toString() ) );
                 intent = new Intent();
                 setResult( RESULT_OK, intent );
                 finish();
@@ -48,6 +52,9 @@ public class SitesDirectoryAddSiteActivity extends AppCompatActivity implements 
                 intent = new Intent();
                 setResult( RESULT_CANCELED, intent );
                 finish();
+                break;
+
+            default:
                 break;
         }
     }

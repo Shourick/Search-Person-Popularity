@@ -9,13 +9,15 @@ import android.widget.EditText;
 
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.R;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.Data.Person;
+import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
-import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Activities.MainActivity.repository;
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.MAIN_DATABASE_NAME;
 
 public class PersonsDirectoryAddPersonActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText etAddPersonName;
-    Button btnAddPersonOK, btnAddPersonCancel;
+    private EditText etAddPersonName;
+
+    private SQLiteRepository mMainRepository;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -24,11 +26,13 @@ public class PersonsDirectoryAddPersonActivity extends AppCompatActivity impleme
 
         etAddPersonName = (EditText) findViewById( R.id.etAddPersonName );
 
-        btnAddPersonOK = (Button) findViewById( R.id.btnAddPersonOK );
-        btnAddPersonCancel = (Button) findViewById( R.id.btnAddPersonCancel );
+        Button btnAddPersonOK = (Button) findViewById( R.id.btnAddPersonOK );
+        Button btnAddPersonCancel = (Button) findViewById( R.id.btnAddPersonCancel );
 
         btnAddPersonOK.setOnClickListener( this );
         btnAddPersonCancel.setOnClickListener( this );
+
+        mMainRepository = new SQLiteRepository( this, MAIN_DATABASE_NAME );
     }
 
     @Override
@@ -38,7 +42,7 @@ public class PersonsDirectoryAddPersonActivity extends AppCompatActivity impleme
         switch ( v.getId() ) {
 
             case R.id.btnAddPersonOK:
-                repository.getPersonRepository().addPerson( new Person( etAddPersonName.getText().toString() ) );
+                mMainRepository.getPersonRepository().addPerson( new Person( etAddPersonName.getText().toString() ) );
                 intent = new Intent();
                 setResult( RESULT_OK, intent );
                 finish();
@@ -48,6 +52,9 @@ public class PersonsDirectoryAddPersonActivity extends AppCompatActivity impleme
                 intent = new Intent();
                 setResult( RESULT_CANCELED, intent );
                 finish();
+                break;
+
+            default:
                 break;
         }
     }

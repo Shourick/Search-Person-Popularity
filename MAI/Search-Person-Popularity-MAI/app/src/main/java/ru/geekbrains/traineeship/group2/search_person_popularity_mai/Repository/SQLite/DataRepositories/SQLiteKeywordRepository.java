@@ -11,6 +11,7 @@ import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.IRepository.Data.IKeywordRepository;
 import ru.geekbrains.traineeship.group2.search_person_popularity_mai.Repository.SQLite.Utils.SQLiteRepository;
 
+import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.EMPTY_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.KEY_ID;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_KEYWORDS;
 import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Utils.Constants.TABLE_KEYWORDS_FIELD_NAME;
@@ -22,39 +23,42 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Util
 
 public class SQLiteKeywordRepository implements IKeywordRepository {
 
-    private SQLiteRepository repository;
+    private SQLiteRepository mRepository;
 
-    public SQLiteKeywordRepository( SQLiteRepository repository ) {
-        this.repository = repository;
+    public SQLiteKeywordRepository( SQLiteRepository mRepository ) {
+        this.mRepository = mRepository;
     }
 
     @Override
-    public void addKeyword( Keyword keyword, int personId ) {
-        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
+    public int addKeyword( Keyword keyword, int personId ) {
+        try ( SQLiteDatabase db = mRepository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
+            if ( keyword.getId() != EMPTY_ID ) {
+                contentValues.put( KEY_ID, keyword.getId() );
+            }
             contentValues.put( TABLE_KEYWORDS_FIELD_NAME, keyword.getName() );
             contentValues.put( TABLE_KEYWORDS_FIELD_PERSON_ID, personId );
 
             db.insert( TABLE_KEYWORDS, null, contentValues );
         }
-
+        return keyword.getId();
     }
 
     @Override
     public Keyword getKeyword( int id ) {
         Keyword keyword = new Keyword();
-        SQLiteDatabase db = repository.getReadableDatabase();
+        SQLiteDatabase db = mRepository.getReadableDatabase();
 
         try ( Cursor cursorKeywords = db.query(
                 TABLE_KEYWORDS,                             // table
                 new String[] { KEY_ID,
                         TABLE_KEYWORDS_FIELD_NAME,
-                        TABLE_KEYWORDS_FIELD_PERSON_ID },    // columns
-                KEY_ID + " = ?",                            // columns WHERE
-                new String[] { Integer.toString( id ) },         // values WHERE
-                null,                                       // group by
-                null,                                       // having
-                null ) )                                     // order by
+                        TABLE_KEYWORDS_FIELD_PERSON_ID },   // columns
+                KEY_ID + " = ?",                   // columns WHERE
+                new String[] { Integer.toString( id ) },    // values WHERE
+                null,                               // group by
+                null,                                // having
+                null ) )                            // order by
         {
             if ( cursorKeywords.moveToFirst() ) {
                 keyword.setId( Integer.parseInt( cursorKeywords.getString( 0 ) ) );
@@ -69,17 +73,17 @@ public class SQLiteKeywordRepository implements IKeywordRepository {
     public List<Keyword> getPersonKeywords( int personId ) {
         List<Keyword> keywordList = new ArrayList<>();
 
-        SQLiteDatabase db = repository.getReadableDatabase();
+        SQLiteDatabase db = mRepository.getReadableDatabase();
 
         try ( Cursor cursorKeywords = db.query(
                 TABLE_KEYWORDS,                                     // table
                 new String[] { KEY_ID,
-                        TABLE_KEYWORDS_FIELD_NAME },            // columns
-                TABLE_KEYWORDS_FIELD_PERSON_ID + " = ?",            // columns WHERE
-                new String[] { Integer.toString( personId ) },           // values WHERE
-                null,                                               // group by
-                null,                                               // having
-                null ) )                                             // order by
+                        TABLE_KEYWORDS_FIELD_NAME },                // columns
+                TABLE_KEYWORDS_FIELD_PERSON_ID + " = ?",   // columns WHERE
+                new String[] { Integer.toString( personId ) },      // values WHERE
+                null,                                      // group by
+                null,                                       // having
+                null ) )                                   // order by
         {
             if ( cursorKeywords.moveToFirst() ) {
                 do {
@@ -98,7 +102,7 @@ public class SQLiteKeywordRepository implements IKeywordRepository {
     public List<Keyword> getAllKeywords() {
         List<Keyword> keywordList = new ArrayList<>();
         String keywordListQuery = "SELECT * FROM " + TABLE_KEYWORDS;
-        SQLiteDatabase db = repository.getReadableDatabase();
+        SQLiteDatabase db = mRepository.getReadableDatabase();
 
         try ( Cursor cursorKeywords = db.rawQuery( keywordListQuery, null ) ) {
             if ( cursorKeywords.moveToFirst() ) {
@@ -119,7 +123,7 @@ public class SQLiteKeywordRepository implements IKeywordRepository {
     public int getKeywordsCount() {
         int count = 0;
         String countQuery = "SELECT * FROM " + TABLE_KEYWORDS;
-        SQLiteDatabase db = repository.getReadableDatabase();
+        SQLiteDatabase db = mRepository.getReadableDatabase();
 
         try ( Cursor cursorKeywords = db.rawQuery( countQuery, null ) ) {
             count = cursorKeywords.getCount();
@@ -130,7 +134,7 @@ public class SQLiteKeywordRepository implements IKeywordRepository {
     @Override
     public int updateKeyword( Keyword keyword ) {
         int result = 0;
-        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
+        try ( SQLiteDatabase db = mRepository.getWritableDatabase() ) {
             ContentValues contentValues = new ContentValues();
             contentValues.put( TABLE_KEYWORDS_FIELD_NAME, keyword.getName() );
 
@@ -144,7 +148,7 @@ public class SQLiteKeywordRepository implements IKeywordRepository {
 
     @Override
     public void deleteKeyword( Keyword keyword ) {
-        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
+        try ( SQLiteDatabase db = mRepository.getWritableDatabase() ) {
             db.delete( TABLE_KEYWORDS,
                     KEY_ID + " = ?",
                     new String[] { String.valueOf( keyword.getId() ) } );
@@ -153,10 +157,9 @@ public class SQLiteKeywordRepository implements IKeywordRepository {
 
     @Override
     public void deleteAllKeywords() {
-        try ( SQLiteDatabase db = repository.getWritableDatabase() ) {
+        try ( SQLiteDatabase db = mRepository.getWritableDatabase() ) {
             db.delete( TABLE_KEYWORDS, null, null );
         }
     }
-
 
 }

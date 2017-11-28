@@ -27,81 +27,84 @@ import static ru.geekbrains.traineeship.group2.search_person_popularity_mai.Util
  */
 public class SQLiteRepository extends SQLiteHelper implements IRepository {
 
-    private SQLitePersonRepository persons;
-    private SQLiteKeywordRepository keywords;
-    private SQLiteSiteRepository sites;
-    private SQLiteUserRepository users;
-    private SQLiteAdminRepository admins;
+    private SQLitePersonRepository mPersons;
+    private SQLiteKeywordRepository mKeywords;
+    private SQLiteSiteRepository mSites;
+    private SQLiteUserRepository mUsers;
+    private SQLiteAdminRepository mAdmins;
 
     public SQLiteRepository( Context context, String dbName ) {
         super( context, dbName );
 
-        this.persons = new SQLitePersonRepository( this );
-        this.keywords = new SQLiteKeywordRepository( this );
-        this.sites = new SQLiteSiteRepository( this );
-        this.users = new SQLiteUserRepository( this );
-        this.admins = new SQLiteAdminRepository( this );
+        this.mPersons = new SQLitePersonRepository( this );
+        this.mKeywords = new SQLiteKeywordRepository( this );
+        this.mSites = new SQLiteSiteRepository( this );
+        this.mUsers = new SQLiteUserRepository( this );
+        this.mAdmins = new SQLiteAdminRepository( this );
     }
 
     @Override
     public SQLitePersonRepository getPersonRepository() {
-        return persons;
+        return mPersons;
     }
 
     @Override
     public SQLiteKeywordRepository getKeywordRepository() {
-        return keywords;
+        return mKeywords;
     }
 
     @Override
     public SQLiteSiteRepository getSiteRepository() {
-        return sites;
+        return mSites;
     }
 
     @Override
     public SQLiteUserRepository getUserRepository() {
-        return users;
+        return mUsers;
     }
 
     @Override
     public SQLiteAdminRepository getAdminRepository() {
-        return admins;
+        return mAdmins;
     }
 
 
+    // TODO: метод удалить после отладки
     public void showRepositoryInfo() {
 
-        System.out.println( "Table: " + TABLE_PERSONS + " содержит: " + persons.getPersonsCount() + " записей" );
-        System.out.println( "Table: " + TABLE_KEYWORDS + " содержит: " + keywords.getKeywordsCount() + " записей" );
-        System.out.println( "Table: " + TABLE_SITES + " содержит: " + sites.getSitesCount() + " записей" );
-        System.out.println( "Table: " + TABLE_USERS + " содержит: " + users.getUsersCount() + " записей" );
-        System.out.println( "Table: " + TABLE_ADMINS + " содержит: " + admins.getAdminsCount() + " записей" );
+        System.out.println( "Table: " + TABLE_PERSONS + " содержит: " + mPersons.getPersonsCount() + " записей" );
+        System.out.println( "Table: " + TABLE_KEYWORDS + " содержит: " + mKeywords.getKeywordsCount() + " записей" );
+        System.out.println( "Table: " + TABLE_SITES + " содержит: " + mSites.getSitesCount() + " записей" );
+        System.out.println( "Table: " + TABLE_USERS + " содержит: " + mUsers.getUsersCount() + " записей" );
+        System.out.println( "Table: " + TABLE_ADMINS + " содержит: " + mAdmins.getAdminsCount() + " записей" );
 
-        for ( Person o : persons.getAllPersons() ) {
+        for ( Person o : mPersons.getAllPersons() ) {
             System.out.println( "Table: " + TABLE_PERSONS + " : " + o.getId() + ", " + o.getName() );
         }
 
-        for ( Keyword o : keywords.getAllKeywords() ) {
-            Person person = persons.getPersonById( o.getPersonId() );
+        for ( Keyword o : mKeywords.getAllKeywords() ) {
+            Person person = mPersons.getPersonById( o.getPersonId() );
             System.out.println( "Table: " +
                     TABLE_KEYWORDS + " : " +
                     o.getId() + ", " + o.getName() + ", " +
                     person.getId() + ", " + person.getName() );
         }
 
-        for ( Site o : sites.getAllSites() ) {
+        for ( Site o : mSites.getAllSites() ) {
             System.out.println( "Table: " + TABLE_SITES + " : " + o.getId() + ", " + o.getName() );
         }
 
-        for ( User o : users.getAllUsers() ) {
+        for ( User o : mUsers.getAllUsers() ) {
             System.out.println( "Table: " + TABLE_USERS + " : " +
                     o.getId() + ", " + o.getNickName() + ", " +
                     o.getLogin() + ", " + o.getPassword() );
         }
 
-        for ( Admin o : admins.getAllAdmins() ) {
+        for ( Admin o : mAdmins.getAllAdmins() ) {
             System.out.println( "Table: " + TABLE_ADMINS + " : " +
-                    o.getId() + ", " + o.getLogin() + ", " + o.getPassword() );
+                    o.getId() + ", " + o.getNickName() + ", " +
+                    o.getLogin() + ", " + o.getPassword() );
         }
 
-    }}
+    }
+}
