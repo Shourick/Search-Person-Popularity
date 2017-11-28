@@ -32,10 +32,13 @@ api.add_resource(
 )
 api.add_resource(
     PersonPageRank,
+    '/rank',
     '/rank/<int:person_id>',
     '/rank/<int:person_id>/<int:site_id>',
     '/rank/<int:person_id>/<int:site_id>/<string:start_date>',
-    '/rank/<int:person_id>/<int:site_id>/<string:start_date>&<string:end_date>'
+    '/rank/<int:person_id>/<int:site_id>/<string:start_date>&<string:end_date>',
+    '/rank/<int:person_id>/<string:start_date>',
+    '/rank/<int:person_id>/<string:start_date>&<string:end_date>'
 )
 api.add_resource(
     Users,
