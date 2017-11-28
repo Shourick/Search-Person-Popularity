@@ -2,28 +2,29 @@
 
 <div class="menu">
 
-        <div class="icon-close">
-            <img src="{% static 'img/menu-close-icon.png' %}">
-        </div>
-
-        <!-- Меню -->
-        <ul>
-
-            <li><a href="/">Главная</a></li>
-            <li><a href="/general/">Общая статистика</a></li>
-            <li><a href="/daily/">Ежедневная статистика</a></li>
-            <li><a href="/contacts/">Связаться с нами</a></li>
-            <li></li>
-        </ul>
-       <ul>{% include 'login_form.html' %}</ul>
-</div>
-    <div class="background">
-
-        <div class="icon-menu">
-            <img src="{% static 'img/menu-ham-icon.png' %}">
-            Меню
-        </div>
-
-
+    <div class="icon-close">
+        <img src="{% static 'img/menu-close-icon.png' %}">
     </div>
+
+    <!-- Меню -->
+    <ul>
+
+        <li><a href="/">Главная</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="/general/">Общая статистика</a></li>
+        <li><a href="/daily/">Ежедневная статистика</a></li>
+        {% endif %}
+        <li><a href="/support/">Техническая помощь</a></li>
+
+    </ul>
+    <ul>{% include 'login_form.html' %}</ul>
+</div>
+<div class="background">
+
+    <div class="icon-menu">
+        <img src="{% static 'img/menu-ham-icon.png' %}">
+        Меню
+    </div>
+
+</div>
 

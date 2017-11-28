@@ -1,12 +1,11 @@
 from django.contrib import auth
 from django.shortcuts import render, HttpResponseRedirect
 from django.http import Http404
-from userManagementApp.forms import MyRegistrationForm
+from .forms import MyRegistrationForm
 
 
 def login(request):
     if request.method == "POST":
-        print("POST data =", request.POST)
         username = request.POST.get('login')
         password = request.POST.get('password')
         user = auth.authenticate(username=username, password=password)
@@ -25,14 +24,15 @@ def logout(request):
 
 
 def registration(request):
+    title = 'Регистрация'
     if request.method == "POST":
         form = MyRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect("/user/success_reg")
-        context = {'form': form}
+        context = {'form': form, 'title':title}
         return render(request, 'registration.html', context)
-    context = {'form': MyRegistrationForm()}
+    context = {'form': MyRegistrationForm(),'title':title}
     return render(request, 'registration.html', context)
 
 

@@ -13,12 +13,11 @@
     {% block styles %}
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-    <!--<link rel="stylesheet" type="text/css" href="/path/to/css/bootstrap-social.css" />-->
-    <!--<link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">-->
     {% endblock %}
 
     <!------------------- JS ------------------>
     {% block js %}
+    <script src="https://use.fontawesome.com/ec32966a69.js"></script>
     {% endblock %}
 
 </head>
@@ -46,8 +45,16 @@
 
         <!----------------- Footer ----------------->
             {% block footer %}
+<footer style="margin-top: 80px;">
 
+    <div class="col-xs-12 text-center">
+         <a href="https://github.com/Shourick/Search-Person-Popularity"><i class="fa fa-github fa-2x" aria-hidden="true"> </i></a>
+         <a href="mailto:crowd.scoring@yandex.ru"><i class="fa fa-envelope fa-2x" aria-hidden="true"> </i></a>
+         <br>
+         <strong> {% now "Y" as current_year %} Copyright  &copy; CodeFarm,   {{ current_year }}</strong>
+    </div>
+</footer>
             {% endblock %}
 </body>
-</html>
         <!---------------------------- END BODY ---------------------------->
+</html>

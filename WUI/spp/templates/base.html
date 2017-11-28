@@ -13,14 +13,17 @@
     {% block styles %}
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'daterangepicker/daterangepicker.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />
     {% endblock %}
 
     <!------------------- JS ------------------>
     {% block js %}
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://use.fontawesome.com/ec32966a69.js"></script>
     <script src="{% static 'js/menu.js' %}"></script>
+    <script src="{% static 'daterangepicker/moment.js' %}"></script>
+    <script src="{% static 'daterangepicker/daterangepicker.js' %}"></script>
     <script src="{% static 'js/scripts.js' %}"></script>
     {% endblock %}
 
@@ -34,9 +37,10 @@
          {% endblock %}
 
        <header>
-            <a href="/" class="header">
-                <h1 class="text-center">Search Person Popularity</h1>
+            <a href="/" class="header text-center">
+                <h1 style="margin-bottom: 30px;"><u>CODE_FARM</u><br>КРАУДСКОРИНГ</h1><hr>
             </a>
+
        </header>
 
         <!-------------------- Контент --------------------->
@@ -52,7 +56,16 @@
         <!----------------- Footer ----------------->
             {% block footer %}
 
+        <footer>
+
+             <div class="col-xs-12 text-center">
+                  <a href="https://github.com/Shourick/Search-Person-Popularity" target="_blank"><i class="fa fa-github fa-2x" aria-hidden="true"> </i></a>
+                  <a href="mailto:crowd.scoring@yandex.ru"><i class="fa fa-envelope fa-2x" aria-hidden="true"> </i></a>
+                  <br>
+                  <strong> {% now "Y" as current_year %} Copyright  &copy; CodeFarm,  {{ current_year }}</strong>
+             </div>
+        </footer>
             {% endblock %}
 </body>
+<!---------------------------- END BODY ---------------------------->
 </html>
-        <!---------------------------- END BODY ---------------------------->

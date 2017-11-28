@@ -3,7 +3,7 @@
 {% block content %}
 
 
-<form class="well form-inline text-left" action="/contacts/" method="post">
+<form class="well form-inline text-left" action="/support/" method="post">
     {% csrf_token %}
     {% for field in form %}
         <tr>
@@ -22,7 +22,7 @@
             </td>
         </tr>
     {% endfor %}
-    <input type="submit" value="Отправить"/>
+    <input type="submit" class="btn" value="Отправить"/>
 
 </form>
 {% endblock %}

@@ -1,22 +1,26 @@
 {% if not user.is_authenticated %}
-<li><a href="/user/registration/" class="text-center">Регистрация</a>
 
-        <form class="well form-inline login" method="post" action="/user/login/">
-                {% csrf_token %}
+<li><a href="/user/registration/" class="text-center">Регистрация</a></li>
+<li>
+    <form class="well form-inline login" method="post" action="/user/login/">
+        {% csrf_token %}
 
-                    <input type="text" class="form-control" name="login" placeholder="Логин">
-                    <input type="password" class="form-control" name="password" placeholder="Пароль">
+        <input type="text" class="form-control" name="login" placeholder="Логин">
+        <input type="password" class="form-control" name="password" placeholder="Пароль">
 
-                <button type="submit" class="btn btn-default">Вход</button>
-                {% if errors %}
-                <p class="text-danger">Неправильный логин или пароль</p>
-                {% endif %}
-        </form>
+        <button type="submit" class="btn btn-default">Вход</button>
+
+        {% if errors %}
+        <p class="text-danger">Неправильный логин или пароль</p>
+        {% endif %}
+
+    </form>
+
        {% else %}
         <div>
             <p class="white">{{ user.username }}</p>
             <a href="/user/logout/" class="white">Выйти</a>
         </div>
-        {% endif %}
-
 </li>
+
+{% endif %}

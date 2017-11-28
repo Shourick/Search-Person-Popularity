@@ -1,30 +1,23 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% load render_table from django_tables2 %}
 {% block content %}
 
-<!--TODO: form action-->
-<form class="well form-inline"  method="post" id="general_stat" action="">
+
+<form class="well form-inline stat"  method="post" id="rank">
      {% csrf_token %}
     <div class="form-group">
         <legend>Общая статистика</legend>
 
-            <select size="1" id="id" class="form-control">
-        {% for site in sites %}
-            <option  value="{{site.id}}" id="site_id">{{site.name}}</option>
+            <select size="1" name="person_id" class="form-control">
+        {% for person in persons %}
+            <option  value="{{person.id}}">{{person.name}}</option>
         {% endfor %}
             </select>
 
-            <!--<p><input type="submit" value="Отправить" class="btn btn-default btn-md" ></p></div>-->
             <button type="submit" id="submit_btn" class="btn">Подтвердить</button>
 
     </div>
 </form>
 
-<div class="politics-table" id="politics-table">
-            {% if gs_table %}{% render_table gs_table %}{% else %}{% endif %}
-            <!--{% if politics %}{% render_table politics %}{% else %}{% endif %}-->
-</div>
-
-
 {% endblock %}
+
